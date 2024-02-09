@@ -20,7 +20,12 @@
     <div id="list"></div>
     <script>
       PT('', function(data){
-        document.getElementById('list').innerHTML = JSON.stringify(data)
+        data.data.forEach(s => {
+          s = s.attributes;
+          PT('servers/'+s.identifier+'/resources', function(d){
+            document.getElementById('list').insertAdjacentHTML('beforeend', `<div class="server">${s} - ${d.attributes.current_state}</div>`)
+          })
+        })
       })
     </script>
   </body>
