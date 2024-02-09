@@ -15,3 +15,16 @@ input {
 input.long {
   width: 222px;
 }
+.status-offline {
+  --status: #f00;
+}
+.status-running {
+  --status: #0f0;
+}
+.server {
+  background-color: #555;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 0.5rem;
+  border-left: 8px var(--status) solid;
+}
