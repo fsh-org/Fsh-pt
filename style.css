@@ -1,0 +1,10 @@
+.flex {
+    display: flex;
+    align-items: center;
+}
+.flex > input {
+    flex: 1;
+}
+input {
+    min-width: 0;
+}
