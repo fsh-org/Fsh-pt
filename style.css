@@ -28,6 +28,7 @@ input.long {
   padding: 10px;
   border-radius: 0.5rem;
   border-left: 8px var(--status) solid;
+  display: flex;
 }
 a:has(.server) {
   text-decoration: none;
