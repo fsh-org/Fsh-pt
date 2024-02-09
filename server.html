@@ -22,16 +22,14 @@
     <label id="node" class="subtext">Node</label>
     <script>
       const params = new URLSearchParams(window.location.search);
-      PT('servers/'+params.get('id'), function(data){
-        data.data.forEach(s => {
-          s = s.attributes;
-          PT('servers/'+params.get('id')+'/resources', function(d){
-            d = d.attributes;
-            document.getElementById('name').innerHTML = s.name;
-            document.getElementById('desc').innerHTML = s.description;
-            document.getElementById('node').innerHTML = s.node;
-          })
-        })
+      PT('servers/'+params.get('id'), function(s){
+        s = s.attributes;
+        PT('servers/'+params.get('id')+'/resources', function(d){
+          d = d.attributes;
+          document.getElementById('name').innerHTML = s.name;
+          document.getElementById('desc').innerHTML = s.description;
+          document.getElementById('node').innerHTML = s.node;
+        })      
       })
     </script>
   </body>
