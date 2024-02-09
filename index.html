@@ -15,13 +15,16 @@
     <!-- ------------------ -->
   </head>
   <body>
-    <div class="flex">
-      <label>Host:</label>
-      <input id="domain" placeholder="panel.domain.com">
-      <label>Api key:</label>
-      <input id="key" placeholder="pta-key">
+    <div class="modal">
+      <div>
+        <label>Host:</label>
+        <input id="domain" placeholder="panel.domain.com" class="long">
+        <br>
+        <label>Api key:</label>
+        <input id="key" placeholder="ptlc_key" class="long">
+        <br>
+        <button onclick="localStorage.setItem('domain',document.getElementById('domain').value);localStorage.setItem('key',document.getElementById('key').value);location.pathname='/servers'">Save and go to panel</button>
+      </div>
     </div>
-    <br>
-    <button onclick="localStorage.setItem('domain',document.getElementById('domain').value);localStorage.setItem('key',document.getElementById('key').value);location.pathName='/servers'">Save and go to panel</button>
   </body>
 </html>
