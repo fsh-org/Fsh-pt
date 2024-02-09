@@ -30,6 +30,9 @@ input.long {
   border-left: 8px var(--status) solid;
   display: flex;
 }
+.server div {
+  flex: 1;
+}
 a:has(.server) {
   text-decoration: none;
 }
