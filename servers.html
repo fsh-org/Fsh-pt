@@ -23,7 +23,7 @@
         data.data.forEach(s => {
           s = s.attributes;
           PT('servers/'+s.identifier+'/resources', function(d){
-            document.getElementById('list').insertAdjacentHTML('beforeend', `<div class="server status-${d.attributes.current_state}">${s.name} - ${s.node}</div>`)
+            document.getElementById('list').insertAdjacentHTML('beforeend', `<div class="server status-${d.attributes.current_state}">${s.name}<br><label class="subtext">${s.node}</label></div>`)
           })
         })
       })
