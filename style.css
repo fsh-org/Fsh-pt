@@ -1,9 +1,13 @@
-.flex {
-    display: flex;
-    align-items: center;
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
-.flex > input {
-    flex: 1;
+.modal > div {
+  background-color: #222;
+  padding: 15px;
+  border-radius: 1rem;
 }
 input {
     min-width: 0;
