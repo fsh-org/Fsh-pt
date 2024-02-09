@@ -37,9 +37,9 @@
       <label class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>
     </div>
     <div>
-      <label>CPU: ${d.resources.cpu_absolute}% RAM: ${d.resources.memory_bytes} Disk: ${d.resources.disk_bytes}</label>
+      <label>CPU: ${d.resources.cpu_absolute}% RAM: ${formatBytes(d.resources.memory_bytes)} Disk: ${formatBytes(d.resources.disk_bytes)}</label>
       <br>
-      <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : s.limits.memory} Disk: ${s.limits.disk == 0 ? '∞' : s.limits.disk}</label>
+      <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk)}</label>
     </div>
   </div>
 </a>`)
