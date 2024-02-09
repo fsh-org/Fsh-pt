@@ -10,5 +10,8 @@
   border-radius: 1rem;
 }
 input {
-    min-width: 0;
+  min-width: 0;
+}
+input.long {
+  width: 222px;
 }
