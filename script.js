@@ -1,5 +1,5 @@
 function PT(path, callback) {
-    fetch('https://'+localStorage.getItem('domain')+path, {
+    fetch('https://'+localStorage.getItem('domain')+'/api/client/'+path, {
         headers: {
             authorization: 'Bearer '+localStorage.getItem('key')
         }
