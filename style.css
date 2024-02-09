@@ -28,3 +28,6 @@ input.long {
   border-radius: 0.5rem;
   border-left: 8px var(--status) solid;
 }
+.subtext {
+  font-size: 10px;
+}
