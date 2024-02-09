@@ -24,7 +24,7 @@
           s = s.attributes;
           PT('servers/'+s.identifier+'/resources', function(d){
             document.getElementById('list').insertAdjacentHTML('beforeend', `<a href="/server?id=${s.identifier}">
-  <div class="server status-${d.attributes.current_state}">${s.name}<br><label class="subtext">${s.node}</label>
+  <div class="server status-${d.attributes.current_state}"><label class="server-title">${s.name}</label><br><label class="subtext">${s.node}</label>
 </div></a>`)
           })
         })
