@@ -72,8 +72,8 @@
         f = f.data;
         document.getElementById('files').innerHTML = f.map(o => {
           o = o.attributes;
-          return `<label>${o.is_file} ${o.name} - ${formatBytes(o.size)}</label>`
-        }).join('')
+          return `<label>${o.is_file ? '' : ''} ${o.name} - ${formatBytes(o.size)}</label>`
+        }).join('<br>')
       })
     </script>
   </body>
