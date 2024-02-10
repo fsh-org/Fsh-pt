@@ -16,7 +16,7 @@ function __PRI__edr(er,tr) {
   if (er == 0) {
     return '';
   } else {
-    return er+tr+(er>1?'s':'')+' '
+    return er+tr+' '
   }
 }
 function time_gud(time) {
