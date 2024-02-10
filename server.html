@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/style.css">
     <script src="/script.js"></script>
     <style>
-      #cpu, #ram, #disk, #uop {
+      #cpu, #ram, #disk, #uop, #up {
         flex: 1;
         background-color: #555;
         padding: 8px;
@@ -44,6 +44,7 @@
       <label id="ram">Ram:<br>0B/0B</label>
       <label id="disk">Disk:<br>0B/0B</label>
       <a id="uop" target="_blank" style="color:#fff;text-decoration:none;"><label id="url">URL<br>IP</label></a>
+      <label id="up">Uptime</label>
     </div>
     <script>
       const params = new URLSearchParams(window.location.search);
@@ -60,6 +61,7 @@
           document.getElementById('cpu').innerHTML = `CPU:<br>${d.resources.cpu_absolute}%/${s.limits.cpu == 0 ? '∞' : s.limits.cpu}%`;
           document.getElementById('ram').innerHTML = `RAM:<br>${formatBytes(d.resources.memory_bytes)}/${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)}`;
           document.getElementById('disk').innerHTML = `Disk:<br>${formatBytes(d.resources.disk_bytes)}/${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk)}`;
+          document.getElementById('up').innerHTML = time_gud(d.resources.uptime);
         })      
       })
       function power(ac) {
