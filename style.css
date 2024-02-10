@@ -47,3 +47,6 @@ a:has(.server) {
   font-size: 10px;
   margin-top: -2px;
 }
+svg {
+  fill: #fff;
+}
