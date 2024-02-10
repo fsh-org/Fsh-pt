@@ -30,6 +30,12 @@
         <button onclick="power('kill')" style="background-color:#c00"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><path d="M416 398.9c58.5-41.1 96-104.1 96-174.9C512 100.3 397.4 0 256 0S0 100.3 0 224c0 70.7 37.5 133.8 96 174.9c0 .4 0 .7 0 1.1v64c0 26.5 21.5 48 48 48h48V464c0-8.8 7.2-16 16-16s16 7.2 16 16v48h64V464c0-8.8 7.2-16 16-16s16 7.2 16 16v48h48c26.5 0 48-21.5 48-48V400c0-.4 0-.7 0-1.1zM96 256a64 64 0 1 1 128 0A64 64 0 1 1 96 256zm256-64a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg></button>
       </div>
     </div>
+    <div style="display:flex">
+      <label id="cpu">CPU:<br>0%/0%</label>
+      <label id="ram">Ram:<br>0B/0B</label>
+      <label id="disk">Disk:<br>0B/0B</label>
+      <label id="url">URL<br>IP</label>
+    </div>
     <script>
       const params = new URLSearchParams(window.location.search);
       PT('servers/'+params.get('id'), function(s){
@@ -40,6 +46,10 @@
           document.getElementById('desc').innerHTML = s.description;
           document.getElementById('node').innerHTML = s.node;
           document.getElementById('state').classList.add('status-'+d.current_state);
+          document.getElementById('url').innerHTML = `${s.relationships.allocations.data[0].attributes.ip_alias}:${s.relationships.allocations.data[0].attributes.port}<br>${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}`;
+          document.getElementById('cpu').innerHTML = `CPU:<br>${d.resources.cpu_absolute}%/${s.limits.cpu == 0 ? '∞' : s.limits.cpu}%`;
+          document.getElementById('ram').innerHTML = `RAM:<br>${formatBytes(d.resources.memory_bytes)}/${s.limits.memory == 0 ? '∞' : s.limits.memory}`;
+          document.getElementById('disk').innerHTML = `Disk:<br>${formatBytes(d.resources.disk_bytes)}/${s.limits.disk == 0 ? '∞' : s.limits.disk}`;
         })      
       })
       function power(ac) {
