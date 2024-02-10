@@ -16,9 +16,9 @@ function __PRI__edr(er,tr) {
   if (er == 0) {
     return '';
   } else {
-    return er+' '+tr+(er>1?'s':'')+' '
+    return er+tr+(er>1?'s':'')+' '
   }
 }
 function time_gud(time) {
-  return `${__PRI__edr(Math.floor(time / 31536000000),'millennium')}${__PRI__edr(Math.floor(time / 31536000 % 1000),'year')}${__PRI__edr(Math.floor(time % 31536000 / 604800),'week')}${__PRI__edr(Math.floor(time / 86400) % 7,'day')}${__PRI__edr(Math.floor(time / 3600) % 24,'hour')}${__PRI__edr(Math.floor(time / 60) % 60,'minute')}${__PRI__edr(time % 60,'second')}`
+  return `${__PRI__edr(Math.floor(time / 31536000),'Y')}${__PRI__edr(Math.floor(time % 31536000 / 604800),'W')}${__PRI__edr(Math.floor(time / 86400) % 7,'d')}${__PRI__edr(Math.floor(time / 3600) % 24,'h')}${__PRI__edr(Math.floor(time / 60) % 60,'m')}${__PRI__edr(time % 60,'s')}`
 }
