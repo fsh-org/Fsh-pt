@@ -46,6 +46,7 @@
       <a id="uop" target="_blank" style="color:#fff;text-decoration:none;"><label id="url">URL<br>IP</label></a>
       <label id="up">Uptime:<br>0s</label>
     </div>
+    <div id="files"></div>
     <script>
       const params = new URLSearchParams(window.location.search);
       PT('servers/'+params.get('id'), function(s){
@@ -62,11 +63,18 @@
           document.getElementById('ram').innerHTML = `RAM:<br>${formatBytes(d.resources.memory_bytes)}/${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)}`;
           document.getElementById('disk').innerHTML = `Disk:<br>${formatBytes(d.resources.disk_bytes)}/${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk)}`;
           document.getElementById('up').innerHTML = 'Uptime:<br>'+time_gud(Math.floor(d.resources.uptime/1000));
-        })      
+        })
       })
       function power(ac) {
         PT('servers/'+params.get('id')+'/power', function(){return}, 'POST', `{"signal": "${ac}"}`)
       }
+      PT('servers/'+params.get('id')+'/files/list', function(f){
+        f = f.data;
+        document.getElementById('disk').innerHTML = f.map(o => {
+          o = o.attributes;
+          return JSON.stringify(o)
+        }).join('')
+      })
     </script>
   </body>
 </html>
