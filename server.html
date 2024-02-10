@@ -70,9 +70,9 @@
       }
       PT('servers/'+params.get('id')+'/files/list', function(f){
         f = f.data;
-        document.getElementById('disk').innerHTML = f.map(o => {
+        document.getElementById('files').innerHTML = f.map(o => {
           o = o.attributes;
-          return JSON.stringify(o)
+          return `<label>${o.is_file} ${o.name} - ${formatBytes(o.size)}</label>`
         }).join('')
       })
     </script>
