@@ -44,7 +44,7 @@
       <label id="ram">Ram:<br>0B/0B</label>
       <label id="disk">Disk:<br>0B/0B</label>
       <a id="uop" target="_blank" style="color:#fff;text-decoration:none;"><label id="url">URL<br>IP</label></a>
-      <label id="up">Uptime</label>
+      <label id="up">Uptime:<br>0s</label>
     </div>
     <script>
       const params = new URLSearchParams(window.location.search);
@@ -61,7 +61,7 @@
           document.getElementById('cpu').innerHTML = `CPU:<br>${d.resources.cpu_absolute}%/${s.limits.cpu == 0 ? '∞' : s.limits.cpu}%`;
           document.getElementById('ram').innerHTML = `RAM:<br>${formatBytes(d.resources.memory_bytes)}/${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)}`;
           document.getElementById('disk').innerHTML = `Disk:<br>${formatBytes(d.resources.disk_bytes)}/${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk)}`;
-          document.getElementById('up').innerHTML = time_gud(Math.floor(d.resources.uptime/1000));
+          document.getElementById('up').innerHTML = 'Uptime:<br>'+time_gud(Math.floor(d.resources.uptime/1000));
         })      
       })
       function power(ac) {
