@@ -27,6 +27,6 @@ function time_gud(time) {
 // Checks
 if (location.pathname != '/') {
   if (!localStorage.getItem('key')) {
-    location.pathname == '/';
+    location.pathname = '/';
   }
 }
