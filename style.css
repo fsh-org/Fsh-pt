@@ -50,3 +50,13 @@ a:has(.server) {
 svg {
   fill: #fff;
 }
+.file {
+  background-color: #333;
+  padding: 4px;
+  padding-left: 8px;
+  margin: 4px;
+  border-radius: 0.5rem;
+}
+.file:hover {
+  background-color: #383838;
+}
