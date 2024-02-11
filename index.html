@@ -14,6 +14,13 @@
     <meta name="theme-color" content="#a89c9b">
     <!-- ------------------ -->
     <link rel="stylesheet" href="/style.css">
+    <script src="/script.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
   </head>
   <body>
     <div class="modal">
@@ -24,8 +31,30 @@
         <label>Api key:</label>
         <input id="key" placeholder="ptlc_key" class="long">
         <br>
-        <button onclick="localStorage.setItem('domain',document.getElementById('domain').value);localStorage.setItem('key',document.getElementById('key').value);location.pathname='/servers'">Save and go to panel</button>
+        <button onclick="login()">Save and go to panel</button>
       </div>
     </div>
+    <script>
+      if (localStorage.getItem('key').length) {
+        location.pathname = '/servers';
+      }
+      function login() {
+        let domain = document.getElementById('domain').value;
+        let key = document.getElementById('key').value;
+        if (!domain.length || !key.length) {
+          alert('Fill all the inputs');
+          return;
+        }
+        localStorage.setItem('domain', domain);
+        localStorage.setItem('key', key);
+        PT('', function(data){
+          if (data.err) {
+            alert('Could not log in')
+          } else {
+            location.pathname = '/servers';
+          }
+        })
+      }
+    </script>
   </body>
 </html>
