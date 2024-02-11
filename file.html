@@ -44,7 +44,7 @@
           return '<i class="fa-solid fa-file"></i>';
         }
       }
-      if (params.get('f')) {
+      if (params.get('f') == 'false') {
         PT('servers/'+params.get('id')+'/files/list?directory='+params.get('file'), function(f){
           f = f.data;
           document.getElementById('cont').innerHTML = f.map(o => {
