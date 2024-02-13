@@ -60,3 +60,9 @@ svg {
 .file:hover {
   background-color: #383838;
 }
+dialog {
+  background-color: #444;
+  color: #fff;
+  border: 2px black solid;
+  border-radius: 1rem;
+}
