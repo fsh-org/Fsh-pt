@@ -75,8 +75,15 @@
         <label id="up">0s</label>
       </div>
     </div>
+    <dialog id="fe">
+      <button>Rename</button>
+      <button>Download</button>
+      <button></button>
+      <button>Delete</button>
+    </dialog>
     <div id="files"></div>
     <script>
+      let modal = '';
       const params = new URLSearchParams(window.location.search);
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
@@ -122,11 +129,15 @@
           return '<i class="fa-solid fa-file"></i>';
         }
       }
+      function fe(name) {
+        modal = name;
+        document.getElementById('fe').showModal();
+      }
       PT('servers/'+params.get('id')+'/files/list', function(f){
         f = f.data;
         document.getElementById('files').innerHTML = f.map(o => {
           o = o.attributes;
-          return `<p class="file"><a style="color:#fff;text-decoration:none;cursor:pointer;" href="/file?id=${params.get('id')}&file=${o.name}&f=${o.is_file}">${o.is_file ? fil(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''}</a><i onclick="fe('${o.name}')" style="float:right;margin-right:2px;" class="fa-solid fa-ellipsis-vertical"></i></p>`;
+          return `<p class="file"><a style="color:#fff;text-decoration:none;cursor:pointer;" href="/file?id=${params.get('id')}&file=${o.name}&f=${o.is_file}">${o.is_file ? fil(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''}</a><i onclick="fe('${o.name}')" style="float:right;margin-right:5px;" class="fa-solid fa-ellipsis-vertical"></i></p>`;
         }).join('')
       })
     </script>
