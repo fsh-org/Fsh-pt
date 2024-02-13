@@ -126,7 +126,7 @@
         f = f.data;
         document.getElementById('files').innerHTML = f.map(o => {
           o = o.attributes;
-          return `<a style="color:#fff;text-decoration:none;cursor:pointer;" href="/file?id=${params.get('id')}&file=${o.name}&f=${o.is_file}"><p class="file">${o.is_file ? fil(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''} <i onclick="fe('${o.name}')" style="float:right" class="fa-solid fa-ellipsis-vertical"></i></p></a>`
+          return `<p class="file"><a style="color:#fff;text-decoration:none;cursor:pointer;" href="/file?id=${params.get('id')}&file=${o.name}&f=${o.is_file}">${o.is_file ? fil(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''}</a><i onclick="fe('${o.name}')" style="float:right;margin-right:2px;" class="fa-solid fa-ellipsis-vertical"></i></p>`;
         }).join('')
       })
     </script>
