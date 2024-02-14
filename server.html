@@ -81,11 +81,11 @@
     <dialog id="fe">
       <button onclick="Frename()">Rename</button>
       <br>
-      <button>Download</button>
+      <button onclick="Fdownload()">Download</button>
       <br>
-      <button>Duplicate</button>
+      <button onclick="Fduplicate()">Duplicate</button>
       <br>
-      <button>Delete</button>
+      <button onclick="Fdelete()">Delete</button>
       <hr>
       <button>Compress</button>
       <br>
@@ -171,6 +171,22 @@
         PT('servers/'+params.get('id')+'/files/create-folder', function(){files()}, 'POST', `{
   "root": "/",
   "name": "${prompt('Folder name')}"
+}`)
+      }
+      function Fdownload() {
+        PT('servers/'+params.get('id')+'/files/download?file='+modal, function(e){window.open(e.attributes.url)})
+      }
+      function Fduplicate() {
+        PT('servers/'+params.get('id')+'/files/copy', function(){files()}, 'POST', `{
+  "location": "/${modal}"
+}`)
+      }
+      function Fdelete() {
+        PT('servers/'+params.get('id')+'/files/delete', function(){files()}, 'POST', `{
+  "root": "/",
+  "files": [
+    "${modal}"
+  ]
 }`)
       }
     </script>
