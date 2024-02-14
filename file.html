@@ -18,11 +18,34 @@
     <script src="https://kit.fontawesome.com/50eb963274.js" crossorigin="anonymous"></script>
   </head>
   <body>
+    <dialog id="fe">
+      <p>For all:</p>
+      <button onclick="Frename()">Rename</button>
+      <br>
+      <button onclick="Fdelete()">Delete</button>
+      <br>
+      <button onclick="Fzip()">Compress</button>
+      <hr>
+      <p>Files:</p>
+      <button onclick="Fdownload()">Download</button>
+      <br>
+      <button onclick="Fduplicate()">Duplicate</button>
+      <hr>
+      <p>For compressed:</p>
+      <button onclick="Funzip()">Decompress</button>
+    </dialog>
+    <div id="KB" style="display:none">
+      <button onclick="Ffolderc()">Create folder</button>
+      <a id="Bcreate"><button>Create file</button></a>
+      <a id="Bupload"><button>Upload</button></a>
+    </div>
     <div id="cont"></div>
     <script>
       const params = new URLSearchParams(window.location.search);
+      document.getElementById('Bcreate').href = '/create?id='+params.get('id')+'&dir=/'+params.get('file');
+      document.getElementById('Bupload').href = '/upload?id='+params.get('id')+'&dir=/'+params.get('file');
       function fil(mime, name) {
-        if (['zip','7z'].includes(name.split('.')[1])) {
+        if (['zip','7z','tar','gz'].includes(name.split('.')[1])) {
           return '<i class="fa-solid fa-file-zipper"></i>'
         } else if (name.includes('.css')) {
           return `<svg height="16" version="1.1" viewBox="0 0 518.13 512" xmlns="http://www.w3.org/2000/svg"><g transform="translate(16 74.498)"><g fill="#fff" stroke-dasharray="" stroke-miterlimit="10" style="mix-blend-mode:normal" data-paper-data='{"isPaintingLayer":true}'><path d="m443.23 277.5h34.9c8.8 0 16 7.2 16 16s-7.2 16-16 16h-34.9c-7.2 0-13.1 5.9-13.1 13.1 0 5.2 3 9.9 7.8 12l37.4 16.6c16.3 7.2 26.8 23.4 26.8 41.2 0 24.9-20.2 45.1-45.1 45.1h-42.9c-8.8 0-16-7.2-16-16s7.2-16 16-16h42.9c7.2 0 13.1-5.9 13.1-13.1 0-5.2-3-9.9-7.8-12l-37.4-16.6c-16.3-7.2-26.8-23.4-26.8-41.2 0-24.9 20.2-45.1 45.1-45.1z"/><path d="m-16-10.498c0-35.3 28.7-64 64-64h160v128c0 17.7 14.3 32 32 32h128v144h-208c-35.3 0-64 28.7-64 64v144h-48c-35.3 0-64-28.7-64-64zm384 64h-128v-128zm-184 224h16c22.1 0 40 17.9 40 40v8c0 8.8-7.2 16-16 16s-16-7.2-16-16v-8c0-4.4-3.6-8-8-8h-16c-4.4 0-8 3.6-8 8v80c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-8c0-8.8 7.2-16 16-16s16 7.2 16 16v8c0 22.1-17.9 40-40 40h-16c-22.1 0-40-17.9-40-40v-80c0-22.1 17.9-40 40-40zm133.1 0h34.9c8.8 0 16 7.2 16 16s-7.2 16-16 16h-34.9c-7.2 0-13.1 5.9-13.1 13.1 0 5.2 3 9.9 7.8 12l37.4 16.6c16.3 7.2 26.8 23.4 26.8 41.2 0 24.9-20.2 45.1-45.1 45.1h-42.9c-8.8 0-16-7.2-16-16s7.2-16 16-16h42.9c7.2 0 13.1-5.9 13.1-13.1 0-5.2-3-9.9-7.8-12l-37.4-16.6c-16.3-7.2-26.8-23.4-26.8-41.2 0-24.9 20.2-45.1 45.1-45.1z"/></g></g></svg>`;
@@ -44,16 +67,84 @@
           return '<i class="fa-solid fa-file"></i>';
         }
       }
-      if (params.get('f') == 'false') {
+      function fe(name) {
+        modal = name;
+        document.getElementById('fe').showModal();
+      }
+      function files() {
         PT('servers/'+params.get('id')+'/files/list?directory='+params.get('file'), function(f){
           f = f.data;
           document.getElementById('cont').innerHTML = f.map(o => {
             o = o.attributes;
-            return `<a style="color:#fff;text-decoration:none;cursor:pointer;" href="/file?id=${params.get('id')}&file=${params.get('file')}/${o.name}&f=${o.is_file}"><p class="file">${o.is_file ? fil(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''}</p></a>`
+            return `<p class="file">
+  <a style="color:#fff;text-decoration:none;cursor:pointer;" href="/file?id=${params.get('id')}&file=${o.name}&f=${o.is_file}">
+    ${o.is_file ? fil(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''}
+  </a>
+  <i onclick="fe('${o.name}')" style="float:right;margin-right:5px;padding:2px 8px;background:#888;border-radius:0.25rem;" class="fa-solid fa-ellipsis-vertical"></i>
+</p>`;
           }).join('')
         })
+      }
+      if (params.get('f') == 'false') {
+        document.getElementById('KB').style.display = "";
+        files()
       } else {
-        document.getElementById('cont').innerHTML = "Filer"
+        PT('servers/'+params.get('id')+'/files/contents?file=/'+params.get('file'), function(fd){
+          document.getElementById('cont').innerHTML = fd;
+        })
+      }
+      function Frename() {
+        document.getElementById('fe').close();
+        PT('servers/'+params.get('id')+'/files/rename', function(){files()}, 'PUT', `{
+  "root": "/${params.get('file')}",
+  "files": [
+    {
+      "from": "${modal}",
+      "to": "${prompt('New name')}"
+    }
+  ]
+}`)
+      }
+      function Ffolderc() {
+        PT('servers/'+params.get('id')+'/files/create-folder', function(){files()}, 'POST', `{
+  "root": "/${params.get('file')}",
+  "name": "${prompt('Folder name')}"
+}`)
+      }
+      function Fdownload() {
+        document.getElementById('fe').close();
+        PT('servers/'+params.get('id')+'/files/download?file='+params.get('file')+'/'+modal, function(e){window.open(e.attributes.url)})
+      }
+      function Fduplicate() {
+        document.getElementById('fe').close();
+        PT('servers/'+params.get('id')+'/files/copy', function(){files()}, 'POST', `{
+  "location": "/${params.get('file')}/${modal}"
+}`)
+      }
+      function Fdelete() {
+        document.getElementById('fe').close();
+        PT('servers/'+params.get('id')+'/files/delete', function(){files()}, 'POST', `{
+  "root": "/${params.get('file')}",
+  "files": [
+    "${modal}"
+  ]
+}`)
+      }
+      function Fzip() {
+        document.getElementById('fe').close();
+        PT('servers/'+params.get('id')+'/files/compress', function(){files()}, 'POST', `{
+  "root": "/${params.get('file')}",
+  "files": [
+    "${modal}"
+  ]
+}`)
+      }
+      function Funzip() {
+        document.getElementById('fe').close();
+        PT('servers/'+params.get('id')+'/files/decompress', function(){files()}, 'POST', `{
+  "root": "/${params.get('file')}",
+  "file": "${modal}"
+}`)
       }
     </script>
   </body>
