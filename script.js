@@ -1,7 +1,11 @@
 // Functions
 function PT(path, callback, method = 'GET', body = '') {
   fetch('https://api.fsh.plus/pt?url=https://'+localStorage.getItem('domain')+'/api/client/'+path+'&key='+localStorage.getItem('key')+'&method='+method+'&body='+body).then(async e => {
-    e = await e.json();
+    if (da.headers.get('Content-Type').includes('text/')) {
+      e = await e.text();
+    } else {
+      e = await e.json();
+    }
     callback(e)
   })
 }
