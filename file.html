@@ -44,6 +44,7 @@
     <div style="display:flex;height:90vh;">
       <div style="flex:1" id="cont"></div>
     </div>
+    <button onclick="Fsav()" style="font-size:18px;position:fixed;bottom:0;right:12px;">Save</button>
     <script>
       const params = new URLSearchParams(window.location.search);
       document.getElementById('Bcreate').href = '/create?id='+params.get('id')+'&dir=/'+params.get('file');
@@ -170,6 +171,9 @@
   "root": "/${params.get('file')}",
   "file": "${modal}"
 }`)
+      }
+      function Fsav() {
+        PT('servers/'+params.get('id')+'/files/write?file='+params.get('file'), function(){}, 'POST', window.monaco.editor.getEditors()[0].getValue())
       }
     </script>
   </body>
