@@ -95,13 +95,12 @@
       <button onclick="Funzip()">Decompress</button>
     </dialog>
     <button onclick="Ffolderc()">Create folder</button>
-    <a id="Bcreate"><button>Create file</button></a>
+    <a onclick="Ffilec()"><button>Create file</button></a>
     <a id="Bupload"><button>Upload</button></a>
     <div id="files"></div>
     <script>
       let modal = '';
       const params = new URLSearchParams(window.location.search);
-      document.getElementById('Bcreate').href = '/create?id='+params.get('id')+'&dir=/';
       document.getElementById('Bupload').href = '/upload?id='+params.get('id')+'&dir=/';
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
@@ -183,6 +182,9 @@
   "root": "/",
   "name": "${prompt('Folder name')}"
 }`)
+      }
+      function Ffilec() {
+        PT('servers/'+params.get('id')+'/files/write?file='+prompt('File name'), function(){}, 'POST', '')
       }
       function Fdownload() {
         document.getElementById('fe').close();
