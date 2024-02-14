@@ -153,7 +153,7 @@
 }`)
       }
       function Fsav() {
-        PT('servers/'+params.get('id')+'/files/write?file='+params.get('file'), function(){}, 'POST', window.monaco.editor.getEditors()[0].getValue())
+        PT('servers/'+params.get('id')+'/files/write?file='+params.get('file'), function(){}, 'POST', encodeURIComponent(window.monaco.editor.getEditors()[0].getValue()))
       }
     </script>
   </body>
