@@ -92,6 +92,7 @@
               minimap: {enabled: false},
               theme: "vs-dark"
             });
+            window.monaco.editor.getEditors()[0].getModel().updateOptions({ tabSize: 2 })
           })
         })
       }
