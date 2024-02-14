@@ -41,12 +41,14 @@
       <a id="Bcreate"><button>Create file</button></a>
       <a id="Bupload"><button>Upload</button></a>
     </div>
-    <div id="cont"></div>
+    <div style="display:flex">
+      <div style="flex:1" id="cont"></div>
+    </div>
     <script>
       const params = new URLSearchParams(window.location.search);
       document.getElementById('Bcreate').href = '/create?id='+params.get('id')+'&dir=/'+params.get('file');
       document.getElementById('Bupload').href = '/upload?id='+params.get('id')+'&dir=/'+params.get('file');
-      document.getElementById('KP').innerHTML = `<a href="/server?id=${params.get('id')}">server</a>/${params.get('file').split('/').slice(0,params.get('file').split('/').length-1).map(r=>{return `<a href="/file?id=${params.get('id')}&file=${params.get('file').split(r)[0]}${r}&f=false">${r}</a>`}).join('/')}/${params.get('file').split('/').slice(-1)[0]}`;
+      document.getElementById('KP').innerHTML = `<a href="/server?id=${params.get('id')}">server</a>/${params.get('file').split('/').slice(0,params.get('file').split('/').length-1).map(r=>{return `<a href="/file?id=${params.get('id')}&file=${params.get('file').split(r)[0]}${r}&f=false">${r}</a>`}).join('/')}/${params.get('file').split('/').slice(-1)[0]}`.replace('//','/');
       function fil(mime, name) {
         if (['zip','7z','tar','gz'].includes(name.split('.')[1])) {
           return '<i class="fa-solid fa-file-zipper"></i>'
