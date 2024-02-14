@@ -95,12 +95,14 @@
       <button onclick="Funzip()">Decompress</button>
     </dialog>
     <button onclick="Ffolderc()">Create folder</button>
-    <a href="/create"><button>Create file</button></a>
-    <a href="/upload"><button>Upload</button></a>
+    <a id="Bcreate"><button>Create file</button></a>
+    <a id="Bupload"><button>Upload</button></a>
     <div id="files"></div>
     <script>
       let modal = '';
       const params = new URLSearchParams(window.location.search);
+      document.getElementById('Bcreate').href = '/create?id='+params.get('id')+'&dir=/';
+      document.getElementById('Bupload').href = '/upload?id='+params.get('id')+'&dir=/';
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
         PT('servers/'+params.get('id')+'/resources', function(d){
