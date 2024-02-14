@@ -29,6 +29,9 @@
         font-size: 20px;
         margin: 4px;
       }
+      dialog {
+        min-width: 10%;
+      }
     </style>
   </head>
   <body>
@@ -76,7 +79,7 @@
       </div>
     </div>
     <dialog id="fe">
-      <button>Rename</button>
+      <button onclick="Frename()">Rename</button>
       <br>
       <button>Download</button>
       <br>
@@ -88,6 +91,9 @@
       <br>
       <button>Decompress</button>
     </dialog>
+    <button onclick="Ffolderc()">Create folder</button>
+    <a href="/create"><button>Create file</button></a>
+    <a href="/upload"><button>Upload</button></a>
     <div id="files"></div>
     <script>
       let modal = '';
@@ -140,13 +146,33 @@
         modal = name;
         document.getElementById('fe').showModal();
       }
-      PT('servers/'+params.get('id')+'/files/list', function(f){
-        f = f.data;
-        document.getElementById('files').innerHTML = f.map(o => {
-          o = o.attributes;
-          return `<p class="file"><a style="color:#fff;text-decoration:none;cursor:pointer;" href="/file?id=${params.get('id')}&file=${o.name}&f=${o.is_file}">${o.is_file ? fil(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''}</a><i onclick="fe('${o.name}')" style="float:right;margin-right:5px;" class="fa-solid fa-ellipsis-vertical"></i></p>`;
-        }).join('')
-      })
+      function files() {
+        PT('servers/'+params.get('id')+'/files/list', function(f){
+          f = f.data;
+          document.getElementById('files').innerHTML = f.map(o => {
+            o = o.attributes;
+            return `<p class="file"><a style="color:#fff;text-decoration:none;cursor:pointer;" href="/file?id=${params.get('id')}&file=${o.name}&f=${o.is_file}">${o.is_file ? fil(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''}</a><i onclick="fe('${o.name}')" style="float:right;margin-right:5px;" class="fa-solid fa-ellipsis-vertical"></i></p>`;
+          }).join('')
+        })
+      }
+      files()
+      function Frename() {
+        PT('servers/'+params.get('id')+'/files/rename', function(){files()}, 'PUT', `{
+  "root": "/",
+  "files": [
+    {
+      "from": "${modal}",
+      "to": "${prompt('New name')}"
+    }
+  ]
+}`)
+      }
+      function Ffolderc() {
+        PT('servers/'+params.get('id')+'/files/create-folder', function(){files()}, 'POST', `{
+  "root": "/",
+  "name": "${prompt('Folder name')}"
+}`)
+      }
     </script>
   </body>
 </html>
