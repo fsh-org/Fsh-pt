@@ -38,7 +38,7 @@
     <p id="KP">server/</p>
     <div id="KB" style="display:none">
       <button onclick="Ffolderc()">Create folder</button>
-      <a id="Bcreate"><button>Create file</button></a>
+      <a onclick="Ffilec()"><button>Create file</button></a>
       <a id="Bupload"><button>Upload</button></a>
     </div>
     <div style="display:flex;height:90vh;">
@@ -47,7 +47,6 @@
     <button onclick="Fsav()" style="font-size:18px;position:fixed;bottom:0;right:12px;">Save</button>
     <script>
       const params = new URLSearchParams(window.location.search);
-      document.getElementById('Bcreate').href = '/create?id='+params.get('id')+'&dir=/'+params.get('file');
       document.getElementById('Bupload').href = '/upload?id='+params.get('id')+'&dir=/'+params.get('file');
       document.getElementById('KP').innerHTML = `<a href="/server?id=${params.get('id')}">server</a>/${params.get('file').split('/').slice(0,params.get('file').split('/').length-1).map(r=>{return `<a href="/file?id=${params.get('id')}&file=${params.get('file').split(r)[0]}${r}&f=false">${r}</a>`}).join('/')}/${params.get('file').split('/').slice(-1)[0]}`.replace('//','/');
       function fil(mime, name) {
@@ -136,6 +135,9 @@
   "root": "/${params.get('file')}",
   "name": "${prompt('Folder name')}"
 }`)
+      }
+      function Ffilec() {
+        PT('servers/'+params.get('id')+'/files/write?file='+params.get('file')+'/'+prompt('File name'), function(){}, 'POST', '')
       }
       function Fdownload() {
         document.getElementById('fe').close();
