@@ -95,11 +95,20 @@
         files()
       } else {
         PT('servers/'+params.get('id')+'/files/contents?file='+params.get('file'), function(fd){
+          let lang = params.get('file').split('.').slice(-1)[0];
+          let ch = {
+            js: 'javascript',
+            ts: 'typescript',
+            tsx: 'typescript'
+          }
+          if (Object.keys(ch).includes(lang)) {
+            lang = ch[lang]
+          }
           require.config({ paths: { vs: 'https://unpkg.com/monaco-editor/min/vs' } });
           require(['vs/editor/editor.main'], function () {
             monaco.editor.create(document.getElementById('cont'), {
               value: fd,
-              language: params.get('file').split('.').slice(-1)[0],
+              language: lang,
               scrollBeyondLastLine: true,
               readOnly: false,
               //automaticLayout: true,
