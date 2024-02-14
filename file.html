@@ -137,7 +137,7 @@
 }`)
       }
       function Ffilec() {
-        PT('servers/'+params.get('id')+'/files/write?file='+params.get('file')+'/'+prompt('File name'), function(){}, 'POST', '')
+        PT('servers/'+params.get('id')+'/files/write?file='+params.get('file')+'/'+prompt('File name'), function(){files()}, 'POST', '')
       }
       function Fdownload() {
         document.getElementById('fe').close();
