@@ -84,15 +84,15 @@
       <br>
       <button onclick="Fdelete()">Delete</button>
       <br>
-      <button>Compress</button>
+      <button onclick="Fzip()">Compress</button>
       <hr>
       <p>Files:</p>
       <button onclick="Fdownload()">Download</button>
       <br>
       <button onclick="Fduplicate()">Duplicate</button>
       <hr>
-      <p>For compressed files:</p>
-      <button>Decompress</button>
+      <p>For compressed:</p>
+      <button onclick="Funzip()">Decompress</button>
     </dialog>
     <button onclick="Ffolderc()">Create folder</button>
     <a href="/create"><button>Create file</button></a>
@@ -165,6 +165,7 @@
       }
       files()
       function Frename() {
+        document.getElementById('fe').close();
         PT('servers/'+params.get('id')+'/files/rename', function(){files()}, 'PUT', `{
   "root": "/",
   "files": [
@@ -182,19 +183,38 @@
 }`)
       }
       function Fdownload() {
+        document.getElementById('fe').close();
         PT('servers/'+params.get('id')+'/files/download?file='+modal, function(e){window.open(e.attributes.url)})
       }
       function Fduplicate() {
+        document.getElementById('fe').close();
         PT('servers/'+params.get('id')+'/files/copy', function(){files()}, 'POST', `{
   "location": "/${modal}"
 }`)
       }
       function Fdelete() {
+        document.getElementById('fe').close();
         PT('servers/'+params.get('id')+'/files/delete', function(){files()}, 'POST', `{
   "root": "/",
   "files": [
     "${modal}"
   ]
+}`)
+      }
+      function Fzip() {
+        document.getElementById('fe').close();
+        PT('servers/'+params.get('id')+'/files/compress', function(){files()}, 'POST', `{
+  "root": "/",
+  "files": [
+    "${modal}"
+  ]
+}`)
+      }
+      function Funzip() {
+        document.getElementById('fe').close();
+        PT('servers/'+params.get('id')+'/files/decompress', function(){files()}, 'POST', `{
+  "root": "/",
+  "file": "${modal}"
 }`)
       }
     </script>
