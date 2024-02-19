@@ -44,7 +44,7 @@
     <div style="display:flex;height:90vh;">
       <div style="flex:1" id="cont"></div>
     </div>
-    <button onclick="Fsav()" style="font-size:18px;position:fixed;bottom:0;right:12px;">Save</button>
+    <button id="SB" onclick="Fsav()" style="font-size:18px;position:fixed;bottom:0;right:12px;display:none;">Save</button>
     <script>
       const params = new URLSearchParams(window.location.search);
       document.getElementById('Bupload').href = '/upload?id='+params.get('id')+'&dir=/'+params.get('file');
@@ -71,6 +71,7 @@
         document.getElementById('KB').style.display = "";
         files()
       } else {
+        document.getElementById('SB').style.display = "";
         PT('servers/'+params.get('id')+'/files/contents?file='+params.get('file'), function(fd){
           let lang = params.get('file').split('.').slice(-1)[0];
           let ch = {
