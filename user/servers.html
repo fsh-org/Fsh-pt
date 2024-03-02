@@ -17,6 +17,7 @@
     <script src="/script.js"></script>
   </head>
   <body>
+    <button onclick="localStorage.removeItem('key')">Log out</button>
     <div id="list"></div>
     <script>
       PT('', function(data){
@@ -24,7 +25,7 @@
           s = s.attributes;
           PT('servers/'+s.identifier+'/resources', function(d){
             d = d.attributes;
-            document.getElementById('list').insertAdjacentHTML('beforeend', `<a href="/server?id=${s.identifier}">
+            document.getElementById('list').insertAdjacentHTML('beforeend', `<a href="/user/server?id=${s.identifier}">
   <div class="server status-${d.current_state}">
     <div>
       <label class="server-title">${s.name}</label>
