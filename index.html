@@ -34,14 +34,14 @@
         <label>Type:</label>
         <select id="type" class="long">
           <option value="client">User</option>
-          <option value="application" disabeled>App</option>
+          <option value="application" disabled>App</option>
         </select>
         <br>
         <button onclick="login()">Save and go to panel</button>
       </div>
     </div>
     <script>
-      if (localStorage.getItem('key').length) {
+      if (localStorage.getItem('key')) {
         if (localStorage.getItem('type') == 'client') {
           location.pathname = '/user/servers';
         } else {
