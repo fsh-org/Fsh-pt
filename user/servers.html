@@ -17,7 +17,7 @@
     <script src="/script.js"></script>
   </head>
   <body>
-    <button onclick="localStorage.removeItem('key')">Log out</button>
+    <button onclick="localStorage.removeItem('key');location.pathname='/'">Log out</button>
     <div id="list"></div>
     <script>
       PT('', function(data){
