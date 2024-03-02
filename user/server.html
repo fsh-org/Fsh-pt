@@ -101,7 +101,7 @@
     <script>
       let modal = '';
       const params = new URLSearchParams(window.location.search);
-      document.getElementById('Bupload').href = '/upload?id='+params.get('id')+'&dir=/';
+      document.getElementById('Bupload').href = '/user/upload?id='+params.get('id')+'&dir=/';
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
         PT('servers/'+params.get('id')+'/resources', function(d){
@@ -133,7 +133,7 @@
           document.getElementById('files').innerHTML = f.map(o => {
             o = o.attributes;
             return `<p class="file">
-  <a style="color:#fff;text-decoration:none;cursor:pointer;" href="/file?id=${params.get('id')}&file=${o.name}&f=${o.is_file}">
+  <a style="color:#fff;text-decoration:none;cursor:pointer;" href="/user/file?id=${params.get('id')}&file=${o.name}&f=${o.is_file}">
     ${o.is_file ? file_type(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''}
   </a>
   <i onclick="fe('${o.name}')" style="float:right;margin-right:5px;padding:2px 8px;background:#888;border-radius:0.25rem;" class="fa-solid fa-ellipsis-vertical"></i>
