@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Fsh Pterodactyl Panel</title>
+    <title>Fsh PT</title>
     <!-- Boiler plate------ -->
     <link rel="icon" href="https://fsh.plus/fsh.png" type="image/png">
-    <meta name="description" content="A pterodactyl panel replacement">
+    <meta name="description" content="A user and application api ui">
     <!-- ------- -->
     <link rel="stylesheet" href="https://fsh.plus/NewStyle.css">
     <meta charset="UTF-8">
@@ -31,29 +31,51 @@
         <label>Api key:</label>
         <input id="key" placeholder="ptlc_key" class="long">
         <br>
+        <label>Type:</label>
+        <select id="type" class="long">
+          <option value="client">User</option>
+          <option value="application" disabeled>App</option>
+        </select>
+        <br>
         <button onclick="login()">Save and go to panel</button>
       </div>
     </div>
     <script>
       if (localStorage.getItem('key').length) {
-        location.pathname = '/servers';
+        if (localStorage.getItem('type') == 'client') {
+          location.pathname = '/user/servers';
+        } else {
+          location.pathname = '/app';
+        }
       }
       function login() {
         let domain = document.getElementById('domain').value;
+        let type = document.getElementById('type').value;
         let key = document.getElementById('key').value;
         if (!domain.length || !key.length) {
           alert('Fill all the inputs');
           return;
         }
         localStorage.setItem('domain', domain);
+        localStorage.setItem('type', type);
         localStorage.setItem('key', key);
-        PT('', function(data){
-          if (data.err) {
-            alert('Could not log in')
-          } else {
-            location.pathname = '/servers';
-          }
-        })
+        if (key == 'client') {
+          PT('', function(data){
+            if (data.err) {
+              alert('Could not log in')
+            } else {
+              location.pathname = '/user/servers';
+            }
+          })
+        } else {
+          PT('users', function(data){
+            if (data.err) {
+              alert('Could not log in')
+            } else {
+              location.pathname = '/app';
+            }
+          })
+        }
       }
     </script>
   </body>
