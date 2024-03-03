@@ -48,7 +48,7 @@
     <script>
       const params = new URLSearchParams(window.location.search);
       document.getElementById('Bupload').href = '/user/upload?id='+params.get('id')+'&dir=/'+params.get('file');
-      document.getElementById('KP').innerHTML = `<a href="/user/server?id=${params.get('id')}">server</a>/${params.get('file').split('/').slice(0,params.get('file').split('/').length-1).map(r=>{return `<a href="/file?id=${params.get('id')}&file=${params.get('file').split(r)[0]}${r}&f=false">${r}</a>`}).join('/')}/${params.get('file').split('/').slice(-1)[0]}`.replace('//','/');
+      document.getElementById('KP').innerHTML = `<a href="/user/server?id=${params.get('id')}">server</a>/${params.get('file').split('/').slice(0,params.get('file').split('/').length-1).map(r=>{return `<a href="/user/file?id=${params.get('id')}&file=${params.get('file').split(r)[0]}${r}&f=false">${r}</a>`}).join('/')}/${params.get('file').split('/').slice(-1)[0]}`.replace('//','/');
       function fe(name) {
         modal = name;
         document.getElementById('fe').showModal();
