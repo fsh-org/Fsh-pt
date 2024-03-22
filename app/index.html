@@ -1,1 +1,29 @@
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Dashboard - Fsh Pterodactyl Panel</title>
+    <!-- Boiler plate------ -->
+    <link rel="icon" href="https://fsh.plus/fsh.png" type="image/png">
+    <meta name="description" content="A pterodactyl panel replacement. View admin dashboard (login required).">
+    <!-- ------- -->
+    <link rel="stylesheet" href="https://fsh.plus/NewStyle.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="https://fsh.plus/fsh.png"/>
+    <meta name="theme-color" content="#a89c9b">
+    <!-- ------------------ -->
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js"></script>
+  </head>
+  <body>
+    <button onclick="localStorage.removeItem('key');location.pathname='/'">Log out</button>
+    <br>
+    <a><button>Users</button></a>
+    <a><button>Servers</button></a>
+    <hr>
+    <a><button>Nodes</button></a>
+    <a><button>Allocations</button></a>
+    <a><button>Nests</button></a>
+  </body>
+</html>
