@@ -15,15 +15,18 @@
     <!-- ------------------ -->
     <link rel="stylesheet" href="/style.css">
     <script src="/script.js"></script>
+    <script src="https://kit.fontawesome.com/50eb963274.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <button onclick="localStorage.removeItem('key');location.pathname='/'">Log out</button>
     <br>
-    <a href="user"><button>Users</button></a>
-    <a href="server"><button>Servers</button></a>
+    <p>User content</p>
+    <a href="user"><button><i class="fa-solid fa-user"></i> Users</button></a>
+    <a href="server"><button><i class="fa-solid fa-server"></i> Servers</button></a>
     <hr>
-    <a href="node"><button>Nodes</button></a>
-    <a href="location"><button>Locations</button></a>
-    <a href="nest"><button>Nests</button></a>
+    <p>Other content</p>
+    <a href="node"><button><i class="fa-solid fa-network-wired"></i> Nodes</button></a>
+    <a href="location"><button><i class="fa-solid fa-globe"></i> Locations</button></a>
+    <a href="nest"><button><i class="fa-solid fa-table-cells-large"></i> Nests</button></a>
   </body>
 </html>
