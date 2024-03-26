@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>User Dashboard - Fsh Pterodactyl Panel</title>
+    <!-- Boiler plate------ -->
+    <link rel="icon" href="https://fsh.plus/fsh.png" type="image/png">
+    <meta name="description" content="A pterodactyl panel replacement. View users (login required).">
+    <!-- ------- -->
+    <link rel="stylesheet" href="https://fsh.plus/NewStyle.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="https://fsh.plus/fsh.png"/>
+    <meta name="theme-color" content="#a89c9b">
+    <!-- ------------------ -->
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js"></script>
+    <script src="https://kit.fontawesome.com/50eb963274.js" crossorigin="anonymous"></script>
+    <style>
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/app/user"><button>Back</button></a>
+    <div id="users"></div>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      PT('users/'+urlParams.get('id'), function(data){
+        data = data.attributes;
+        document.getElementById('users').innerHTML = `<h1>${data.username}${data.root_admin ? ' <i class="fa-solid fa-user-shield"></i>' : ''}</h1>
+<p>Id: ${data.id} | External: ${data.external_id || 'None'} | UUID: ${data.uuid}</p>
+<p>Email: ${data.email}</p>
+<p>Full name: ${data.first_name} ${data.last_name}</p>
+<p>Language ${data.language}</p>
+<p>2fa: ${data.2fa}</p>
+<p>Created: ${data.created_at}</p>
+<p>Updated: ${data.updated_at}</p>`
+      })
+    </script>
+  </body>
+</html>
