@@ -66,3 +66,11 @@ dialog {
   border: 2px black solid;
   border-radius: 1rem;
 }
+.user {
+  background-color: #555;
+  color: #fff;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 0.5rem;
+  display: flex;
+}
