@@ -21,7 +21,9 @@
     <a href="/app"><button>Back</button></a>
     <div id="users"></div>
     <script>
-      PT('', function(){})
+      PT('users', function(data){
+        document.getElementById('users').innerHTML = JSON.stringify(data)
+      })
     </script>
   </body>
 </html>
