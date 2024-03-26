@@ -22,7 +22,7 @@
     <div id="users"></div>
     <script>
       PT('users', function(data){
-        document.getElementById('users').innerHTML = data.data.map(e=>{e=e.attributes;return`${e.id} | ${e.username} | ${e.first_name} ${e.last_name}<br>${e.email}<br>Lang: ${e.language} 2FA: ${e['2fa']} Admin: ${e.root_admin}`}).join('<br>')
+        document.getElementById('users').innerHTML = data.data.map(e=>{e=e.attributes;return`<div class="user">${e.id} | ${e.username}${e.root_admin ? ' <i class="fa-solid fa-user-shield"></i>' : ''} | ${e.first_name} ${e.last_name}<br>${e.email}</div>`}).join('<br>')
       })
     </script>
   </body>
