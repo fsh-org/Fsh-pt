@@ -1,6 +1,6 @@
 // Functions
 function PT(path, callback, method = 'GET', body = '') {
-  fetch('https://api.fsh.plus/pt?url=https://'+localStorage.getItem('domain')+'/api/'+{user:'client',app:'application'}[localStorage.getItem('type')]+'/'+path+'&key='+localStorage.getItem('key')+'&method='+method+'&body='+body).then(async e => {
+  fetch('https://api.fsh.plus/pt?url=https://'+localStorage.getItem('domain')+'/api/'+{client:'client',app:'application'}[localStorage.getItem('type')]+'/'+path+'&key='+localStorage.getItem('key')+'&method='+method+'&body='+body).then(async e => {
     if (e.headers.get('Content-Type').includes('text/')) {
       e = await e.text();
     } else {
