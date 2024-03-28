@@ -21,6 +21,9 @@ input.long {
 .status-running {
   --status: #0f0;
 }
+.status-starting {
+  --status: #ff0;
+}
 .server {
   background-color: #555;
   color: #fff;
