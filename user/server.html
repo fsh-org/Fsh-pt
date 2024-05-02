@@ -79,15 +79,10 @@
         <label id="up">0s</label>
       </div>
     </div>
-    
-    <button onclick="Ffolderc()">Create folder</button>
-    <a onclick="Ffilec()"><button>Create file</button></a>
-    <a id="Bupload"><button>Upload</button></a>
-    <div id="files"></div>
+    <a id="Bfiles"><button>Files</button></a>
     <script>
-      let modal = '';
       const params = new URLSearchParams(window.location.search);
-      document.getElementById('Bupload').href = '/user/upload?id='+params.get('id')+'&dir=/';
+      document.getElementById('Bfiles').href = '/user/file?id='+params.get('id')+'&file=&f=false';
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
         PT('servers/'+params.get('id')+'/resources', function(d){
@@ -108,81 +103,6 @@
       })
       function power(ac) {
         PT('servers/'+params.get('id')+'/power', function(){return}, 'POST', `{"signal": "${ac}"}`)
-      }
-      function fe(name) {
-        modal = name;
-        document.getElementById('fe').showModal();
-      }
-      function files() {
-        PT('servers/'+params.get('id')+'/files/list', function(f){
-          f = f.data;
-          document.getElementById('files').innerHTML = f.map(o => {
-            o = o.attributes;
-            return `<p class="file">
-  <a style="color:#fff;text-decoration:none;cursor:pointer;" href="/user/file?id=${params.get('id')}&file=${o.name}&f=${o.is_file}">
-    ${o.is_file ? file_type(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''}
-  </a>
-  <i onclick="fe('${o.name}')" style="float:right;margin-right:5px;padding:2px 8px;background:#888;border-radius:0.25rem;" class="fa-solid fa-ellipsis-vertical"></i>
-</p>`;
-          }).join('')
-        })
-      }
-      files()
-      function Frename() {
-        document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/rename', function(){files()}, 'PUT', `{
-  "root": "/",
-  "files": [
-    {
-      "from": "${modal}",
-      "to": "${prompt('New name',modal)}"
-    }
-  ]
-}`)
-      }
-      function Ffolderc() {
-        PT('servers/'+params.get('id')+'/files/create-folder', function(){files()}, 'POST', `{
-  "root": "/",
-  "name": "${prompt('Folder name')}"
-}`)
-      }
-      function Ffilec() {
-        PT('servers/'+params.get('id')+'/files/write?file='+prompt('File name'), function(){files()}, 'POST', '')
-      }
-      function Fdownload() {
-        document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/download?file='+modal, function(e){window.open(e.attributes.url)})
-      }
-      function Fduplicate() {
-        document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/copy', function(){files()}, 'POST', `{
-  "location": "/${modal}"
-}`)
-      }
-      function Fdelete() {
-        document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/delete', function(){files()}, 'POST', `{
-  "root": "/",
-  "files": [
-    "${modal}"
-  ]
-}`)
-      }
-      function Fzip() {
-        document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/compress', function(){files()}, 'POST', `{
-  "root": "/",
-  "files": [
-    "${modal}"
-  ]
-}`)
-      }
-      function Funzip() {
-        document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/decompress', function(){files()}, 'POST', `{
-  "root": "/",
-  "file": "${modal}"
-}`)
       }
     </script>
   </body>
