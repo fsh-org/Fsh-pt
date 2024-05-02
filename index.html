@@ -42,10 +42,10 @@
     </div>
     <script>
       if (localStorage.getItem('key')) {
-        if (localStorage.getItem('type') == 'client') {
-          location.pathname = '/user/servers';
-        } else {
+        if (localStorage.getItem('type') == 'app') {
           location.pathname = '/app';
+        } else {
+          location.pathname = '/user/servers';
         }
       }
       function login() {
@@ -59,7 +59,7 @@
         localStorage.setItem('domain', domain);
         localStorage.setItem('type', type);
         localStorage.setItem('key', key);
-        if (key == 'client') {
+        if (type == 'client') {
           PT('', function(data){
             if (data.err) {
               alert('Could not log in')
