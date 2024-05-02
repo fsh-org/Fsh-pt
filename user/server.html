@@ -35,7 +35,7 @@
     </style>
   </head>
   <body>
-    <a href="/user/servers"><button>Go back</button></a>
+    <a href="/user/servers"><button>Back</button></a>
     <div style="display:flex">
       <div id="state" style="flex:1;border-left:8px var(--status) solid;border-radius:0.5rem;padding-left:8px;">
         <h1 id="name">Name</h1>
@@ -79,22 +79,7 @@
         <label id="up">0s</label>
       </div>
     </div>
-    <dialog id="fe">
-      <p>For all:</p>
-      <button onclick="Frename()">Rename</button>
-      <br>
-      <button onclick="Fdelete()">Delete</button>
-      <br>
-      <button onclick="Fzip()">Compress</button>
-      <hr>
-      <p>Files:</p>
-      <button onclick="Fdownload()">Download</button>
-      <br>
-      <button onclick="Fduplicate()">Duplicate</button>
-      <hr>
-      <p>For compressed:</p>
-      <button onclick="Funzip()">Decompress</button>
-    </dialog>
+    
     <button onclick="Ffolderc()">Create folder</button>
     <a onclick="Ffilec()"><button>Create file</button></a>
     <a id="Bupload"><button>Upload</button></a>
