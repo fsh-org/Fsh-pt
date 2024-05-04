@@ -26,7 +26,7 @@
           document.getElementById('list').insertAdjacentHTML('beforeend', `<a href="/user/server?id=${s.identifier}">
   <div class="server">
     <script>
-      PT('servers/'+s.identifier+'/resources', function(d){
+      PT('servers/${s.identifier}/resources', function(d){
         d = d.attributes;
         this.parentElement.classList.add('status-'+d.current_state)
         this.parentElement.children[3].children[0].iinerHTML = \`CPU: $\{d.resources.cpu_absolute}% RAM: $\{formatBytes(d.resources.memory_bytes)} Disk: $\{formatBytes(d.resources.disk_bytes)}\`
