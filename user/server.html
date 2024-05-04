@@ -32,6 +32,13 @@
       dialog {
         min-width: 10%;
       }
+      .console {
+        margin-top: 10px;
+        width: calc(100vw - 16px);
+        height: 20vh;
+        background-color: var(--bg-light);
+        border-radius: 1rem;
+      }
     </style>
   </head>
   <body>
@@ -72,7 +79,7 @@
       </div>
       <div style="cursor:pointer">
         <i class="fa-solid fa-network-wired"></i>
-        <a id="uop" target="_blank" style="color:#fff;text-decoration:none;"><label id="url">URL</label></a>
+        <a id="uop" target="_blank" style="color:#fff;text-decoration:none;"><label id="url" style="cursor:pointer">URL</label></a>
       </div>
       <div>
         <i class="fa-solid fa-clock"></i>
@@ -80,6 +87,7 @@
       </div>
     </div>
     <a id="Bfiles"><button>Files</button></a>
+    <div class="console">Coming soon</div>
     <script>
       const params = new URLSearchParams(window.location.search);
       document.getElementById('Bfiles').href = '/user/file?id='+params.get('id')+'&file=&f=false';
