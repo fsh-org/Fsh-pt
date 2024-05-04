@@ -36,7 +36,7 @@
       <label class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>
     </div>
     <div>
-      <label></label>
+      <label style="transition:200ms;opacity:0;"></label>
       <br>
       <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk)}</label>
     </div>
@@ -45,8 +45,9 @@
           var script = document.createElement('script');
 script.textContent = `PT('servers/${s.identifier}/resources', function(d){
   d = d.attributes;
-  document.querySelector('a[href="/user/server?id=${s.identifier}"]').children[0].classList.add('status-'+d.current_state)
-  document.querySelector('a[href="/user/server?id=${s.identifier}"]').children[0].children[2].children[0].innerHTML = \`CPU: $\{d.resources.cpu_absolute}% RAM: $\{formatBytes(d.resources.memory_bytes)} Disk: $\{formatBytes(d.resources.disk_bytes)}\`
+  document.querySelector('a[href="/user/server?id=${s.identifier}"]').children[0].classList.add('status-'+d.current_state);
+  document.querySelector('a[href="/user/server?id=${s.identifier}"]').children[0].children[2].children[0].innerHTML = \`CPU: $\{d.resources.cpu_absolute}% RAM: $\{formatBytes(d.resources.memory_bytes)} Disk: $\{formatBytes(d.resources.disk_bytes)}\`;
+  document.querySelector('a[href="/user/server?id=${s.identifier}"]').children[0].children[2].children[0].style.opacity = 1;
 })`;
           document.querySelector('a[href="/user/server?id='+s.identifier+'"]').children[0].appendChild(script);
         })
