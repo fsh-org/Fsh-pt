@@ -23,10 +23,15 @@
       PT('', function(data){
         data.data.forEach(s => {
           s = s.attributes;
-          PT('servers/'+s.identifier+'/resources', function(d){
-            d = d.attributes;
-            document.getElementById('list').insertAdjacentHTML('beforeend', `<a href="/user/server?id=${s.identifier}">
-  <div class="server status-${d.current_state}">
+          document.getElementById('list').insertAdjacentHTML('beforeend', `<a href="/user/server?id=${s.identifier}">
+  <div class="server">
+    <script>
+      PT('servers/'+s.identifier+'/resources', function(d){
+        d = d.attributes;
+        this.parentElement.classList.add('status-'+d.current_state)
+        this.parentElement.children[3].children[0].iinerHTML = \`CPU: $\{d.resources.cpu_absolute}% RAM: $\{formatBytes(d.resources.memory_bytes)} Disk: $\{formatBytes(d.resources.disk_bytes)}\`
+      })
+    <\/script>
     <div>
       <label class="server-title">${s.name}</label>
       <br>
@@ -38,13 +43,12 @@
       <label class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>
     </div>
     <div>
-      <label>CPU: ${d.resources.cpu_absolute}% RAM: ${formatBytes(d.resources.memory_bytes)} Disk: ${formatBytes(d.resources.disk_bytes)}</label>
+      <label></label>
       <br>
       <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk)}</label>
     </div>
   </div>
 </a>`)
-          })
         })
       })
     </script>
