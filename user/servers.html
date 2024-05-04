@@ -45,9 +45,9 @@
           var script = document.createElement('script');
 script.textContent = `PT('servers/${s.identifier}/resources', function(d){
   d = d.attributes;
-  console.log(this, this.parentElement, this.parentElement.parentElement)
-  this.parentElement.parentElement.classList.add('status-'+d.current_state)
-  this.parentElement.parentElement.children[2].children[0].iinerHTML = \`CPU: $\{d.resources.cpu_absolute}% RAM: $\{formatBytes(d.resources.memory_bytes)} Disk: $\{formatBytes(d.resources.disk_bytes)}\`
+  console.log(this, this.parentElement)
+  this.parentElement.classList.add('status-'+d.current_state)
+  this.parentElement.children[2].children[0].iinerHTML = \`CPU: $\{d.resources.cpu_absolute}% RAM: $\{formatBytes(d.resources.memory_bytes)} Disk: $\{formatBytes(d.resources.disk_bytes)}\`
 })`;
           document.querySelector('a[href="/user/server?id='+s.identifier+'"]').children[0].appendChild(script);
         })
