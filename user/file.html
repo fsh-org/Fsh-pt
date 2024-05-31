@@ -124,18 +124,14 @@
       }
       document.getElementById('upload').onchange = function(event){
         PT('servers/'+params.get('id')+'/files/upload', function(e){
-          alert('Soon to come', JSON.stringify(e))
-          /*
-          fetch(e.url, {
+          fetch(e.attributes.url+'?dir=/'+params.get('file'), {
             method: 'POST',
             headers: {
               'content-type': 'application/octent-stream'
             },
-            body: event.files[0]
+            body: event.target.files[0]
           })
           files()
-          */
-          //'/user/upload?id='+params.get('id')+'&dir=/'+params.get('file');
         })
       }
       function Fdownload() {
