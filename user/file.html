@@ -124,7 +124,7 @@
       }
       document.getElementById('upload').onchange = function(event){
         PT('servers/'+params.get('id')+'/files/upload', function(e){
-          fetch(e.attributes.url+'?dir=/'+params.get('file'), {
+          fetch(e.attributes.url+'&dir=/'+params.get('file'), {
             method: 'POST',
             headers: {
               'content-type': 'application/octent-stream'
