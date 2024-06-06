@@ -90,7 +90,7 @@
     <div class="console">
       <p>Coming soon</p>
       <p id="out"></p>
-      <input placeholder="Server command" onkeyup="if(event.key==='Enter'){comm(this.value)}">
+      <input placeholder="Server command" onkeyup="if(event.key==='Enter'){comm(this.value);this.value=''}">
     </div>
     <script>
       const params = new URLSearchParams(window.location.search);
@@ -117,7 +117,7 @@
         PT('servers/'+params.get('id')+'/power', function(){return}, 'POST', `{"signal": "${ac}"}`)
       }
       function comm(val) {
-        PT('servers/'+params.get('id')+'/command', function(){return}, 'POST', ``)
+        PT('servers/'+params.get('id')+'/command', function(){return}, 'POST', JSON.stringify({command: val}))
       }
     </script>
   </body>
