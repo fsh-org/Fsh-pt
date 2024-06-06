@@ -87,7 +87,11 @@
       </div>
     </div>
     <a id="Bfiles"><button>Files</button></a>
-    <div class="console">Coming soon</div>
+    <div class="console">
+      <p>Coming soon</p>
+      <p id="out"></p>
+      <input placeholder="Server command" onkeyup="if(event.key==='Enter'){comm(this.value)}">
+    </div>
     <script>
       const params = new URLSearchParams(window.location.search);
       document.getElementById('Bfiles').href = '/user/file?id='+params.get('id')+'&file=&f=false';
@@ -111,6 +115,9 @@
       })
       function power(ac) {
         PT('servers/'+params.get('id')+'/power', function(){return}, 'POST', `{"signal": "${ac}"}`)
+      }
+      function comm(val) {
+        PT('servers/'+params.get('id')+'/command', function(){return}, 'POST', ``)
       }
     </script>
   </body>
