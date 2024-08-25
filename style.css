@@ -5,7 +5,7 @@
   min-height: 100vh;
 }
 .modal > div {
-  background-color: var(--bg-light);
+  background-color: var(--bg-2);
   padding: 15px;
   border-radius: 1rem;
 }
@@ -16,17 +16,23 @@ input.long {
   width: 222px;
 }
 .status-offline {
-  --status: #f00;
+  --status: #c66;
 }
 .status-running {
-  --status: #0f0;
+  --status: #c6c;
 }
 .status-starting {
-  --status: #ff0;
+  --status: #cc6;
+}
+.status-installing {
+  --status: #66c;
+}
+.status-suspended {
+  --status: #a22;
 }
 .server {
-  background-color: var(--bg-light);
-  color: var(--text);
+  background-color: var(--bg-2);
+  color: var(--text-1);
   margin: 10px;
   padding: 10px;
   border-radius: 0.5rem;
@@ -41,7 +47,7 @@ a:has(.server) {
   text-decoration: none;
 }
 .server:hover {
-  filter: brightness(0.9);
+  filter: var(--bg-3);
 }
 .server-title {
   font-weight: bold;
@@ -50,11 +56,8 @@ a:has(.server) {
   font-size: 10px;
   margin-top: -2px;
 }
-svg {
-  fill: #fff;
-}
 .file {
-  background-color: var(--bg-light);
+  background-color: var(--bg-2);
   padding: 4px;
   padding-left: 8px;
   margin: 4px;
@@ -62,17 +65,17 @@ svg {
   transition: 200ms;
 }
 .file:hover {
-  background-color: #383838;
+  background-color: var(--bg-3);
 }
 dialog {
-  background-color: var(--bg-light);
-  color: var(--text);
+  background-color: var(--bg-2);
+  color: var(--text-1);
   border: 2px black solid;
   border-radius: 1rem;
 }
 .user {
-  background-color: var(--bg-light);
-  color: var(--text);
+  background-color: var(--bg-2);
+  color: var(--text-1);
   margin: 10px;
   padding: 10px;
   border-radius: 0.5rem;
