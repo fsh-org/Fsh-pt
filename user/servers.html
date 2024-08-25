@@ -6,7 +6,7 @@
     <link rel="icon" href="https://fsh.plus/fsh.png" type="image/png">
     <meta name="description" content="A pterodactyl panel replacement. List your servers (login required).">
     <!-- ------- -->
-    <link rel="stylesheet" href="https://fsh.plus/NewStyle.css">
+    <link rel="stylesheet" href="https://fsh.plus/media/style.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,7 +45,7 @@
     <div>
       <label style="transition:200ms;opacity:0;"></label>
       <br>
-      <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk*1024)}</label>
+      <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : (Math.floor(s.limits.cpu*100)/100)}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk*1024)}</label>
     </div>
   </div>
 </a>`)
