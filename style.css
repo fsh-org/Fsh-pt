@@ -16,19 +16,19 @@ input.long {
   width: 222px;
 }
 .status-offline {
-  --status: #c66;
+  --status: #f66;
 }
 .status-running {
-  --status: #c6c;
+  --status: #f66;
 }
 .status-starting {
-  --status: #cc6;
+  --status: #ff6;
 }
 .status-installing {
-  --status: #66c;
+  --status: #66f;
 }
 .status-suspended {
-  --status: #a22;
+  --status: #b22;
 }
 .server {
   background-color: var(--bg-2);
