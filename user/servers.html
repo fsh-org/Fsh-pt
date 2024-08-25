@@ -33,9 +33,11 @@
     <div>
       <label class="server-title">${s.name}</label>
       <br>
-      <label class="subtext">${s.node}</label>
+      <label class="subtext">${s.description||''}</label>
     </div>
     <div>
+      <label>${s.node}</label>
+      <br>
       <label>${s.relationships.allocations.data[0].attributes.ip_alias}:${s.relationships.allocations.data[0].attributes.port}</label>
       <br>
       <label class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>
