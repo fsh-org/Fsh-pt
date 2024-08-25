@@ -19,7 +19,7 @@ input.long {
   --status: #f66;
 }
 .status-running {
-  --status: #f66;
+  --status: #6f6;
 }
 .status-starting {
   --status: #ff6;
