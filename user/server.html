@@ -91,7 +91,11 @@
         <label id="up">0s</label>
       </div>
     </div>
-    <a id="Bfiles"><button>Files</button></a>
+    <div>
+      <a id="Bfiles"><button>Files</button></a>
+      <a id="Bnet"><button disabled>Network</button></a>
+      <a id="Bset"><button disabled>Settings</button></a>
+    </div>
     <div class="console">
       <p>Coming soon</p>
       <p id="out"></p>
@@ -100,10 +104,12 @@
     <script>
       const params = new URLSearchParams(window.location.search);
       document.getElementById('Bfiles').href = '/user/file?id='+params.get('id')+'&file=&f=false';
+      //document.getElementById('Bnet').href = '/user/network?id='+params.get('id');
+      //document.getElementById('Bset').href = '/user/settings?od='+params.get('id');
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
         if (s.is_suspended) {
-          location.href = '/servers';
+          location.href = '/user/servers';
           return;
         }
         PT('servers/'+params.get('id')+'/resources', function(d){
