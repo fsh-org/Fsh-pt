@@ -122,7 +122,7 @@
           document.getElementById('uop').href = `http://${s.relationships.allocations.data[0].attributes.ip_alias || s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}`;
           document.getElementById('cpu').innerHTML = `${d.resources.cpu_absolute}%/${s.limits.cpu == 0 ? '∞' : s.limits.cpu}%`;
           document.getElementById('ram').innerHTML = `${formatBytes(d.resources.memory_bytes)}/${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)}`;
-          document.getElementById('disk').innerHTML = `${formatBytes(d.resources.disk_bytes)}/${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk)}`;
+          document.getElementById('disk').innerHTML = `${formatBytes(d.resources.disk_bytes)}/${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk*1024*1024)}`;
           document.getElementById('rx').innerHTML = formatBytes(d.resources.network_rx_bytes);
           document.getElementById('tx').innerHTML = formatBytes(d.resources.network_tx_bytes);
           document.getElementById('up').innerHTML = time_gud(Math.floor(d.resources.uptime/1000));
