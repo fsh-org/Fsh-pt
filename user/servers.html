@@ -19,13 +19,55 @@
       label {
         word-break: break-word;
       }
+      .pages {
+        display: flex;
+        margin: 0px 10px;
+        justify-content: center;
+      }
+      .pages p {
+        flex: 1;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
     <button onclick="localStorage.removeItem('key');location.pathname='/'">Log out</button>
+    <div id="admin-other" style="display:none;margin:0px 5px 0px auto;width:fit-content;">
+      <label>Other servers</label>
+      <input type="checkbox" onchange="admin()" id="admin">
+    </div>
     <div id="list"></div>
+    <div class="pages">
+      <button disabled>Previous</button>
+      <p>1/1</p>
+      <button disabled>Next</button>
+    </div>
     <script>
-      PT('', function(data){
+      let query = new URLSearchParams(location.search);
+
+      PT('account', function(user){
+        if (user.attributes.admin) {
+          document.getElementById('admin-other').style.display = 'block';
+        }
+        if (query.has("admin")) {
+          document.getElementById('admin').checked = (query.get("admin")==='true');
+        }
+      })
+      let sq = new URLSearchParams('');
+      sq.set('page', query.get('page') || '1');
+      if (query.get('admin') === 'true') {
+        sq.set('type', 'admin');
+      }
+      PT(('?'+sq.toString()), function(data){
+        document.querySelector('.pages p').innerText = `${data.meta.pagination.current_page}/${data.meta.pagination.total_pages}`;
+        if (data.meta.pagination.current_page > 1) {
+          document.querySelectorAll('.pages button')[0].removeAttribute('disabled');
+          document.querySelectorAll('.pages button')[0].onclick = function(){page(-1)};
+        }
+        if (data.meta.pagination.total_pages > data.meta.pagination.current_page) {
+          document.querySelectorAll('.pages button')[1].removeAttribute('disabled');
+          document.querySelectorAll('.pages button')[1].onclick = function(){page(1)};
+        }
         data.data.forEach(s => {
           s = s.attributes;
           document.getElementById('list').insertAdjacentHTML('beforeend', `<a${s.is_suspended ? '' : ` href="/user/server?id=${s.identifier}"`}>
@@ -61,6 +103,17 @@
           }
         })
       })
+      function admin() {
+        let nq = new URLSearchParams(location.search);
+        nq.set('admin', String(this.checked));
+        nq.set('page', '1')
+        location.href = location.origin+location.pathname+'?'+nq.toString();
+      }
+      function page(sum) {
+        let nq = new URLSearchParams(location.search);
+        nq.set('page', String(Number(nq.get('page')||'1')+sum))
+        location.href = location.origin+location.pathname+'?'+nq.toString();
+      }
     </script>
   </body>
 </html>
