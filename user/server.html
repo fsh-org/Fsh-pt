@@ -102,12 +102,16 @@
       document.getElementById('Bfiles').href = '/user/file?id='+params.get('id')+'&file=&f=false';
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
+        if (s.is_suspended) {
+          location.href = '/servers';
+          return;
+        }
         PT('servers/'+params.get('id')+'/resources', function(d){
           d = d.attributes;
           document.getElementById('name').innerHTML = s.name;
           document.getElementById('desc').innerHTML = s.description;
           document.getElementById('node').innerHTML = s.node;
-          document.getElementById('state').classList.add('status-'+d.current_state);
+          document.getElementById('state').classList.add(s.is_installing ? 'status-installing' : 'status-'+d.current_state);
           document.getElementById('url').innerHTML = `${s.relationships.allocations.data[0].attributes.ip_alias}:${s.relationships.allocations.data[0].attributes.port}`;
           document.getElementById('uop').href = `http://${s.relationships.allocations.data[0].attributes.ip_alias}:${s.relationships.allocations.data[0].attributes.port}`;
           document.getElementById('cpu').innerHTML = `${d.resources.cpu_absolute}%/${s.limits.cpu == 0 ? '∞' : s.limits.cpu}%`;
