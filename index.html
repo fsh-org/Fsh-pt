@@ -17,26 +17,51 @@
     <script src="/script.js"></script>
     <style>
       body {
-        margin: 0;
-        padding: 0;
+        width: 100vw;
+        width: 100dvw;
+        height: 100vh;
+        height: 100dvh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      body > div {
+        padding: 15px;
+        border-radius: 1rem;
+        background-color: var(--bg-2);
+      }
+      body > div > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      body > div > div > label{
+        flex: 1;
+      }
+      input, select {
+        width: 70%;
+        box-sizing: border-box;
       }
     </style>
   </head>
   <body>
-    <div class="modal">
+    <div>
       <div>
         <label>Host:</label>
-        <input id="domain" placeholder="panel.domain.com" class="long">
-        <br>
+        <input id="domain" placeholder="panel.domain.com">
+      </div>
+      <div>
         <label>Api key:</label>
-        <input id="key" placeholder="ptlc_key" class="long">
-        <br>
+        <input id="key" placeholder="ptlc_key">
+      </div>
+      <div>
         <label>Type:</label>
-        <select id="type" class="long">
+        <select id="type">
           <option value="client">User</option>
           <option value="application" disabled>App</option>
         </select>
-        <br>
+      </div>
+      <div>
         <button onclick="login()">Save and go to dashboard</button>
       </div>
     </div>

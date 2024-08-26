@@ -1,20 +1,3 @@
-.modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-.modal > div {
-  background-color: var(--bg-2);
-  padding: 15px;
-  border-radius: 1rem;
-}
-input {
-  min-width: 0;
-}
-input.long {
-  width: 222px;
-}
 .status-offline {
   --status: #f66;
 }
@@ -28,17 +11,21 @@ input.long {
   --status: #66f;
 }
 .status-suspended {
-  --status: #b22;
+  --status: #622;
 }
 .server {
-  background-color: var(--bg-2);
-  color: var(--text-1);
+  display: flex;
+  align-items: center;
   margin: 10px;
   padding: 10px;
   border-radius: 0.5rem;
   border-left: 8px var(--status) solid;
-  display: flex;
-  transition: 200ms;
+  color: var(--text-1);
+  background-color: var(--bg-2);
+  transition: 250ms;
+}
+.server:hover {
+  background-color: var(--bg-3);
 }
 .server div {
   flex: 1;
@@ -46,16 +33,13 @@ input.long {
 a:has(.server) {
   text-decoration: none;
 }
-.server:hover {
-  filter: var(--bg-3);
-}
 .server-title {
   font-weight: bold;
 }
 .subtext {
-  font-size: 10px;
-  margin-top: -2px;
+  font-size: 75%;
 }
+
 .file {
   background-color: var(--bg-2);
   padding: 4px;
@@ -67,12 +51,7 @@ a:has(.server) {
 .file:hover {
   background-color: var(--bg-3);
 }
-dialog {
-  background-color: var(--bg-2);
-  color: var(--text-1);
-  border: 2px black solid;
-  border-radius: 1rem;
-}
+
 .user {
   background-color: var(--bg-2);
   color: var(--text-1);
