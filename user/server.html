@@ -17,6 +17,12 @@
     <script src="/script.js"></script>
     <script src="https://kit.fontawesome.com/50eb963274.js" crossorigin="anonymous"></script>
     <style>
+      #state {
+        flex: 1;
+        border-left: 8px var(--status) solid;
+        border-radius: 0.5rem;
+        padding-left: 8px;
+      }
       .vals {
         display: flex;
         max-width: 100vw;
@@ -49,7 +55,7 @@
   <body>
     <a href="/user/servers"><button>Back</button></a>
     <div style="display:flex">
-      <div id="state" style="flex:1;border-left:8px var(--status) solid;border-radius:0.5rem;padding-left:8px;">
+      <div id="state">
         <h1 id="name">Name</h1>
         <label id="desc">Desc</label>
         <label id="node" class="subtext">Node</label>
@@ -98,7 +104,7 @@
       <input placeholder="Server command" onkeyup="if(event.key==='Enter'){comm(this.value);this.value=''}">
     </div>
     <script>
-      const params = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams(location.search);
       document.getElementById('Bfiles').href = '/user/file?id='+params.get('id')+'&file=&f=false';
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;

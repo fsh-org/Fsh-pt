@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Network view - Fsh Pterodactyl Panel</title>
+    <!-- Boiler plate------ -->
+    <link rel="icon" href="https://fsh.plus/fsh.png" type="image/png">
+    <meta name="description" content="A pterodactyl panel replacement. View network of a server (login required).">
+    <!-- ------- -->
+    <link rel="stylesheet" href="https://fsh.plus/media/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="https://fsh.plus/fsh.png"/>
+    <meta name="theme-color" content="#a89c9b">
+    <!-- ------------------ -->
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js"></script>
+    <style>
+      #alloc {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+      }
+      #alloc > div {
+        display: flex;
+        align-items: center;
+        margin: 0px 10px;
+        padding: 10px;
+        border-radius: 0.5rem;
+        background-color: var(--bg-2);
+      }
+      #alloc > div > span {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      textarea {
+        resize: none;
+      }
+    </style>
+  </head>
+  <body>
+    <a id="Bback"><button>Back</button></a>
+    <div id="alloc"></div>
+    <script>
+      const params = new URLSearchParams(location.search);
+      document.getElementById('Bback').href = '/user/server?id='+params.get('id');
+      PT('servers/'+params.get('id')+'/network/allocations', function(a){
+        a = a.data;
+        document.getElementById('alloc').innerHTML = a.map(p => {p=p.attributes;return `<div>
+  <span>
+    <label>IP</label>
+    <label>${p.ip_alias || p.ip}</label>
+  </span>
+  <span>
+    <label>Port</label>
+    <label>${p.port}</label>
+  </span>
+  <span>
+    <textarea>${p.notes || ''}</textarea>
+  </span>
+  <span style="gap:10px;flex-direction:row;justify-content:flex-end;">
+    ${p.is_default ? '<label>Primary</label>' : '<button>Delete</button><button>Make Primary</button>'}
+  </span>
+</div>`}).join('')
+      })
+    </script>
+  </body>
+</html>
