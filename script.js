@@ -5,6 +5,10 @@ function PT(path, callback, method = 'GET', body = '') {
       e = await e.text();
     } else {
       e = await e.json();
+      if (e.errors) {
+        alert(e.errors[0].detail);
+        return;
+      }
     }
     callback(e)
   })
@@ -17,14 +21,14 @@ function formatBytes(bytes, decimals = 2) {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + sizes[i];
 }
-function __PRI__edr(er,tr) {
-  if (er == 0) {
-    return '';
-  } else {
-    return er+tr+' '
-  }
-}
 function time_gud(time) {
+  function __PRI__edr(er,tr) {
+    if (er == 0) {
+      return '';
+    } else {
+      return er+tr+' '
+    }
+  }
   return `${__PRI__edr(Math.floor(time / 31536000),'Y')}${__PRI__edr(Math.floor(time % 31536000 / 604800),'W')}${__PRI__edr(Math.floor(time / 86400) % 7,'d')}${__PRI__edr(Math.floor(time / 3600) % 24,'h')}${__PRI__edr(Math.floor(time / 60) % 60,'m')}${__PRI__edr(time % 60,'s')}`
 }
 function file_type(mime, name) {
