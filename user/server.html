@@ -99,9 +99,14 @@
     </div>
     <div>
       <a id="Bfiles"><button>Files</button></a>
+      <a id="Bdat"><button disabled>Databases</button></a>
       <a id="Bsch"><button disabled>Schedules</button></a>
+      <a id="Busr"><button disabled>Users</button></a>
+      <a id="Bbku"><button disabled>Backups</button></a>
       <a id="Bnet"><button>Network</button></a>
+      <a id="Bsta"><button disabled>Startup</button></a>
       <a id="Bset"><button disabled>Settings</button></a>
+      <a id="Bact"><button disabled>Activity</button></a>
     </div>
     <div class="console">
       <p>Coming soon</p>
@@ -111,9 +116,14 @@
     <script>
       const params = new URLSearchParams(location.search);
       document.getElementById('Bfiles').href = '/user/file?id='+params.get('id')+'&file=&f=false';
+      //document.getElementById('Bdat').href = '/user/databases?id='+params.get('id');
       //document.getElementById('Bsch').href = '/user/schedules?id='+params.get('id');
+      //document.getElementById('Busr').href = '/user/users?id='+params.get('id');
+      //document.getElementById('Bbku').href = '/user/backups?id='+params.get('id');
       document.getElementById('Bnet').href = '/user/network?id='+params.get('id');
+      //document.getElementById('Bsta').href = '/user/startup?id='+params.get('id');
       //document.getElementById('Bset').href = '/user/settings?id='+params.get('id');
+      //document.getElementById('Bact').href = '/user/activity?id='+params.get('id');
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
         if (s.is_suspended) {
