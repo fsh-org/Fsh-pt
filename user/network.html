@@ -58,7 +58,7 @@
     <label>${p.port}</label>
   </span>
   <span>
-    <textarea placeholder="Notes">${p.notes || ''}</textarea>
+    <textarea placeholder="Notes" onchange="note('${p.id}', this)">${p.notes || ''}</textarea>
   </span>
   <span style="gap:10px;flex-direction:row;justify-content:flex-end;">
     ${p.is_default ? '<label>Primary</label>' : '<button onclick="explode(`'+p.id+'`)">Delete</button><button onclick="primary(`'+p.id+'`)">Make Primary</button>'}
@@ -67,6 +67,9 @@
         })
       }
       getAlloc();
+      function note(id, that) {
+        PT('servers/'+params.get('id')+'/network/allocations/'+id, function(){getAlloc()}, 'POST', JSON.stringify({notes: that.value}))
+      }
       function primary(id) {
         PT('servers/'+params.get('id')+'/network/allocations/'+id+'/primary', function(){getAlloc()}, 'POST')
       }

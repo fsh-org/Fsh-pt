@@ -18,7 +18,7 @@
     <script src="https://kit.fontawesome.com/50eb963274.js" crossorigin="anonymous"></script>
     <style>
       #state {
-        flex: 1;
+        flex-grow: 1;
         border-left: 8px var(--status) solid;
         border-radius: 0.5rem;
         padding-left: 8px;
@@ -99,7 +99,8 @@
     </div>
     <div>
       <a id="Bfiles"><button>Files</button></a>
-      <a id="Bnet"><button disabled>Network</button></a>
+      <a id="Bsch"><button disabled>Schedules</button></a>
+      <a id="Bnet"><button>Network</button></a>
       <a id="Bset"><button disabled>Settings</button></a>
     </div>
     <div class="console">
@@ -110,8 +111,9 @@
     <script>
       const params = new URLSearchParams(location.search);
       document.getElementById('Bfiles').href = '/user/file?id='+params.get('id')+'&file=&f=false';
-      //document.getElementById('Bnet').href = '/user/network?id='+params.get('id');
-      //document.getElementById('Bset').href = '/user/settings?od='+params.get('id');
+      //document.getElementById('Bsch').href = '/user/schedules?id='+params.get('id');
+      document.getElementById('Bnet').href = '/user/network?id='+params.get('id');
+      //document.getElementById('Bset').href = '/user/settings?id='+params.get('id');
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
         if (s.is_suspended) {
