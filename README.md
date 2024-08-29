@@ -5,8 +5,8 @@ This works for both client and application api keys, even tho it may not support
 ## Compatibility
 - [ ] User
   - [ ] Servers
-    - [ ] View (Missing terminal)
-    - [x] Files
+    - [x] View (Missing terminal)
+    - [x] Files (Redesing pending)
     - [ ] Databases
     - [ ] Schedules
     - [ ] Users
@@ -14,12 +14,12 @@ This works for both client and application api keys, even tho it may not support
     - [x] Network
     - [ ] Startup
     - [ ] Settings
-    - [ ] Activity
+    - [x] Activity (Needs pagination)
   - [ ] Account
-    - [ ] View
-    - [ ] Edit
+    - [ ] View / Edit
     - [ ] Api keys
-    - [ ] 2FA
+    - [ ] SSH keys
+    - [ ] Activity
 - [ ] Application
   - [ ] Users
   - [ ] Nodes

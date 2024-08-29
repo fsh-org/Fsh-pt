@@ -13,8 +13,8 @@
     <meta property="og:image" content="https://fsh.plus/fsh.png"/>
     <meta name="theme-color" content="#a89c9b">
     <!-- ------------------ -->
-    <link rel="stylesheet" href="/style.css">
-    <script src="/script.js"></script>
+    <link rel="stylesheet" href="/media/style.css">
+    <script src="/media/script.js"></script>
     <style>
       #logs {
         display: flex;
@@ -33,6 +33,18 @@
         display: flex;
         align-items: center;
       }
+      #logs > div > span:nth-child(1) {
+        width: 20vw;
+      }
+      #logs > div > span:nth-child(2) {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      span img {
+        height: 48px;
+        width: 48px;
+        border-radius: 2rem;
+      }
       .badge {
         padding: 2px 4px;
         font-size: 75%;
@@ -46,12 +58,36 @@
     <a id="Bback"><button>Back</button></a>
     <div id="logs"></div>
     <script>
+      function text(event, data, strings, extra) {
+        if (['server:backup.start'].includes(event)) extra = false;
+        let sep = event.split(':');
+        let sel = strings[sep[0]]
+        sep = sep[1].split('.');
+        sel = sel[sep[0]];
+        if (extra) {
+          sep[1] += (data.files.length > 1 ? '_other' : '_one');
+        }
+        if (sep[1]) sel = sel[sep[1]]
+        return sel.replaceAll(/\{\{.+?\}\}/g, function(match){return data[match.replaceAll('{{','').replaceAll('}}','')]});
+      }
       const params = new URLSearchParams(location.search);
       document.getElementById('Bback').href = '/user/server?id='+params.get('id');
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
         PT('servers/'+s.uuid+'/activity?sort=-timestamp&include[]=actor&page='+(params.get('page')||'1'), function(l){
-          document.getElementById('logs').innerHTML = l.data.map(p => {p=p.attributes;return `<div>
+          fetch('/media/activity.json')
+            .then(act=>act.json())
+            .then(act=>{
+              document.getElementById('logs').innerHTML = l.data.map(p => {
+                p = p.attributes;
+                if (p.relationships.actor.attributes === null) {
+                  p.relationships.actor.attributes = {
+                    username: 'System',
+                    is_api: false,
+                    ip: '/media/system.svg'
+                  }
+                };
+                return `<div>
   <span>
     <img src="${p.relationships.actor.attributes.image}">
     <span>
@@ -63,20 +99,14 @@
   </span>
   <span>
     <label>${p.event}</label>
-    <label>
+    <label>${text(p.event, p.properties, act, p.has_additional_metadata)}</label>
   </span>
-</div>`}).join('')
-/*
-{
-    "event": "server:allocation.notes",
-    "properties": {
-      "allocation": "0.0.0.0:3000",
-      "old": "cat",
-      "new": null
-    },
-    "timestamp": "2024-08-28T20:43:17+02:00"
-}
-*/
+</div>`;
+/*{
+  "timestamp": "2024-08-28T20:43:17+02:00"
+}*/
+              }).join('')
+            })
         })
       })
     </script>

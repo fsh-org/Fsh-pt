@@ -13,8 +13,8 @@
     <meta property="og:image" content="https://fsh.plus/fsh.png"/>
     <meta name="theme-color" content="#a89c9b">
     <!-- ------------------ -->
-    <link rel="stylesheet" href="/style.css">
-    <script src="/script.js"></script>
+    <link rel="stylesheet" href="/media/style.css">
+    <script src="/media/script.js"></script>
     <script src="https://kit.fontawesome.com/50eb963274.js" crossorigin="anonymous"></script>
     <style>
       #state {
@@ -115,15 +115,15 @@
     </div>
     <script>
       const params = new URLSearchParams(location.search);
-      document.getElementById('Bfiles').href = '/user/file?id='+params.get('id')+'&file=&f=false';
-      //document.getElementById('Bdat').href = '/user/databases?id='+params.get('id');
-      //document.getElementById('Bsch').href = '/user/schedules?id='+params.get('id');
-      //document.getElementById('Busr').href = '/user/users?id='+params.get('id');
-      //document.getElementById('Bbku').href = '/user/backups?id='+params.get('id');
-      document.getElementById('Bnet').href = '/user/network?id='+params.get('id');
-      //document.getElementById('Bsta').href = '/user/startup?id='+params.get('id');
-      //document.getElementById('Bset').href = '/user/settings?id='+params.get('id');
-      //document.getElementById('Bact').href = '/user/activity?id='+params.get('id');
+      document.getElementById('Bfiles').href = '/user/server/file?id='+params.get('id')+'&file=&f=false';
+      //document.getElementById('Bdat').href = '/user/server/databases?id='+params.get('id');
+      //document.getElementById('Bsch').href = '/user/server/schedules?id='+params.get('id');
+      //document.getElementById('Busr').href = '/user/server/users?id='+params.get('id');
+      //document.getElementById('Bbku').href = '/user/server/backups?id='+params.get('id');
+      document.getElementById('Bnet').href = '/user/server/network?id='+params.get('id');
+      //document.getElementById('Bsta').href = '/user/server/startup?id='+params.get('id');
+      //document.getElementById('Bset').href = '/user/server/settings?id='+params.get('id');
+      document.getElementById('Bact').href = '/user/server/activity?id='+params.get('id');
       PT('servers/'+params.get('id'), function(s){
         s = s.attributes;
         if (s.is_suspended) {
