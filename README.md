@@ -14,7 +14,7 @@ This works for both client and application api keys, even tho it may not support
     - [x] Network
     - [ ] Startup
     - [ ] Settings
-    - [x] Activity (Needs pagination)
+    - [x] Activity (Needs pagination and timestamp)
   - [ ] Account
     - [ ] View / Edit
     - [ ] Api keys

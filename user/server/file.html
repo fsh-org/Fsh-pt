@@ -59,7 +59,7 @@
           document.getElementById('cont').innerHTML = f.map(o => {
             o = o.attributes;
             return `<p class="file">
-  <a style="color:#fff;text-decoration:none;cursor:pointer;" href="/user/file?id=${params.get('id')}&file=${params.get('file')}/${o.name}&f=${o.is_file}">
+  <a style="color:#fff;text-decoration:none;cursor:pointer;" href="/user/server/file?id=${params.get('id')}&file=${params.get('file')}/${o.name}&f=${o.is_file}">
     ${o.is_file ? file_type(o.mimetype, o.name) : '<i class="fa-solid fa-folder"></i>'} ${o.name}${o.is_file ? ` - ${formatBytes(o.size)}` : ''}
   </a>
   <i onclick="fe('${o.name}')" style="float:right;margin-right:5px;padding:2px 8px;background:#888;border-radius:0.25rem;" class="fa-solid fa-ellipsis-vertical"></i>
