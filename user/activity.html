@@ -4,7 +4,7 @@
     <title>Network view - Fsh Pterodactyl Panel</title>
     <!-- Boiler plate------ -->
     <link rel="icon" href="https://fsh.plus/fsh.png" type="image/png">
-    <meta name="description" content="A pterodactyl panel replacement. View activity of a server (login required).">
+    <meta name="description" content="A pterodactyl panel replacement. View your activity (login required).">
     <!-- ------- -->
     <link rel="stylesheet" href="https://fsh.plus/media/style.css">
     <meta charset="UTF-8">
@@ -55,7 +55,7 @@
     </style>
   </head>
   <body>
-    <a id="Bback"><button>Back</button></a>
+    <a href="/user"><button>Back</button></a>
     <div id="logs"></div>
     <script>
       function text(event, data, strings, extra) {
@@ -64,30 +64,29 @@
         let sel = strings[sep[0]]
         sep = sep[1].split('.');
         sel = sel[sep[0]];
-        if (extra && event.startsWith('server:')) {
+        if (extra && (!event.startsWith('server:')||event==='server:backup.start')) {
+          // something should be here
+        } else if (extra && event.startsWith('server:')) {
           sep[1] += (data.files.length > 1 ? '_other' : '_one');
         }
         if (sep[1]) sel = sel[sep[1]]
         return sel.replaceAll(/\{\{.+?\}\}/g, function(match){return data[match.replaceAll('{{','').replaceAll('}}','')]});
       }
       const params = new URLSearchParams(location.search);
-      document.getElementById('Bback').href = '/user/server?id='+params.get('id');
-      PT('servers/'+params.get('id'), function(s){
-        s = s.attributes;
-        PT('servers/'+s.uuid+'/activity?sort=-timestamp&include[]=actor&page='+(params.get('page')||'1'), function(l){
-          fetch('/media/activity.json')
-            .then(act=>act.json())
-            .then(act=>{
-              document.getElementById('logs').innerHTML = l.data.map(p => {
-                p = p.attributes;
-                if (p.relationships.actor.attributes === null) {
-                  p.relationships.actor.attributes = {
-                    username: 'System',
-                    image: '/media/system.svg',
-                    is_api: false
-                  }
-                };
-                return `<div>
+      PT('account/activity?sort=-timestamp&include[]=actor&page='+(params.get('page')||'1'), function(l){
+        fetch('/media/activity.json')
+          .then(act=>act.json())
+          .then(act=>{
+            document.getElementById('logs').innerHTML = l.data.map(p => {
+              p = p.attributes;
+              if (p.relationships.actor.attributes === null) {
+                p.relationships.actor.attributes = {
+                  username: 'System',
+                  image: '/media/system.svg',
+                  is_api: false
+                }
+              };
+              return `<div>
   <span>
     <img src="${p.relationships.actor.attributes.image}">
     <span>
@@ -105,9 +104,8 @@
 /*{
   "timestamp": "2024-08-28T20:43:17+02:00"
 }*/
-              }).join('')
-            })
-        })
+            }).join('')
+          })
       })
     </script>
   </body>
