@@ -64,7 +64,7 @@
         let sel = strings[sep[0]]
         sep = sep[1].split('.');
         sel = sel[sep[0]];
-        if (extra && (!event.startsWith('server:')||event==='server:backup.start')) {
+        if (extra && (!event.startsWith('server:')||event==='server:subuser.create')) {
           // something should be here
         } else if (extra && event.startsWith('server:')) {
           sep[1] += (data.files.length > 1 ? '_other' : '_one');
