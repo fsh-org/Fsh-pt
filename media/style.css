@@ -3,19 +3,19 @@
 }
 
 .status-offline {
-  --status: #f66;
+  --status: var(--red-1);
 }
 .status-running {
-  --status: #6f6;
+  --status: var(--green-1);
 }
 .status-starting {
-  --status: #ff6;
+  --status: var(--yellow-1);
 }
 .status-installing {
-  --status: #66f;
+  --status: var(--blue-1);
 }
 .status-suspended {
-  --status: #622;
+  --status: var(--red-2);
 }
 .server {
   display: flex;

@@ -60,7 +60,7 @@
         <label id="desc">Desc</label>
         <label id="node" class="subtext">Node</label>
       </div>
-      <div style="flex:1;display:flex;align-items:center;flex-wrap:wrap;" class="big">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;" class="big">
         <button onclick="power('start')"><i class="fa-solid fa-play"></i></button>
         <button onclick="power('restart')"><i class="fa-solid fa-rotate-right"></i></button>
         <button onclick="power('stop')"><i class="fa-solid fa-stop"></i></button>
@@ -109,13 +109,24 @@
       <a id="Bact"><button>Activity</button></a>
     </div>
     <div class="console">
-      <p>Coming soon</p>
-      <p id="out"></p>
-      <input placeholder="Server command" onkeyup="if(event.key==='Enter'){comm(this.value);this.value=''}">
+      <p id="console-output"></p>
+      <span>
+        <input placeholder="Server command" onkeyup="if(event.key==='Enter'){comm(this.value);this.value=''}">
+        <button>Sned</button>
+      </span>
     </div>
     <script>
       const params = new URLSearchParams(location.search);
-      document.getElementById('Bfiles').href = '/user/server/file?id='+params.get('id')+'&file=&f=false';
+
+      // Console
+      let pt_console = new EventSource(`https://api.fsh.plus/pt-console?id=${params.get('id')}&host=${localStorage.getItem('domain')}&key=${localStorage.getItem('key')}`)
+
+      pt_console.onmessage = (event) => {
+        document.getElementById('console-output').insertAdjacentElement('beforeend', event.data);
+      };
+
+      // Pages
+      document.getElementById('Bfiles').href = '/user/server/file?id='+params.get('id')+'&file=/&f=false';
       //document.getElementById('Bdat').href = '/user/server/databases?id='+params.get('id');
       //document.getElementById('Bsch').href = '/user/server/schedules?id='+params.get('id');
       //document.getElementById('Busr').href = '/user/server/users?id='+params.get('id');
