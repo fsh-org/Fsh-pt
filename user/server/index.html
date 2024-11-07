@@ -122,7 +122,7 @@
       let pt_console = new EventSource(`https://api.fsh.plus/pt-console?id=${params.get('id')}&host=${localStorage.getItem('domain')}&key=${localStorage.getItem('key')}`)
 
       pt_console.onmessage = (event) => {
-        document.getElementById('console-output').insertAdjacentElement('beforeend', event.data);
+        document.getElementById('console-output').insertAdjacentHTML('beforeend', event.data);
       };
 
       // Pages
