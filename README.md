@@ -5,7 +5,7 @@ This works for both client and application api keys, even tho it may not support
 ## Compatibility
 - [ ] User
   - [ ] Servers
-    - [x] View (Missing terminal)
+    - [x] View
     - [x] Files (Redesing pending)
     - [ ] Databases
     - [ ] Schedules
