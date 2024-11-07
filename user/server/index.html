@@ -129,8 +129,11 @@
 
       pt_console.onmessage = (event) => {
         let ev = JSON.parse(event.data);
-        if (ev.event == 'stats') {
+        if (ev.event == 'auth success') {
+          // Cool
+        } else if (ev.event == 'stats') {
           let s = JSON.parse(ev.args[0]);
+          document.getElementById('state').classList = [];
           document.getElementById('state').classList.add('status-'+s.state);
           document.getElementById('cpu').innerHTML = s.cpu_absolute+'%'+document.getElementById('cpu').innerHTML.split('%')[1];
           document.getElementById('ram').innerHTML = `${formatBytes(s.memory_bytes)}/${s.memory_limit_bytes == 0 ? '∞' : formatBytes(s.memory_limit_bytes)}`;
@@ -138,6 +141,9 @@
           document.getElementById('rx').innerHTML = formatBytes(s.network.rx_bytes);
           document.getElementById('tx').innerHTML = formatBytes(s.network.tx_bytes);
           document.getElementById('up').innerHTML = time_gud(Math.floor(s.uptime/1000));
+        } else if (ev.event == 'status') {
+          document.getElementById('state').classList = [];
+          document.getElementById('state').classList.add('status-'+ev.args[0]);
         } else if (ev.event == 'console output') {
           document.getElementById('console-output').insertAdjacentHTML('beforeend', ev.args.map(e=>`<p>${e}</p>`).join());
         } else {
