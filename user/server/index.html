@@ -175,7 +175,7 @@
           .replaceAll(/\x1b\[0m/g, '</span>');
         // Actions
         text = text
-          .replace(/^[^º]*\x1b\[1G/m, '');
+          .replace(/^[^º]*\x1b\[[0-9](G|K)/m, '');
         return text;
       }
 
