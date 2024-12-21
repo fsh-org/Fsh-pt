@@ -165,6 +165,8 @@
         }
         // Colors
         text = text
+          .replaceAll(/\x1b\[39m/g, '</span>')
+          .replaceAll(/\x1b\[22m/g, '</span>')
           .replaceAll(/\x1b\[(\d+)(;\d+)*m/g, (_, primary, other) => {
             let style = ansiCodes[primary] ?? '';
             if (other) {
