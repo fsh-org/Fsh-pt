@@ -202,6 +202,8 @@
           document.getElementById('console-output').insertAdjacentHTML('beforeend', ev.args.map(e=>`<p>${ansiParse(e)}</p>`).join());
         } else if (ev.event == 'install output') {
           document.getElementById('console-output').insertAdjacentHTML('beforeend', ev.args.map(e=>`<p style="color: var(--blue-1)">[Pterodactyl Daemon]: ${ansiParse(e)}</p>`).join());
+        } else if (ev.event == 'install completed') {
+          document.getElementById('console-output').innerText = '';
         } else {
           document.getElementById('console-output').insertAdjacentHTML('beforeend', `<p>${event.data}</p>`);
         }
