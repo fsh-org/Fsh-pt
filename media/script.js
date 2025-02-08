@@ -1,17 +1,33 @@
 // Functions
 function PT(path, callback, method = 'GET', body = '') {
-  fetch('https://api.fsh.plus/pt?url='+encodeURIComponent(`https://${localStorage.getItem('domain')}/api/${{client:'client',app:'application'}[localStorage.getItem('type')]}/${path}`)+'&key='+localStorage.getItem('key')+'&method='+method+'&body='+body).then(async e => {
-    if (e.headers.get('Content-Type').includes('text/')) {
-      e = await e.text();
-    } else {
-      e = await e.json();
-      if (e.errors) {
-        alert(e.errors[0].detail);
-        return;
-      }
+  let opts = {
+    method: method,
+    headers: {
+      authorization: `Bearer ${localStorage.getItem('key')}`,
+      accept: "application/json",
+      "Content-Type": "application/json"
     }
-    callback(e)
+  };
+  if (body) opts.body = body;
+  fetch('https://api.fsh.plus/request?url='+encodeURIComponent(`https://${localStorage.getItem('domain')}/api/${{client:'client',app:'application'}[localStorage.getItem('type')]}/${path}`), {
+    method: 'POST',
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(opts)
   })
+    .then(res=>res.json())
+    .then(res=>{
+      let con = res.content;
+      if (!res.headers['content-type']?.includes('text/')) {
+        con = JSON.parse(con);
+        if (con.errors) {
+          alert(e.errors[0].detail);
+          return;
+        }
+      }
+      callback(con);
+    })
 }
 function formatBytes(bytes, decimals = 2) {
   if (bytes === 0) return '0B';
