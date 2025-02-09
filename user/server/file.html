@@ -111,42 +111,42 @@
 }`)
       }
       function Ffolderc() {
-        PT('servers/'+params.get('id')+'/files/create-folder', function(){files()}, 'POST', `{
-  "root": "/${params.get('file')}",
-  "name": "${prompt('Folder name')}"
-}`)
+        PT(`servers/${params.get('id')}/files/create-folder`, function(){files()}, 'POST', JSON.stringify({
+  root: `/${params.get('file')}`,
+  name: prompt('Folder name')
+}))
       }
       function Ffilec() {
-        PT('servers/'+params.get('id')+'/files/write?file='+params.get('file')+'/'+prompt('File name'), function(){files()}, 'POST', '')
+        PT(`servers/${params.get('id')}/files/write?file=${params.get('file')}/${prompt('File name')}`, function(){files()}, 'POST', '')
       }
       function Fupload() {
         document.getElementById('upload').click();
       }
       document.getElementById('upload').onchange = function(event){
-        PT('servers/'+params.get('id')+'/files/upload', function(e){
-          fetch(e.attributes.url+'&dir=/'+params.get('file'), {
+        PT(`servers/${params.get('id')}/files/upload`, function(e){
+          let data = new FormData();
+          for (let file of event.target.files) {
+            data.append('files', file);
+          }
+          fetch(`${e.attributes.url}&directory=${encodeURIComponent(params.get('file'))}`, {
             method: 'POST',
-            headers: {
-              'content-type': 'application/octent-stream'
-            },
-            body: event.target.files[0]
+            body: data
           })
-          files()
+            .then(res=>res.text())
+            .then(_=>files());
         })
       }
       function Fdownload() {
         document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/download?file='+params.get('file')+'/'+modal, function(e){window.open(e.attributes.url)})
+        PT(`servers/${params.get('id')}/files/download?file=${params.get('file')}/${modal}`, function(e){window.open(e.attributes.url)})
       }
       function Fduplicate() {
         document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/copy', function(){files()}, 'POST', `{
-  "location": "/${params.get('file')}/${modal}"
-}`)
+        PT(`servers/${params.get('id')}/files/copy`, function(){files()}, 'POST', JSON.stringify({ location: `/${params.get('file')}/${modal}` }))
       }
       function Fdelete() {
         document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/delete', function(){files()}, 'POST', `{
+        PT(`servers/${params.get('id')}/files/delete`, function(){files()}, 'POST', `{
   "root": "/${params.get('file')}",
   "files": [
     "${modal}"
@@ -155,7 +155,7 @@
       }
       function Fzip() {
         document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/compress', function(){files()}, 'POST', `{
+        PT(`servers/${params.get('id')}/files/compress`, function(){files()}, 'POST', `{
   "root": "/${params.get('file')}",
   "files": [
     "${modal}"
@@ -164,13 +164,13 @@
       }
       function Funzip() {
         document.getElementById('fe').close();
-        PT('servers/'+params.get('id')+'/files/decompress', function(){files()}, 'POST', `{
+        PT(`servers/${params.get('id')}/files/decompress`, function(){files()}, 'POST', `{
   "root": "/${params.get('file')}",
   "file": "${modal}"
 }`)
       }
       function Fsav() {
-        PT('servers/'+params.get('id')+'/files/write?file='+params.get('file'), function(){}, 'POST', encodeURIComponent(window.monaco.editor.getEditors()[0].getValue()))
+        PT(`servers/${params.get('id')}/files/write?file=${params.get('file')}`, ()=>{}, 'POST', encodeURIComponent(window.monaco.editor.getEditors()[0].getValue()))
       }
     </script>
   </body>

@@ -18,6 +18,10 @@ function PT(path, callback, method = 'GET', body = '') {
   })
     .then(res=>res.json())
     .then(res=>{
+      if (res.status === 204) {
+        callback();
+        return;
+      }
       let con = res.content;
       if (!res.headers['content-type']?.includes('text/')) {
         con = JSON.parse(con);
