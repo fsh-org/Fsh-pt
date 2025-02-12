@@ -1,3 +1,10 @@
+// Checks
+if (location.pathname != '/') {
+  if (!localStorage.getItem('key')) {
+    location.pathname = '/';
+  }
+}
+
 // Functions
 function PT(path, callback, method = 'GET', body = '') {
   let opts = {
@@ -33,6 +40,7 @@ function PT(path, callback, method = 'GET', body = '') {
       callback(con);
     })
 }
+
 function formatBytes(bytes, decimals = 2) {
   if (bytes === 0) return '0B';
   const k = 1024;
@@ -41,6 +49,7 @@ function formatBytes(bytes, decimals = 2) {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + sizes[i];
 }
+
 function time_gud(time) {
   function __PRI__edr(er,tr) {
     if (er == 0) {
@@ -51,6 +60,7 @@ function time_gud(time) {
   }
   return `${__PRI__edr(Math.floor(time / 31536000),'Y')}${__PRI__edr(Math.floor(time % 31536000 / 604800),'W')}${__PRI__edr(Math.floor(time / 86400) % 7,'d')}${__PRI__edr(Math.floor(time / 3600) % 24,'h')}${__PRI__edr(Math.floor(time / 60) % 60,'m')}${__PRI__edr(time % 60,'s')}`
 }
+
 function file_type(mime, name) {
   if (['zip','7z','tar','gz'].includes(name.split('.')[1])) {
     return '<i class="fa-solid fa-file-zipper"></i>'
@@ -75,9 +85,17 @@ function file_type(mime, name) {
   }
 }
 
-// Checks
-if (location.pathname != '/') {
-  if (!localStorage.getItem('key')) {
-    location.pathname = '/';
+function ActivityText(event, data, extra, strings) {
+  if (['server:backup.start'].includes(event)) extra = false;
+  let sep = event.split(':');
+  let sel = strings[sep[0]];
+  sep = sep[1].split('.');
+  sel = sel[sep[0]];
+  if (extra && event.startsWith('server:')) {
+    sep[1] += (data.files.length > 1 ? '_other' : '_one');
+  } else if (extra && (!event.startsWith('server:')||event==='server:subuser.create')) {
+    // something should be here
   }
+  if (sep[1]) sel = sel[sep[1]]
+  return sel.replaceAll(/\{\{.+?\}\}/g, function(match){return data[match.replaceAll('{{','').replaceAll('}}','')]});
 }

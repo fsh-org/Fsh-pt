@@ -14,63 +14,14 @@
     <meta name="theme-color" content="#a89c9b">
     <!-- ------------------ -->
     <link rel="stylesheet" href="/media/style.css">
+    <link rel="stylesheet" href="/media/user.css">
     <script src="/media/script.js"></script>
-    <style>
-      #logs {
-        display: flex;
-        gap: 15px;
-        flex-direction: column;
-      }
-      #logs > div {
-        display: flex;
-        align-items: center;
-        margin: 0px 10px;
-        padding: 10px;
-        border-radius: 0.5rem;
-        background-color: var(--bg-2);
-      }
-      #logs > div > span {
-        display: flex;
-        align-items: center;
-      }
-      #logs > div > span:nth-child(1) {
-        width: 20vw;
-      }
-      #logs > div > span:nth-child(2) {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-      span img {
-        height: 48px;
-        width: 48px;
-        border-radius: 2rem;
-      }
-      .badge {
-        padding: 2px 4px;
-        font-size: 75%;
-        margin-left: 5px;
-        border-radius: 0.5rem;
-        background-color: var(--bg-3);
-      }
-    </style>
   </head>
   <body>
     <a id="Bback"><button>Back</button></a>
     <main>
       <div id="logs"></div>
       <script>
-        function text(event, data, strings, extra) {
-          if (['server:backup.start'].includes(event)) extra = false;
-          let sep = event.split(':');
-          let sel = strings[sep[0]]
-          sep = sep[1].split('.');
-          sel = sel[sep[0]];
-          if (extra && event.startsWith('server:')) {
-            sep[1] += (data.files.length > 1 ? '_other' : '_one');
-          }
-          if (sep[1]) sel = sel[sep[1]]
-          return sel.replaceAll(/\{\{.+?\}\}/g, function(match){return data[match.replaceAll('{{','').replaceAll('}}','')]});
-        }
         const params = new URLSearchParams(location.search);
         document.getElementById('Bback').href = '/user/server?id='+params.get('id');
         PT(`servers/${params.get('id')}`, function(s){
@@ -100,7 +51,7 @@
   </span>
   <span>
     <label>${p.event}</label>
-    <label>${text(p.event, p.properties, act, p.has_additional_metadata)}</label>
+    <label>${ActivityText(p.event, p.properties, p.has_additional_metadata, act)}</label>
   </span>
 </div>`;
 /*{

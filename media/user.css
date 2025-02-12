@@ -25,3 +25,41 @@ nav hr {
 main {
   flex: 1;
 }
+
+/* Activity */
+#logs {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+#logs > div {
+  display: flex;
+  align-items: center;
+  margin: 0px 10px;
+  padding: 10px;
+  border-radius: 0.5rem;
+  background-color: var(--bg-2);
+}
+#logs > div > span {
+  display: flex;
+  align-items: center;
+}
+#logs > div > span:nth-child(1) {
+  width: 20vw;
+}
+#logs > div > span:nth-child(2) {
+  align-items: flex-start;
+  flex-direction: column;
+}
+#logs span img {
+  height: 48px;
+  width: 48px;
+  border-radius: 2rem;
+}
+#logs .badge {
+  padding: 2px 4px;
+  font-size: 75%;
+  margin-left: 5px;
+  border-radius: 0.5rem;
+  background-color: var(--bg-3);
+}

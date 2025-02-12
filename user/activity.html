@@ -13,71 +13,19 @@
     <meta property="og:image" content="https://fsh.plus/fsh.png"/>
     <meta name="theme-color" content="#a89c9b">
     <!-- ------------------ -->
-    <link rel="stylesheet" href="/media/style.css">
+    <link rel="stylesheet" href="/media/user.css">
     <script src="/media/script.js"></script>
-    <style>
-      #logs {
-        display: flex;
-        gap: 15px;
-        flex-direction: column;
-      }
-      #logs > div {
-        display: flex;
-        align-items: center;
-        margin: 0px 10px;
-        padding: 10px;
-        border-radius: 0.5rem;
-        background-color: var(--bg-2);
-      }
-      #logs > div > span {
-        display: flex;
-        align-items: center;
-      }
-      #logs > div > span:nth-child(1) {
-        width: 20vw;
-      }
-      #logs > div > span:nth-child(2) {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-      span img {
-        height: 48px;
-        width: 48px;
-        border-radius: 2rem;
-      }
-      .badge {
-        padding: 2px 4px;
-        font-size: 75%;
-        margin-left: 5px;
-        border-radius: 0.5rem;
-        background-color: var(--bg-3);
-      }
-    </style>
   </head>
   <body>
-    <a href="/user"><button>Back</button></a>
+    <nav></nav>
     <main>
       <div id="logs"></div>
       <script>
-        function text(event, data, strings, extra) {
-          if (['server:backup.start'].includes(event)) extra = false;
-          let sep = event.split(':');
-          let sel = strings[sep[0]]
-          sep = sep[1].split('.');
-          sel = sel[sep[0]];
-          if (extra && (!event.startsWith('server:')||event==='server:subuser.create')) {
-            // something should be here
-          } else if (extra && event.startsWith('server:')) {
-            sep[1] += (data.files.length > 1 ? '_other' : '_one');
-          }
-          if (sep[1]) sel = sel[sep[1]]
-          return sel.replaceAll(/\{\{.+?\}\}/g, function(match){return data[match.replaceAll('{{','').replaceAll('}}','')]});
-        }
-        const params = new URLSearchParams(location.search);
-        PT('account/activity?sort=-timestamp&include[]=actor&page='+(params.get('page')||'1'), function(l){
-          fetch('/media/activity.json')
-            .then(act=>act.json())
-            .then(act=>{
+        let params = new URLSearchParams(location.search);
+        fetch('/media/activity.json')
+          .then(act=>act.json())
+          .then(act=>{
+            PT(`account/activity?sort=-timestamp&include[]=actor&page=${(params.get('page')??'1')}`, function(l){
               document.getElementById('logs').innerHTML = l.data.map(p => {
                 p = p.attributes;
                 if (p.relationships.actor.attributes === null) {
@@ -99,7 +47,7 @@
   </span>
   <span>
     <label>${p.event}</label>
-    <label>${text(p.event, p.properties, act, p.has_additional_metadata)}</label>
+    <label>${ActivityText(p.event, p.properties, p.has_additional_metadata, act)}</label>
   </span>
 </div>`;
 /*{
@@ -110,5 +58,6 @@
         })
       </script>
     </main>
+    <script src="/media/user.js"></script>
   </body>
 </html>
