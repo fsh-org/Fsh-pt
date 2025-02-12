@@ -41,14 +41,15 @@
   </head>
   <body>
     <a id="Bback"><button>Back</button></a>
-    <div id="alloc"></div>
-    <script>
-      const params = new URLSearchParams(location.search);
-      document.getElementById('Bback').href = '/user/server?id='+params.get('id');
-      function getAlloc() {
-        PT(`servers/${params.get('id')}/network/allocations`, function(a){
-          a = a.data;
-          document.getElementById('alloc').innerHTML = a.map(p => {p=p.attributes;return `<div>
+    <main>
+      <div id="alloc"></div>
+      <script>
+        const params = new URLSearchParams(location.search);
+        document.getElementById('Bback').href = '/user/server?id='+params.get('id');
+        function getAlloc() {
+          PT(`servers/${params.get('id')}/network/allocations`, function(a){
+            a = a.data;
+            document.getElementById('alloc').innerHTML = a.map(p => {p=p.attributes;return `<div>
   <span>
     <label>IP</label>
     <label>${p.ip_alias || p.ip}</label>
@@ -64,18 +65,19 @@
     ${p.is_default ? '<label>Primary</label>' : '<button onclick="explode(`'+p.id+'`)">Delete</button><button onclick="primary(`'+p.id+'`)">Make Primary</button>'}
   </span>
 </div>`}).join('')
-        })
-      }
-      getAlloc();
-      function note(id, that) {
-        PT(`servers/${params.get('id')}/network/allocations/${id}`, function(){getAlloc()}, 'POST', JSON.stringify({notes: that.value}))
-      }
-      function primary(id) {
-        PT(`servers/${params.get('id')}/network/allocations/${id}/primary`, function(){getAlloc()}, 'POST')
-      }
-      function explode(id) {
-        PT(`servers/${params.get('id')}/network/allocations/${id}`, function(){getAlloc()}, 'DELETE')
-      }
-    </script>
+          })
+        }
+        getAlloc();
+        function note(id, that) {
+          PT(`servers/${params.get('id')}/network/allocations/${id}`, function(){getAlloc()}, 'POST', JSON.stringify({notes: that.value}))
+        }
+        function primary(id) {
+          PT(`servers/${params.get('id')}/network/allocations/${id}/primary`, function(){getAlloc()}, 'POST')
+        }
+        function explode(id) {
+          PT(`servers/${params.get('id')}/network/allocations/${id}`, function(){getAlloc()}, 'DELETE')
+        }
+      </script>
+    </main>
   </body>
 </html>

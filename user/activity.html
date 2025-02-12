@@ -56,37 +56,38 @@
   </head>
   <body>
     <a href="/user"><button>Back</button></a>
-    <div id="logs"></div>
-    <script>
-      function text(event, data, strings, extra) {
-        if (['server:backup.start'].includes(event)) extra = false;
-        let sep = event.split(':');
-        let sel = strings[sep[0]]
-        sep = sep[1].split('.');
-        sel = sel[sep[0]];
-        if (extra && (!event.startsWith('server:')||event==='server:subuser.create')) {
-          // something should be here
-        } else if (extra && event.startsWith('server:')) {
-          sep[1] += (data.files.length > 1 ? '_other' : '_one');
+    <main>
+      <div id="logs"></div>
+      <script>
+        function text(event, data, strings, extra) {
+          if (['server:backup.start'].includes(event)) extra = false;
+          let sep = event.split(':');
+          let sel = strings[sep[0]]
+          sep = sep[1].split('.');
+          sel = sel[sep[0]];
+          if (extra && (!event.startsWith('server:')||event==='server:subuser.create')) {
+            // something should be here
+          } else if (extra && event.startsWith('server:')) {
+            sep[1] += (data.files.length > 1 ? '_other' : '_one');
+          }
+          if (sep[1]) sel = sel[sep[1]]
+          return sel.replaceAll(/\{\{.+?\}\}/g, function(match){return data[match.replaceAll('{{','').replaceAll('}}','')]});
         }
-        if (sep[1]) sel = sel[sep[1]]
-        return sel.replaceAll(/\{\{.+?\}\}/g, function(match){return data[match.replaceAll('{{','').replaceAll('}}','')]});
-      }
-      const params = new URLSearchParams(location.search);
-      PT('account/activity?sort=-timestamp&include[]=actor&page='+(params.get('page')||'1'), function(l){
-        fetch('/media/activity.json')
-          .then(act=>act.json())
-          .then(act=>{
-            document.getElementById('logs').innerHTML = l.data.map(p => {
-              p = p.attributes;
-              if (p.relationships.actor.attributes === null) {
-                p.relationships.actor.attributes = {
-                  username: 'System',
-                  image: '/media/system.svg',
-                  is_api: false
-                }
-              };
-              return `<div>
+        const params = new URLSearchParams(location.search);
+        PT('account/activity?sort=-timestamp&include[]=actor&page='+(params.get('page')||'1'), function(l){
+          fetch('/media/activity.json')
+            .then(act=>act.json())
+            .then(act=>{
+              document.getElementById('logs').innerHTML = l.data.map(p => {
+                p = p.attributes;
+                if (p.relationships.actor.attributes === null) {
+                  p.relationships.actor.attributes = {
+                    username: 'System',
+                    image: '/media/system.svg',
+                    is_api: false
+                  }
+                };
+                return `<div>
   <span>
     <img src="${p.relationships.actor.attributes.image}">
     <span>
@@ -104,9 +105,10 @@
 /*{
   "timestamp": "2024-08-28T20:43:17+02:00"
 }*/
-            }).join('')
-          })
-      })
-    </script>
+              }).join('')
+            })
+        })
+      </script>
+    </main>
   </body>
 </html>

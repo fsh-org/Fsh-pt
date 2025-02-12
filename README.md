@@ -5,6 +5,7 @@ This works for both client and application api keys, even tho it may not support
 ## Compatibility
 - [ ] User
   - [ ] Servers
+    - [ ] Search
     - [x] View
     - [x] Files (Redesing pending)
     - [ ] Databases
@@ -19,7 +20,7 @@ This works for both client and application api keys, even tho it may not support
     - [ ] View / Edit
     - [ ] Api keys
     - [ ] SSH keys
-    - [ ] Activity
+    - [x] Activity
 - [ ] Application
   - [ ] Users
   - [ ] Nodes

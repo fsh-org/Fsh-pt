@@ -78,179 +78,180 @@
   </head>
   <body>
     <a href="/user/servers"><button>Back</button></a>
-    <div style="display:flex;align-items:center;">
-      <div id="state">
-        <h1 id="name">Name</h1>
-        <label id="desc">Desc</label>
-        <label id="node" class="subtext">Node</label>
+    <main>
+      <div style="display:flex;align-items:center;">
+        <div id="state">
+          <h1 id="name">Name</h1>
+          <label id="desc">Desc</label>
+          <label id="node" class="subtext">Node</label>
+        </div>
+        <div style="flex-grow:1"></div>
+        <div style="display:flex;align-items:center;flex-wrap:wrap;" class="big">
+          <button onclick="power('start')"><i class="fa-solid fa-play"></i></button>
+          <button onclick="power('restart')"><i class="fa-solid fa-rotate-right"></i></button>
+          <button onclick="power('stop')"><i class="fa-solid fa-stop"></i></button>
+          <button onclick="power('kill')" style="background-color:var(--red-2)"><i class="fa-solid fa-skull"></i></button>
+        </div>
       </div>
-      <div style="flex-grow:1"></div>
-      <div style="display:flex;align-items:center;flex-wrap:wrap;" class="big">
-        <button onclick="power('start')"><i class="fa-solid fa-play"></i></button>
-        <button onclick="power('restart')"><i class="fa-solid fa-rotate-right"></i></button>
-        <button onclick="power('stop')"><i class="fa-solid fa-stop"></i></button>
-        <button onclick="power('kill')" style="background-color:var(--red-2)"><i class="fa-solid fa-skull"></i></button>
+      <div class="vals">
+        <div>
+          <i class="fa-solid fa-microchip"></i>
+          <span id="cpu"><span id="cpu-i">0%</span>/0%</span>
+        </div>
+        <div>
+          <i class="fa-solid fa-memory"></i>
+          <span id="ram"><span id="ram-i">0B</span>/0B</span>
+        </div>
+        <div>
+          <svg width="20" height="20" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M8 55C8 41.1929 19.1929 30 33 30H223C236.807 30 248 41.1929 248 55V123.6C248 124.001 247.475 124.15 247.265 123.809V123.809C244.384 119.145 239.704 115.878 234.333 114.782L233.833 114.68C231.617 114.228 229.36 114 227.098 114H30.6335C28.2166 114 25.8052 114.23 23.4319 114.686L22.8355 114.801C17.1667 115.891 12.1404 119.134 8.81135 123.851V123.851C8.5601 124.207 8 124.029 8 123.593V55Z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M8 143.601C8 132.555 16.9543 123.601 28 123.601H228C239.046 123.601 248 132.555 248 143.601V188.934C248 199.98 239.046 208.934 228 208.934H28C16.9543 208.934 8 199.98 8 188.934V143.601ZM227.733 166.267C227.733 175.104 220.57 182.267 211.733 182.267C202.897 182.267 195.733 175.104 195.733 166.267C195.733 157.431 202.897 150.267 211.733 150.267C220.57 150.267 227.733 157.431 227.733 166.267ZM166.933 182.267C175.77 182.267 182.933 175.104 182.933 166.267C182.933 157.431 175.77 150.267 166.933 150.267C158.097 150.267 150.933 157.431 150.933 166.267C150.933 175.104 158.097 182.267 166.933 182.267Z"></path></svg>
+          <span id="disk"><span id="disk-i">0B</span>/0B</span>
+        </div>
+        <div>
+          <i class="fa-solid fa-cloud-arrow-down"></i>
+          <span id="rx">0B</span>
+        </div>
+        <div>
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span id="tx">0B</span>
+        </div>
+        <div>
+          <i class="fa-solid fa-network-wired"></i>
+          <a id="uop" target="_blank" class="hide-a"><span id="url" style="cursor:pointer">URL</span></a>
+        </div>
+        <div>
+          <svg width="20" height="20" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M128.641 213.158C175.918 213.158 214.244 174.832 214.244 127.555C214.244 80.2782 175.918 41.9526 128.641 41.9526C81.3644 41.9526 43.0388 80.2782 43.0388 127.555C43.0388 174.832 81.3644 213.158 128.641 213.158ZM236.244 127.555C236.244 186.982 188.069 235.158 128.641 235.158C69.2141 235.158 21.0388 186.982 21.0388 127.555C21.0388 68.1279 69.2141 19.9526 128.641 19.9526C188.069 19.9526 236.244 68.1279 236.244 127.555ZM116 131.178C116 135.113 118.066 138.565 121.172 140.509C121.752 140.952 122.384 141.343 123.066 141.673L154.363 156.817C159.832 159.463 166.41 157.175 169.056 151.706C171.702 146.238 169.414 139.659 163.946 137.013L138 124.459V79C138 72.9249 133.075 68 127 68C120.925 68 116 72.9249 116 79V131.178Z"/></svg>
+          <span id="up">0s</span>
+        </div>
       </div>
-    </div>
-    <div class="vals">
       <div>
-        <i class="fa-solid fa-microchip"></i>
-        <span id="cpu">0%/0%</span>
+        <a id="Bfiles"><button>Files</button></a>
+        <a id="Bdat"><button disabled>Databases</button></a>
+        <a id="Bsch"><button disabled>Schedules</button></a>
+        <a id="Busr"><button disabled>Users</button></a>
+        <a id="Bbku"><button disabled>Backups</button></a>
+        <a id="Bnet"><button>Network</button></a>
+        <a id="Bsta"><button disabled>Startup</button></a>
+        <a id="Bset"><button disabled>Settings</button></a>
+        <a id="Bact"><button>Activity</button></a>
       </div>
-      <div>
-        <i class="fa-solid fa-memory"></i>
-        <span id="ram">0B/0B</span>
+      <div class="console">
+        <p id="console-output"></p>
+        <span class="console-command">
+          <input placeholder="Server command" id="console-cmd" onkeyup="if(event.key==='Enter'){sendCommand()}">
+          <button onkeyup="sendCommand()" style="display:flex;align-items:center;justify-content:center;height:29px;width:29px;"><svg width="20" height="20" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M207.598 122.081C212.164 124.251 212.164 130.749 207.598 132.919L49.0158 208.289C44.8464 210.271 40.448 206.026 42.2802 201.789L69.0058 139.982C69.2652 139.382 69.8013 138.947 70.4418 138.816L116.308 129.46C118.441 129.024 118.441 125.976 116.308 125.54L70.4417 116.183C69.8013 116.053 69.2652 115.618 69.0058 115.018L42.2802 53.2112C40.448 48.9739 44.8464 44.7292 49.0158 46.7108L207.598 122.081Z"></path></svg></button>
+        </span>
       </div>
-      <div>
-        <svg width="20" height="20" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M8 55C8 41.1929 19.1929 30 33 30H223C236.807 30 248 41.1929 248 55V123.6C248 124.001 247.475 124.15 247.265 123.809V123.809C244.384 119.145 239.704 115.878 234.333 114.782L233.833 114.68C231.617 114.228 229.36 114 227.098 114H30.6335C28.2166 114 25.8052 114.23 23.4319 114.686L22.8355 114.801C17.1667 115.891 12.1404 119.134 8.81135 123.851V123.851C8.5601 124.207 8 124.029 8 123.593V55Z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M8 143.601C8 132.555 16.9543 123.601 28 123.601H228C239.046 123.601 248 132.555 248 143.601V188.934C248 199.98 239.046 208.934 228 208.934H28C16.9543 208.934 8 199.98 8 188.934V143.601ZM227.733 166.267C227.733 175.104 220.57 182.267 211.733 182.267C202.897 182.267 195.733 175.104 195.733 166.267C195.733 157.431 202.897 150.267 211.733 150.267C220.57 150.267 227.733 157.431 227.733 166.267ZM166.933 182.267C175.77 182.267 182.933 175.104 182.933 166.267C182.933 157.431 175.77 150.267 166.933 150.267C158.097 150.267 150.933 157.431 150.933 166.267C150.933 175.104 158.097 182.267 166.933 182.267Z"></path></svg>
-        <span id="disk">0B/0B</span>
-      </div>
-      <div>
-        <i class="fa-solid fa-cloud-arrow-down"></i>
-        <span id="rx">0B</span>
-      </div>
-      <div>
-        <i class="fa-solid fa-cloud-arrow-up"></i>
-        <span id="tx">0B</span>
-      </div>
-      <div>
-        <i class="fa-solid fa-network-wired"></i>
-        <a id="uop" target="_blank" class="hide-a"><span id="url" style="cursor:pointer">URL</span></a>
-      </div>
-      <div>
-        <svg width="20" height="20" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M128.641 213.158C175.918 213.158 214.244 174.832 214.244 127.555C214.244 80.2782 175.918 41.9526 128.641 41.9526C81.3644 41.9526 43.0388 80.2782 43.0388 127.555C43.0388 174.832 81.3644 213.158 128.641 213.158ZM236.244 127.555C236.244 186.982 188.069 235.158 128.641 235.158C69.2141 235.158 21.0388 186.982 21.0388 127.555C21.0388 68.1279 69.2141 19.9526 128.641 19.9526C188.069 19.9526 236.244 68.1279 236.244 127.555ZM116 131.178C116 135.113 118.066 138.565 121.172 140.509C121.752 140.952 122.384 141.343 123.066 141.673L154.363 156.817C159.832 159.463 166.41 157.175 169.056 151.706C171.702 146.238 169.414 139.659 163.946 137.013L138 124.459V79C138 72.9249 133.075 68 127 68C120.925 68 116 72.9249 116 79V131.178Z"/></svg>
-        <span id="up">0s</span>
-      </div>
-    </div>
-    <div>
-      <a id="Bfiles"><button>Files</button></a>
-      <a id="Bdat"><button disabled>Databases</button></a>
-      <a id="Bsch"><button disabled>Schedules</button></a>
-      <a id="Busr"><button disabled>Users</button></a>
-      <a id="Bbku"><button disabled>Backups</button></a>
-      <a id="Bnet"><button>Network</button></a>
-      <a id="Bsta"><button disabled>Startup</button></a>
-      <a id="Bset"><button disabled>Settings</button></a>
-      <a id="Bact"><button>Activity</button></a>
-    </div>
-    <div class="console">
-      <p id="console-output"></p>
-      <span class="console-command">
-        <input placeholder="Server command" id="console-cmd" onkeyup="if(event.key==='Enter'){sendCommand()}">
-        <button onkeyup="sendCommand()" style="display:flex;align-items:center;justify-content:center;height:29px;width:29px;"><svg width="20" height="20" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M207.598 122.081C212.164 124.251 212.164 130.749 207.598 132.919L49.0158 208.289C44.8464 210.271 40.448 206.026 42.2802 201.789L69.0058 139.982C69.2652 139.382 69.8013 138.947 70.4418 138.816L116.308 129.46C118.441 129.024 118.441 125.976 116.308 125.54L70.4417 116.183C69.8013 116.053 69.2652 115.618 69.0058 115.018L42.2802 53.2112C40.448 48.9739 44.8464 44.7292 49.0158 46.7108L207.598 122.081Z"></path></svg></button>
-      </span>
-    </div>
-    <script>
-      const params = new URLSearchParams(location.search);
+      <script>
+        const params = new URLSearchParams(location.search);
 
-      // Console
-      let pt_console = new EventSource(`https://api.fsh.plus/pt-console?id=${params.get('id')}&host=${localStorage.getItem('domain')}&key=${localStorage.getItem('key')}`)
+        // Console
+        let pt_console = new EventSource(`https://api.fsh.plus/pt-console?id=${params.get('id')}&host=${localStorage.getItem('domain')}&key=${localStorage.getItem('key')}`)
 
-      const ansiCodes = {
-        '0': 'color: initial;',
-        '1': 'font-weight: bold;',
-        '30': 'color: var(--black-1);',
-        '31': 'color: var(--red-1);',
-        '32': 'color: var(--green-1);',
-        '33': 'color: var(--yellow-1);',
-        '34': 'color: var(--blue-1);',
-        '35': 'color: var(--purple-1);',
-        '36': 'color: var(--aqua-1);',
-        '37': 'color: var(--white-1);'
-      };
+        const ansiCodes = {
+          '0': 'color: initial;',
+          '1': 'font-weight: bold;',
+          '30': 'color: var(--black-1);',
+          '31': 'color: var(--red-1);',
+          '32': 'color: var(--green-1);',
+          '33': 'color: var(--yellow-1);',
+          '34': 'color: var(--blue-1);',
+          '35': 'color: var(--purple-1);',
+          '36': 'color: var(--aqua-1);',
+          '37': 'color: var(--white-1);'
+        };
 
-      function ansiParse(text) {
-        // Actions
-        if ((text.match(/\x1b\[[0-9]*?J/)??[])[0]) {
-          document.getElementById('console-output').innerText = '';
-          text = text.split(/\x1b\[[0-9]*?J/).slice(-1)[0];
+        function ansiParse(text) {
+          // Actions
+          if ((text.match(/\x1b\[[0-9]*?J/)??[])[0]) {
+            document.getElementById('console-output').innerText = '';
+            text = text.split(/\x1b\[[0-9]*?J/).slice(-1)[0];
+          }
+          // Colors
+          text = text
+            .replaceAll(/\x1b\[39m/g, '</span>')
+            .replaceAll(/\x1b\[22m/g, '</span>')
+            .replaceAll(/\x1b\[(\d+)(;\d+)*m/g, (_, primary, other) => {
+              let style = ansiCodes[primary] ?? '';
+              if (other) {
+                other = other.split(';').map(code => code.replace(';', '')).forEach(code => style += ansiCodes[code] ?? '');
+              }
+              return `<span style="${style}">`;
+            })
+            .replaceAll(/\x1b\[0m/g, '</span>');
+          // Actions
+          text = text
+            .replace(/^[^º]*\x1b\[[0-9](G|K)/m, '');
+          return text;
         }
-        // Colors
-        text = text
-          .replaceAll(/\x1b\[39m/g, '</span>')
-          .replaceAll(/\x1b\[22m/g, '</span>')
-          .replaceAll(/\x1b\[(\d+)(;\d+)*m/g, (_, primary, other) => {
-            let style = ansiCodes[primary] ?? '';
-            if (other) {
-              other = other.split(';').map(code => code.replace(';', '')).forEach(code => style += ansiCodes[code] ?? '');
-            }
-            return `<span style="${style}">`;
+
+        pt_console.onmessage = (event) => {
+          let ev = JSON.parse(event.data);
+          if (ev.event == 'auth success') {
+            // Cool
+          } else if (ev.event == 'stats') {
+            let s = JSON.parse(ev.args[0]);
+            document.getElementById('state').classList = [];
+            document.getElementById('state').classList.add('status-'+s.state);
+            document.getElementById('cpu-i').innerText = s.cpu_absolute+'%';
+            document.getElementById('ram-i').innerText = formatBytes(s.memory_bytes);
+            document.getElementById('disk-i').innerText = formatBytes(s.disk_bytes);
+            document.getElementById('rx').innerText = formatBytes(s.network.rx_bytes);
+            document.getElementById('tx').innerText = formatBytes(s.network.tx_bytes);
+            document.getElementById('up').innerText = time_gud(Math.floor(s.uptime/1000));
+          } else if (ev.event == 'status') {
+            document.getElementById('state').classList = [];
+            document.getElementById('state').classList.add('status-'+ev.args[0]);
+          } else if (ev.event == 'console output') {
+            document.getElementById('console-output').insertAdjacentHTML('afterbegin', ev.args.map(e=>`<p>${ansiParse(e)}</p>`).join());
+          } else if (ev.event == 'install output') {
+            document.getElementById('console-output').insertAdjacentHTML('afterbegin', ev.args.map(e=>`<p style="color: var(--blue-1)">[Pterodactyl Daemon]: ${ansiParse(e)}</p>`).join());
+          } else if (ev.event == 'install completed') {
+            document.getElementById('console-output').innerText = '';
+          } else {
+            document.getElementById('console-output').insertAdjacentHTML('afterbegin', `<p>${event.data}</p>`);
+          }
+        };
+
+        // Pages
+        document.getElementById('Bfiles').href = '/user/server/file?id='+params.get('id')+'&file=&f=false';
+        //document.getElementById('Bdat').href = '/user/server/databases?id='+params.get('id');
+        //document.getElementById('Bsch').href = '/user/server/schedules?id='+params.get('id');
+        //document.getElementById('Busr').href = '/user/server/users?id='+params.get('id');
+        //document.getElementById('Bbku').href = '/user/server/backups?id='+params.get('id');
+        document.getElementById('Bnet').href = '/user/server/network?id='+params.get('id');
+        //document.getElementById('Bsta').href = '/user/server/startup?id='+params.get('id');
+        //document.getElementById('Bset').href = '/user/server/settings?id='+params.get('id');
+        document.getElementById('Bact').href = '/user/server/activity?id='+params.get('id');
+        PT(`servers/${params.get('id')}`, function(s){
+          s = s.attributes;
+          if (s.is_suspended) {
+            location.href = '/user/servers';
+            return;
+          }
+          PT(`servers/${params.get('id')}/resources`, function(d){
+            d = d.attributes;
+            document.getElementById('name').innerHTML = s.name;
+            document.getElementById('desc').innerHTML = s.description;
+            document.getElementById('node').innerHTML = s.node;
+            document.getElementById('state').classList.add(s.is_installing ? 'status-installing' : 'status-'+d.current_state);
+            document.getElementById('url').innerHTML = `${s.relationships.allocations.data[0].attributes.ip_alias ?? s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}`;
+            document.getElementById('uop').href = `http://${s.relationships.allocations.data[0].attributes.ip_alias ?? s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}`;
+            document.getElementById('cpu').innerHTML = `<span id="cpu-i">${d.resources.cpu_absolute}%</span>${s.limits.cpu == 0 ? '' : `/${s.limits.cpu}%`}`;
+            document.getElementById('ram').innerHTML = `<span id="ram-i">${formatBytes(d.resources.memory_bytes)}</span>${s.limits.memory == 0 ? '' : '/'+formatBytes(s.limits.memory)}`;
+            document.getElementById('disk').innerHTML = `<span id="disk-i">${formatBytes(d.resources.disk_bytes)}</span>${s.limits.disk == 0 ? '' : '/'+formatBytes(s.limits.disk*1024*1024)}`;
+            document.getElementById('rx').innerHTML = formatBytes(d.resources.network_rx_bytes);
+            document.getElementById('tx').innerHTML = formatBytes(d.resources.network_tx_bytes);
+            document.getElementById('up').innerHTML = time_gud(Math.floor(d.resources.uptime/1000));
           })
-          .replaceAll(/\x1b\[0m/g, '</span>');
-        // Actions
-        text = text
-          .replace(/^[^º]*\x1b\[[0-9](G|K)/m, '');
-        return text;
-      }
-
-      pt_console.onmessage = (event) => {
-        let ev = JSON.parse(event.data);
-        if (ev.event == 'auth success') {
-          // Cool
-        } else if (ev.event == 'stats') {
-          let s = JSON.parse(ev.args[0]);
-          document.getElementById('state').classList = [];
-          document.getElementById('state').classList.add('status-'+s.state);
-          document.getElementById('cpu-i').innerText = s.cpu_absolute+'%';
-          document.getElementById('ram-i').innerText = formatBytes(s.memory_bytes);
-          document.getElementById('disk-i').innerText = formatBytes(s.disk_bytes);
-          document.getElementById('rx').innerText = formatBytes(s.network.rx_bytes);
-          document.getElementById('tx').innerText = formatBytes(s.network.tx_bytes);
-          document.getElementById('up').innerText = time_gud(Math.floor(s.uptime/1000));
-        } else if (ev.event == 'status') {
-          document.getElementById('state').classList = [];
-          document.getElementById('state').classList.add('status-'+ev.args[0]);
-        } else if (ev.event == 'console output') {
-          document.getElementById('console-output').insertAdjacentHTML('afterbegin', ev.args.map(e=>`<p>${ansiParse(e)}</p>`).join());
-        } else if (ev.event == 'install output') {
-          document.getElementById('console-output').insertAdjacentHTML('afterbegin', ev.args.map(e=>`<p style="color: var(--blue-1)">[Pterodactyl Daemon]: ${ansiParse(e)}</p>`).join());
-        } else if (ev.event == 'install completed') {
-          document.getElementById('console-output').innerText = '';
-        } else {
-          document.getElementById('console-output').insertAdjacentHTML('afterbegin', `<p>${event.data}</p>`);
-        }
-      };
-
-      // Pages
-      document.getElementById('Bfiles').href = '/user/server/file?id='+params.get('id')+'&file=&f=false';
-      //document.getElementById('Bdat').href = '/user/server/databases?id='+params.get('id');
-      //document.getElementById('Bsch').href = '/user/server/schedules?id='+params.get('id');
-      //document.getElementById('Busr').href = '/user/server/users?id='+params.get('id');
-      //document.getElementById('Bbku').href = '/user/server/backups?id='+params.get('id');
-      document.getElementById('Bnet').href = '/user/server/network?id='+params.get('id');
-      //document.getElementById('Bsta').href = '/user/server/startup?id='+params.get('id');
-      //document.getElementById('Bset').href = '/user/server/settings?id='+params.get('id');
-      document.getElementById('Bact').href = '/user/server/activity?id='+params.get('id');
-      PT(`servers/${params.get('id')}`, function(s){
-        s = s.attributes;
-        if (s.is_suspended) {
-          location.href = '/user/servers';
-          return;
-        }
-        PT(`servers/${params.get('id')}/resources`, function(d){
-          d = d.attributes;
-          document.getElementById('name').innerHTML = s.name;
-          document.getElementById('desc').innerHTML = s.description;
-          document.getElementById('node').innerHTML = s.node;
-          document.getElementById('state').classList.add(s.is_installing ? 'status-installing' : 'status-'+d.current_state);
-          document.getElementById('url').innerHTML = `${s.relationships.allocations.data[0].attributes.ip_alias ?? s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}`;
-          document.getElementById('uop').href = `http://${s.relationships.allocations.data[0].attributes.ip_alias ?? s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}`;
-          document.getElementById('cpu').innerHTML = `<span id="cpu-i">${d.resources.cpu_absolute}%</span>${s.limits.cpu == 0 ? '' : `/${s.limits.cpu}%`}`;
-          document.getElementById('ram').innerHTML = `<span id="ram-i">${formatBytes(d.resources.memory_bytes)}</span>${s.limits.memory == 0 ? '' : '/'+formatBytes(s.limits.memory)}`;
-          document.getElementById('disk').innerHTML = `<span id="disk-i">${formatBytes(d.resources.disk_bytes)}</span>${s.limits.disk == 0 ? '' : '/'+formatBytes(s.limits.disk*1024*1024)}`;
-          document.getElementById('rx').innerHTML = formatBytes(d.resources.network_rx_bytes);
-          document.getElementById('tx').innerHTML = formatBytes(d.resources.network_tx_bytes);
-          document.getElementById('up').innerHTML = time_gud(Math.floor(d.resources.uptime/1000));
         })
-      })
-      function power(ac) {
-        PT(`servers/${params.get('id')}/power`, ()=>{}, 'POST', JSON.stringify({signal: ac}));
-      }
-      function sendCommand() {
-        let val = document.getElementById('console-cmd').value;
-        document.getElementById('console-cmd').value = '';
-        PT(`servers/${params.get('id')}/command`, ()=>{}, 'POST', JSON.stringify({command: val}));
-      }
+        function power(ac) {
+          PT(`servers/${params.get('id')}/power`, ()=>{}, 'POST', JSON.stringify({signal: ac}));
+        }
+        function sendCommand() {
+          let val = document.getElementById('console-cmd').value;
+          document.getElementById('console-cmd').value = '';
+          PT(`servers/${params.get('id')}/command`, ()=>{}, 'POST', JSON.stringify({command: val}));
+        }
 /*
 ctx.clearRect(0,0,999,999)
 ctx.beginPath();
@@ -262,6 +263,7 @@ for (let i = 1; i < points.length; i++) {
 ctx.lineWidth = 2;
 ctx.stroke();
 */
-    </script>
+      </script>
+    </main>
   </body>
 </html>

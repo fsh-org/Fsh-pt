@@ -1,0 +1,27 @@
+body {
+  display: flex;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+nav {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 12vw;
+  height: 100%;
+  padding: 10px 15px;
+  background-color: var(--bg-2);
+  box-sizing: border-box;
+}
+nav hr {
+  width: 100%;
+}
+
+main {
+  flex: 1;
+}
