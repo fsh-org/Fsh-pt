@@ -91,10 +91,10 @@ function ActivityText(event, data, extra, strings) {
   let sel = strings[sep[0]];
   sep = sep[1].split('.');
   sel = sel[sep[0]];
-  if (extra && event.startsWith('server:')) {
-    sep[1] += (data.files.length > 1 ? '_other' : '_one');
-  } else if (extra && (!event.startsWith('server:')||event==='server:subuser.create')) {
+  if (extra && (!event.startsWith('server:')||event==='server:subuser.create')) {
     // something should be here
+  } else if (extra && event.startsWith('server:')) {
+    sep[1] += (data.files.length > 1 ? '_other' : '_one');
   }
   if (sep[1]) sel = sel[sep[1]]
   return sel.replaceAll(/\{\{.+?\}\}/g, function(match){return data[match.replaceAll('{{','').replaceAll('}}','')]});

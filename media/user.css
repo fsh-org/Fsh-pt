@@ -45,6 +45,7 @@ main {
   align-items: center;
 }
 #logs > div > span:nth-child(1) {
+  gap: 5px;
   width: 20vw;
 }
 #logs > div > span:nth-child(2) {
