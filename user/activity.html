@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Network view - Fsh Pterodactyl Panel</title>
+    <title>Activity - Fsh Pterodactyl Panel</title>
     <!-- Boiler plate------ -->
     <link rel="icon" href="https://fsh.plus/fsh.png" type="image/png">
     <meta name="description" content="A pterodactyl panel replacement. View your activity (login required).">
@@ -42,17 +42,17 @@
       <label>${p.relationships.actor.attributes.username}</label>
       ${p.is_api ? '<label class="badge">API</label>' : ''}
       <br>
-      <label class="subtext">${p.ip}</label>
+      <label style="font-size:75%">${p.ip}</label>
     </span>
   </span>
   <span>
     <label>${p.event}</label>
     <label>${ActivityText(p.event, p.properties, p.has_additional_metadata, act)}</label>
   </span>
+  <span>
+    <label>${time_gud(Math.floor((Date.now()-new Date(p.timestamp).getTime())/1000))}ago</label>
+  </span>
 </div>`;
-/*{
-  "timestamp": "2024-08-28T20:43:17+02:00"
-}*/
               }).join('')
             })
         })

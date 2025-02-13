@@ -31,6 +31,8 @@ main {
   display: flex;
   gap: 15px;
   flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
 }
 #logs > div {
   display: flex;
@@ -43,10 +45,10 @@ main {
 #logs > div > span {
   display: flex;
   align-items: center;
+  width: 20vw;
 }
 #logs > div > span:nth-child(1) {
   gap: 5px;
-  width: 20vw;
 }
 #logs > div > span:nth-child(2) {
   align-items: flex-start;
