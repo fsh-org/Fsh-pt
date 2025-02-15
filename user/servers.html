@@ -54,7 +54,7 @@
           }
           data.data.forEach(s => {
             s = s.attributes;
-            document.getElementById('list').insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}''})"`}>
+            document.getElementById('list').insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}'})"`}>
   <div>
     <label class="server-title">${s.name}</label>
     <br>

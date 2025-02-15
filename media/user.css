@@ -58,6 +58,7 @@ main {
 .server {
   display: flex;
   align-items: center;
+  cursor: pointer;
   margin: 10px;
   padding: 10px;
   border-radius: 0.5rem;
@@ -68,6 +69,9 @@ main {
 }
 .server:hover {
   background-color: var(--bg-3);
+}
+.server * {
+  cursor: pointer;
 }
 .server div {
   flex: 1;
