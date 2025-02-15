@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Search - Fsh Pterodactyl Panel</title>
+    <!-- Boiler plate------ -->
+    <link rel="icon" href="https://fsh.plus/fsh.png" type="image/png">
+    <meta name="description" content="A pterodactyl panel replacement. Search your servers (login required).">
+    <!-- ------- -->
+    <link rel="stylesheet" href="https://fsh.plus/media/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="https://fsh.plus/fsh.png"/>
+    <meta name="theme-color" content="#a89c9b">
+    <!-- ------------------ -->
+    <link rel="stylesheet" href="/media/user.css">
+    <script src="/media/script.js"></script>
+  </head>
+  <body>
+    <nav></nav>
+    <main>
+      <div style="display:flex;gap:5px;align-items:center;">
+        <input id="input" onkeyup="if(event.key==='Enter')search();" placeholder="Search query">
+        <button onclick="search()">Search</button>
+        <div id="admin-other" style="display:inline;margin:0px 10px;">
+          <label for="admin">Other servers</label>
+          <input type="checkbox" onchange="admin(this)" id="admin">
+        </div>
+      </div>
+      <p id="warn" style="color:var(--red-1)"></p>
+      <div id="results"></div>
+      <script>
+        let query = new URLSearchParams(location.search);
+
+        PT('account', function(user){
+          if (user.attributes.admin) {
+            document.getElementById('admin-other').style.display = 'flex';
+          }
+          if (query.has("admin")) {
+            document.getElementById('admin').checked = (query.get("admin")==='true');
+          }
+        })
+        function search() {
+          let input = document.getElementById('input').value.trim();
+          document.getElementById('warn').innerText = (input.length<3)?'You need atleast 3 characters to search.':'';
+          PT(`?${document.getElementById('admin').checked?'type=admin-all&':''}filter[*]=${encodeURIComponent(input)}`, function(res){
+            res.data.forEach(s => {
+              s = s.attributes;
+              document.getElementById('results').insertAdjacentHTML('beforeend', `<a${s.is_suspended ? '' : ` href="/user/server?id=${s.identifier}"`}>
+  <div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}">
+    <div>
+      <label class="server-title">${s.name}</label>
+      <br>
+      <label class="subtext">${s.description??''}</label>
+    </div>
+    <div>
+      <label>${s.node}</label>
+      <br>
+      <label>${s.relationships.allocations.data[0].attributes.ip_alias ? s.relationships.allocations.data[0].attributes.ip_alias : s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>
+      ${s.relationships.allocations.data[0].attributes.ip_alias ? `<br><label class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>` : ''}
+    </div>
+    <div>
+      <label${(s.is_installing || s.is_suspended) ? '' : ' style="transition:250ms;opacity:0;"'}>${s.is_installing ? 'Installing...' : ''}${s.is_suspended ? 'Suspended' : ''}</label>
+      <br>
+      <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk*1024)}</label>
+    </div>
+  </div>
+</a>`)
+              if (!(s.is_installing || s.is_suspended)) {
+                let script = document.createElement('script');
+                script.textContent = `PT('servers/${s.identifier}/resources', function(d){
+  d = d.attributes;
+  let server = document.getElementById('${s.identifier}');
+  server.classList.add('status-'+d.current_state);
+  server.children[2].children[0].innerHTML = \`CPU: $\{(Math.floor(d.resources.cpu_absolute*100)/100)}% RAM: $\{formatBytes(d.resources.memory_bytes)} Disk: $\{formatBytes(d.resources.disk_bytes)}\`;
+  server.children[2].children[0].style.opacity = 1;
+})`;
+                document.getElementById(s.identifier).appendChild(script);
+              }
+            })
+          })
+        }
+      </script>
+    </main>
+    <script src="/media/user.js"></script>
+  </body>
+</html>

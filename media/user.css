@@ -24,6 +24,62 @@ nav hr {
 
 main {
   flex: 1;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Pages */
+.pages {
+  display: flex;
+  margin: 0px 10px;
+  justify-content: center;
+}
+.pages p {
+  flex: 1;
+  text-align: center;
+}
+
+/* Servers */
+.status-offline {
+  --status: var(--red-1);
+}
+.status-running {
+  --status: var(--green-1);
+}
+.status-starting {
+  --status: var(--yellow-1);
+}
+.status-installing {
+  --status: var(--blue-1);
+}
+.status-suspended {
+  --status: var(--red-2);
+}
+.server {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 0.5rem;
+  border-left: 8px var(--status) solid;
+  color: var(--text-1);
+  background-color: var(--bg-2);
+  transition: 250ms;
+}
+.server:hover {
+  background-color: var(--bg-3);
+}
+.server div {
+  flex: 1;
+}
+a:has(.server) {
+  text-decoration: none;
+}
+.server .server-title {
+  font-weight: bold;
+}
+.server label {
+  word-break: break-word;
 }
 
 /* Activity */
@@ -31,8 +87,6 @@ main {
   display: flex;
   gap: 15px;
   flex-direction: column;
-  height: 100%;
-  overflow-y: auto;
 }
 #logs > div {
   display: flex;
@@ -51,6 +105,7 @@ main {
   gap: 5px;
 }
 #logs > div > span:nth-child(2) {
+  flex: 1;
   align-items: flex-start;
   flex-direction: column;
 }

@@ -33,7 +33,7 @@ function PT(path, callback, method = 'GET', body = '') {
       if (!res.headers['content-type']?.includes('text/')) {
         con = JSON.parse(con);
         if (con.errors) {
-          alert(e.errors[0].detail);
+          alert(con.errors[0].detail);
           return;
         }
       }

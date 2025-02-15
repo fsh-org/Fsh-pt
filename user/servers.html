@@ -13,25 +13,11 @@
     <meta property="og:image" content="https://fsh.plus/fsh.png"/>
     <meta name="theme-color" content="#a89c9b">
     <!-- ------------------ -->
-    <link rel="stylesheet" href="/media/style.css">
+    <link rel="stylesheet" href="/media/user.css">
     <script src="/media/script.js"></script>
-    <style>
-      label {
-        word-break: break-word;
-      }
-      .pages {
-        display: flex;
-        margin: 0px 10px;
-        justify-content: center;
-      }
-      .pages p {
-        flex: 1;
-        text-align: center;
-      }
-    </style>
   </head>
   <body>
-    <button onclick="localStorage.removeItem('key');location.pathname='/'">Log out</button>
+    <nav></nav>
     <main>
       <div id="admin-other" style="display:none;margin:0px 5px 0px auto;width:fit-content;">
         <label for="admin">Other servers</label>
@@ -55,11 +41,9 @@
           }
         })
         let sq = new URLSearchParams('');
-        sq.set('page', query.get('page') || '1');
-        if (query.get('admin') === 'true') {
-          sq.set('type', 'admin');
-        }
-        PT(('?'+sq.toString()), function(data){
+        sq.set('page', query.get('page') ?? '1');
+        if (query.get('admin') === 'true') sq.set('type', 'admin');
+        PT('?'+sq.toString(), function(data){
           document.querySelector('.pages p').innerText = `${data.meta.pagination.current_page}/${data.meta.pagination.total_pages}`;
           if (data.meta.pagination.current_page > 1) {
             document.querySelectorAll('.pages button')[0].removeAttribute('disabled');
@@ -76,7 +60,7 @@
     <div>
       <label class="server-title">${s.name}</label>
       <br>
-      <label class="subtext">${s.description||''}</label>
+      <label class="subtext">${s.description??''}</label>
     </div>
     <div>
       <label>${s.node}</label>
@@ -105,17 +89,20 @@
           })
         })
         function admin(that) {
-          let nq = new URLSearchParams(location.search);
-          nq.set('admin', String(that.checked));
-          nq.set('page', '1')
-          location.href = location.origin+location.pathname+'?'+nq.toString();
+          loadPage('servers', {
+            page: 1,
+            admin: String(that.checked)
+          });
         }
         function page(sum) {
           let nq = new URLSearchParams(location.search);
-          nq.set('page', String(Number(nq.get('page')||'1')+sum))
-          location.href = location.origin+location.pathname+'?'+nq.toString();
+          loadPage('servers', {
+            page: String(Number(nq.get('page')??'1')+sum),
+            admin: nq.get('admin')
+          });
         }
       </script>
     </main>
+    <script src="/media/user.js"></script>
   </body>
 </html>
