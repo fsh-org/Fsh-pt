@@ -1,6 +1,7 @@
-const query = new URLSearchParams(location.search);
+let query = new URLSearchParams(location.search);
 
-document.querySelector('nav').innerHTML = `<button onclick="loadPage('servers')">Servers</button>
+window.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelector('nav').innerHTML = `<button onclick="loadPage('servers')">Servers</button>
 <button onclick="loadPage('search')">Search</button>
 <details>
   <summary><button onclick="loadPage('account')">Account</button></summary>
@@ -8,6 +9,7 @@ document.querySelector('nav').innerHTML = `<button onclick="loadPage('servers')"
 </details>
 <hr>
 <button onclick="localStorage.removeItem('key');location.pathname='/'">Log out</button>`;
+});
 
 function loadPage(name, data) {
   // Load page
@@ -16,16 +18,25 @@ function loadPage(name, data) {
     .then(res => {
       // Push state
       history.pushState({}, '', `${location.origin}/user/${name}?${new URLSearchParams(data).toString()}`);
+      query = new URLSearchParams(location.search);
       // Set title
       document.title = res.match(/<title>.*?<\/title>/)[0].slice(7, -8);
-      // Get main content
-      let con = res.match(/<main>([^¬]|¬)*?<\/main>/)[0];
-      // Run scripts
-      con.match(/<script>([^¬]|¬)*?<\/script>/g)
-        .map(s=>s.replaceAll(/<script>|<\/script>/g, ''))
-        .forEach(s=>eval(s)); // Scarry!!!!
-      // Set main content
-      document.querySelector('main').outerHTML = con;
+      function change() {
+        // Get & set main content
+        let con = res.match(/<main>([^¬]|¬)*?<\/main>/)[0];
+        document.querySelector('main').outerHTML = con;
+        // Run scripts
+        con.match(/<script>([^¬]|¬)*?<\/script>/g)
+          .map(s=>s.replaceAll(/<script>|<\/script>/g, ''))
+          .forEach(s=>eval(s)); // Scarry!!!!
+      }
+      if (document.startViewTransition) {
+        document.startViewTransition(() => {
+          change();
+        });
+      } else {
+        change();
+      }
     })
     .catch(err => {
       document.querySelector('main').innerHTML = `<p>There was an error getting this page</p><pre><code>${err}</code></pre>`;
