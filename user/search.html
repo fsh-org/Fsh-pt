@@ -15,6 +15,7 @@
     <!-- ------------------ -->
     <link rel="stylesheet" href="/media/user.css">
     <script src="/media/script.js"></script>
+    <script src="/media/user.js"></script>
   </head>
   <body>
     <nav></nav>
@@ -30,8 +31,6 @@
       <p id="warn" style="color:var(--red-1)"></p>
       <div id="results"></div>
       <script>
-        let query = new URLSearchParams(location.search);
-
         PT('account', function(user){
           if (user.attributes.admin) {
             document.getElementById('admin-other').style.display = 'flex';
@@ -46,26 +45,24 @@
           PT(`?${document.getElementById('admin').checked?'type=admin-all&':''}filter[*]=${encodeURIComponent(input)}`, function(res){
             res.data.forEach(s => {
               s = s.attributes;
-              document.getElementById('results').insertAdjacentHTML('beforeend', `<a${s.is_suspended ? '' : ` href="/user/server?id=${s.identifier}"`}>
-  <div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}">
-    <div>
-      <label class="server-title">${s.name}</label>
-      <br>
-      <label class="subtext">${s.description??''}</label>
-    </div>
-    <div>
-      <label>${s.node}</label>
-      <br>
-      <label>${s.relationships.allocations.data[0].attributes.ip_alias ? s.relationships.allocations.data[0].attributes.ip_alias : s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>
-      ${s.relationships.allocations.data[0].attributes.ip_alias ? `<br><label class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>` : ''}
-    </div>
-    <div>
-      <label${(s.is_installing || s.is_suspended) ? '' : ' style="transition:250ms;opacity:0;"'}>${s.is_installing ? 'Installing...' : ''}${s.is_suspended ? 'Suspended' : ''}</label>
-      <br>
-      <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk*1024)}</label>
-    </div>
+              document.getElementById('results').insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}''})"`}>
+  <div>
+    <label class="server-title">${s.name}</label>
+    <br>
+    <label class="subtext">${s.description??''}</label>
   </div>
-</a>`)
+  <div>
+    <label>${s.node}</label>
+    <br>
+    <label>${s.relationships.allocations.data[0].attributes.ip_alias ? s.relationships.allocations.data[0].attributes.ip_alias : s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>
+    ${s.relationships.allocations.data[0].attributes.ip_alias ? `<br><label class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>` : ''}
+  </div>
+  <div>
+    <label${(s.is_installing || s.is_suspended) ? '' : ' style="transition:250ms;opacity:0;"'}>${s.is_installing ? 'Installing...' : ''}${s.is_suspended ? 'Suspended' : ''}</label>
+    <br>
+    <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk*1024)}</label>
+  </div>
+</div>`);
               if (!(s.is_installing || s.is_suspended)) {
                 let script = document.createElement('script');
                 script.textContent = `PT('servers/${s.identifier}/resources', function(d){
@@ -82,6 +79,5 @@
         }
       </script>
     </main>
-    <script src="/media/user.js"></script>
   </body>
 </html>

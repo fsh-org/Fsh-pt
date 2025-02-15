@@ -15,17 +15,17 @@
     <!-- ------------------ -->
     <link rel="stylesheet" href="/media/user.css">
     <script src="/media/script.js"></script>
+    <script src="/media/user.js"></script>
   </head>
   <body>
     <nav></nav>
     <main>
       <div id="logs"></div>
       <script>
-        let params = new URLSearchParams(location.search);
         fetch('/media/activity.json')
           .then(act=>act.json())
           .then(act=>{
-            PT(`account/activity?sort=-timestamp&include[]=actor&page=${(params.get('page')??'1')}`, function(l){
+            PT(`account/activity?sort=-timestamp&include[]=actor&page=${(query.get('page')??'1')}`, function(l){
               document.getElementById('logs').innerHTML = l.data.map(p => {
                 p = p.attributes;
                 if (p.relationships.actor.attributes === null) {
@@ -58,6 +58,5 @@
         })
       </script>
     </main>
-    <script src="/media/user.js"></script>
   </body>
 </html>

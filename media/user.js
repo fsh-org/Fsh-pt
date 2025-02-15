@@ -1,3 +1,5 @@
+const query = new URLSearchParams(location.search);
+
 document.querySelector('nav').innerHTML = `<button onclick="loadPage('servers')">Servers</button>
 <button onclick="loadPage('search')">Search</button>
 <details>

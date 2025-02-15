@@ -15,6 +15,7 @@
     <!-- ------------------ -->
     <link rel="stylesheet" href="/media/user.css">
     <script src="/media/script.js"></script>
+    <script src="/media/user.js"></script>
   </head>
   <body>
     <nav></nav>
@@ -22,11 +23,10 @@
       <a id="Bback"><button>Back</button></a>
       <div id="logs"></div>
       <script>
-        const params = new URLSearchParams(location.search);
-        document.getElementById('Bback').href = '/user/server?id='+params.get('id');
-        PT(`servers/${params.get('id')}`, function(s){
+        document.getElementById('Bback').href = '/user/server?id='+query.get('id');
+        PT(`servers/${query.get('id')}`, function(s){
           s = s.attributes;
-          PT(`servers/${s.uuid}/activity?sort=-timestamp&include[]=actor&page=${(params.get('page')??'1')}`, function(l){
+          PT(`servers/${s.uuid}/activity?sort=-timestamp&include[]=actor&page=${(query.get('page')??'1')}`, function(l){
             fetch('/media/activity.json')
               .then(act=>act.json())
               .then(act=>{

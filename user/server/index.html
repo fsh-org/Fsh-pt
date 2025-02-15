@@ -14,71 +14,73 @@
     <meta name="theme-color" content="#a89c9b">
     <!-- ------------------ -->
     <link rel="stylesheet" href="/media/style.css">
+    <link rel="stylesheet" href="/media/user.css">
     <script src="/media/script.js"></script>
+    <script src="/media/user.js"></script>
     <script src="https://kit.fontawesome.com/50eb963274.js" crossorigin="anonymous"></script>
-    <style>
-      #state {
-        border-left: 8px var(--status) solid;
-        border-radius: 0.5rem;
-        padding-left: 8px;
-      }
-      .vals {
-        display: flex;
-        max-width: 100vw;
-        flex-wrap: wrap;
-      }
-      .vals div {
-        display: flex;
-        gap: 4px;
-        align-items: center;
-        background-color: var(--bg-2);
-        padding: 8px;
-        margin: 5px;
-        border-radius: 1rem;
-      }
-      .big button {
-        height: 40px;
-        aspect-ratio: 1/1;
-        font-size: 20px;
-        margin: 4px;
-      }
-      dialog {
-        min-width: 10%;
-      }
-      .console {
-        display: flex;
-        flex-direction: column;
-        height: 45vh;
-        margin: 10px;
-        padding: 10px;
-        border-radius: 1rem;
-        background-color: var(--bg-2);
-        box-sizing: border-box;
-      }
-      #console-output {
-        display: flex;
-        flex-direction: column-reverse;
-        flex: 1;
-        overflow-y: auto;
-      }
-      .console-command {
-        display: flex;
-        gap: 5px;
-        align-items: center;
-      }
-      .console-command > input {
-        flex: 1;
-        margin: 0px;
-      }
-      .hide-a {
-        color: var(--text-1);
-        text-decoration: none;
-      }
-    </style>
   </head>
   <body>
-    <a href="/user/servers"><button>Back</button></a>
+    <nav></nav>
     <main>
+      <style>
+        #state {
+          border-left: 8px var(--status) solid;
+          border-radius: 0.5rem;
+          padding-left: 8px;
+        }
+        .vals {
+          display: flex;
+          max-width: 100vw;
+          flex-wrap: wrap;
+        }
+        .vals div {
+          display: flex;
+          gap: 4px;
+          align-items: center;
+          background-color: var(--bg-2);
+          padding: 8px;
+          margin: 5px;
+          border-radius: 1rem;
+        }
+        .big button {
+          height: 40px;
+          aspect-ratio: 1/1;
+          font-size: 20px;
+          margin: 4px;
+        }
+        dialog {
+          min-width: 10%;
+        }
+        .console {
+          display: flex;
+          flex-direction: column;
+          height: 45vh;
+          margin: 10px;
+          padding: 10px;
+          border-radius: 1rem;
+          background-color: var(--bg-2);
+          box-sizing: border-box;
+        }
+        #console-output {
+          display: flex;
+          flex-direction: column-reverse;
+          flex: 1;
+          overflow-y: auto;
+        }
+        .console-command {
+          display: flex;
+          gap: 5px;
+          align-items: center;
+        }
+        .console-command > input {
+          flex: 1;
+          margin: 0px;
+        }
+        .hide-a {
+          color: var(--text-1);
+          text-decoration: none;
+        }
+      </style>
       <div style="display:flex;align-items:center;">
         <div id="state">
           <h1 id="name">Name</h1>
