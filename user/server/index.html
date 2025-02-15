@@ -169,10 +169,8 @@
         </div>
       </div>
       <script>
-        const params = new URLSearchParams(location.search);
-
         // Console
-        let pt_console = new EventSource(`https://api.fsh.plus/pt-console?id=${params.get('id')}&host=${localStorage.getItem('domain')}&key=${localStorage.getItem('key')}`)
+        let pt_console = new EventSource(`https://api.fsh.plus/pt-console?id=${query.get('id')}&host=${localStorage.getItem('domain')}&key=${localStorage.getItem('key')}`);
 
         const ansiCodes = {
           '0': 'color: initial;',
@@ -240,22 +238,22 @@
         };
 
         // Pages
-        document.getElementById('Bfiles').href = '/user/server/file?id='+params.get('id')+'&file=&f=false';
-        //document.getElementById('Bdat').href = '/user/server/databases?id='+params.get('id');
-        //document.getElementById('Bsch').href = '/user/server/schedules?id='+params.get('id');
-        //document.getElementById('Busr').href = '/user/server/users?id='+params.get('id');
-        //document.getElementById('Bbku').href = '/user/server/backups?id='+params.get('id');
-        document.getElementById('Bnet').href = '/user/server/network?id='+params.get('id');
-        //document.getElementById('Bsta').href = '/user/server/startup?id='+params.get('id');
-        //document.getElementById('Bset').href = '/user/server/settings?id='+params.get('id');
-        document.getElementById('Bact').href = '/user/server/activity?id='+params.get('id');
-        PT(`servers/${params.get('id')}`, function(s){
+        document.getElementById('Bfiles').href = '/user/server/file?id='+query.get('id')+'&file=&f=false';
+        //document.getElementById('Bdat').href = '/user/server/databases?id='+query.get('id');
+        //document.getElementById('Bsch').href = '/user/server/schedules?id='+query.get('id');
+        //document.getElementById('Busr').href = '/user/server/users?id='+query.get('id');
+        //document.getElementById('Bbku').href = '/user/server/backups?id='+query.get('id');
+        document.getElementById('Bnet').href = '/user/server/network?id='+query.get('id');
+        //document.getElementById('Bsta').href = '/user/server/startup?id='+query.get('id');
+        //document.getElementById('Bset').href = '/user/server/settings?id='+query.get('id');
+        document.getElementById('Bact').href = '/user/server/activity?id='+query.get('id');
+        PT(`servers/${query.get('id')}`, function(s){
           s = s.attributes;
           if (s.is_suspended) {
             location.href = '/user/servers';
             return;
           }
-          PT(`servers/${params.get('id')}/resources`, function(d){
+          PT(`servers/${query.get('id')}/resources`, function(d){
             d = d.attributes;
             document.getElementById('name').innerHTML = s.name;
             document.getElementById('desc').innerHTML = s.description;
@@ -272,12 +270,12 @@
           })
         })
         function power(ac) {
-          PT(`servers/${params.get('id')}/power`, ()=>{}, 'POST', JSON.stringify({signal: ac}));
+          PT(`servers/${query.get('id')}/power`, ()=>{}, 'POST', JSON.stringify({signal: ac}));
         }
         function sendCommand() {
           let val = document.getElementById('console-cmd').value;
           document.getElementById('console-cmd').value = '';
-          PT(`servers/${params.get('id')}/command`, ()=>{}, 'POST', JSON.stringify({command: val}));
+          PT(`servers/${query.get('id')}/command`, ()=>{}, 'POST', JSON.stringify({command: val}));
         }
 /*
 ctx.clearRect(0,0,999,999)

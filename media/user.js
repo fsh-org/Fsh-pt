@@ -27,4 +27,7 @@ function loadPage(name, data) {
       // Set main content
       document.querySelector('main').outerHTML = con;
     })
+    .catch(err => {
+      document.querySelector('main').innerHTML = `<p>There was an error getting this page</p><pre><code>${err}</code></pre>`;
+    })
 }
