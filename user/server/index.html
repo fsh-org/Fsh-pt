@@ -185,10 +185,11 @@
         const chartTime = 20;
         let ccpu = new Chart('chart-cpu');
         let cram = new Chart('chart-ram');
-        //let cnet = new Chart('chart-net');
+        let cnet = new Chart('chart-net');
         let hcpu = [];
         let hram = [];
-        //let hnet = [];
+        let hner = [];
+        let hnet = [];
 
         // Console
         let pt_console = new EventSource(`https://api.fsh.plus/pt-console?id=${query.get('id')}&host=${localStorage.getItem('domain')}&key=${localStorage.getItem('key')}`);
@@ -244,12 +245,20 @@
             document.getElementById('rx').innerText = formatBytes(s.network.rx_bytes);
             document.getElementById('tx').innerText = formatBytes(s.network.tx_bytes);
             document.getElementById('up').innerText = time_gud(Math.floor(s.uptime/1000));
-            hcpu.unshift(s.cpu_absolute);
-            if (hcpu.length>chartTime) hcpu.pop();
+            hcpu.push(s.cpu_absolute);
+            hram.push(s.memory_bytes);
+            hner.push(s.network.rx_bytes);
+            hnet.push(s.network.tx_bytes);
+            if (hcpu.length>chartTime) {
+              hcpu.shift();
+              hram.shift();
+              hner.shift();
+              hnet.shift();
+            }
             ccpu.draw(hcpu);
-            hram.unshift(s.memory_bytes);
-            if (hram.length>chartTime) hram.pop();
-            cram.draw(hcpu);
+            cram.draw(hram);
+            cnet.draw(hner, false);
+            cnet.draw(hnet, false);
           } else if (ev.event == 'status') {
             document.getElementById('state').classList = [];
             document.getElementById('state').classList.add('status-'+ev.args[0]);
