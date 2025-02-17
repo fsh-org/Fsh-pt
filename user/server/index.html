@@ -185,6 +185,7 @@
         const chartTime = 20;
         let ccpu = new Chart('chart-cpu');
         let cram = new Chart('chart-ram');
+        let cner = new Chart('chart-net');
         let cnet = new Chart('chart-net');
         let hcpu = [];
         let hram = [];
@@ -257,7 +258,7 @@
             }
             ccpu.draw(hcpu);
             cram.draw(hram);
-            cnet.draw(hner, false);
+            cner.draw(hner, true);
             cnet.draw(hnet, false);
           } else if (ev.event == 'status') {
             document.getElementById('state').classList = [];

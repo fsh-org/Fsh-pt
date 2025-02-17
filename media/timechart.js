@@ -10,8 +10,10 @@ class Chart {
     // Set canvas size
     const width = 300;
     const height = 200;
-    this.canvas.setAttribute('width', width);
-    this.canvas.setAttribute('height', height);
+    if (clear) {
+      this.canvas.setAttribute('width', width);
+      this.canvas.setAttribute('height', height);
+    }
 
     // Scale values
     let dataMin = Math.min(...data);
