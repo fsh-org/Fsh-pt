@@ -22,6 +22,7 @@
   <body>
     <nav></nav>
     <main>
+      <script src="/media/timechart.js" type="module"></script>
       <style>
         #state {
           border-left: 8px var(--status) solid;
@@ -50,10 +51,11 @@
           display: flex;
           flex-direction: column;
           flex: 1;
-          height: 45vh;
+          height: 75vh;
           margin: 10px;
           padding: 10px;
           border-radius: 1rem;
+          font-family: monospace;
           background-color: var(--bg-2);
           box-sizing: border-box;
         }
@@ -62,6 +64,9 @@
           flex-direction: column-reverse;
           flex: 1;
           overflow-y: auto;
+        }
+        #console-output > * {
+          margin: 0px;
         }
         .console-command {
           display: flex;
@@ -100,6 +105,12 @@
           padding: 8px;
           margin: 5px 0px;
           border-radius: 1rem;
+        }
+        .chart {
+          width: 100%;
+          height: 100px;
+          border-radius: 1rem;
+          background-color: var(--bg-2);
         }
       </style>
       <div style="display:flex;align-items:center;">
@@ -146,29 +157,39 @@
               <a id="uop" target="_blank" class="hide-a"><span id="url" style="cursor:pointer">URL</span></a>
             </div>
             <div>
-              <i class="fa-solid fa-microchip"></i>
-              <span id="cpu"><span id="cpu-i">0%</span>/0%</span>
-            </div>
-            <div>
-              <i class="fa-solid fa-memory"></i>
-              <span id="ram"><span id="ram-i">0B</span>/0B</span>
-            </div>
-            <div>
               <svg width="20" height="20" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M8 55C8 41.1929 19.1929 30 33 30H223C236.807 30 248 41.1929 248 55V123.6C248 124.001 247.475 124.15 247.265 123.809V123.809C244.384 119.145 239.704 115.878 234.333 114.782L233.833 114.68C231.617 114.228 229.36 114 227.098 114H30.6335C28.2166 114 25.8052 114.23 23.4319 114.686L22.8355 114.801C17.1667 115.891 12.1404 119.134 8.81135 123.851V123.851C8.5601 124.207 8 124.029 8 123.593V55Z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M8 143.601C8 132.555 16.9543 123.601 28 123.601H228C239.046 123.601 248 132.555 248 143.601V188.934C248 199.98 239.046 208.934 228 208.934H28C16.9543 208.934 8 199.98 8 188.934V143.601ZM227.733 166.267C227.733 175.104 220.57 182.267 211.733 182.267C202.897 182.267 195.733 175.104 195.733 166.267C195.733 157.431 202.897 150.267 211.733 150.267C220.57 150.267 227.733 157.431 227.733 166.267ZM166.933 182.267C175.77 182.267 182.933 175.104 182.933 166.267C182.933 157.431 175.77 150.267 166.933 150.267C158.097 150.267 150.933 157.431 150.933 166.267C150.933 175.104 158.097 182.267 166.933 182.267Z"></path></svg>
               <span id="disk"><span id="disk-i">0B</span>/0B</span>
             </div>
             <div>
+              <i class="fa-solid fa-microchip"></i>
+              <span id="cpu"><span id="cpu-i">0%</span>/0%</span>
+            </div>
+            <canvas class="chart" id="chart-cpu"></canvas>
+            <div>
+              <i class="fa-solid fa-memory"></i>
+              <span id="ram"><span id="ram-i">0B</span>/0B</span>
+            </div>
+            <canvas class="chart" id="chart-ram"></canvas>
+            <div>
               <i class="fa-solid fa-cloud-arrow-down"></i>
               <span id="rx">0B</span>
-            </div>
-            <div>
               <i class="fa-solid fa-cloud-arrow-up"></i>
               <span id="tx">0B</span>
             </div>
+            <canvas class="chart" id="chart-net"></canvas>
           </div>
         </div>
       </div>
       <script>
+        // Charts
+        const chartTime = 20;
+        let ccpu = new Chart('chart-cpu');
+        let cram = new Chart('chart-ram');
+        //let cnet = new Chart('chart-net');
+        let hcpu = [];
+        let hram = [];
+        //let hnet = [];
+
         // Console
         let pt_console = new EventSource(`https://api.fsh.plus/pt-console?id=${query.get('id')}&host=${localStorage.getItem('domain')}&key=${localStorage.getItem('key')}`);
 
@@ -223,6 +244,12 @@
             document.getElementById('rx').innerText = formatBytes(s.network.rx_bytes);
             document.getElementById('tx').innerText = formatBytes(s.network.tx_bytes);
             document.getElementById('up').innerText = time_gud(Math.floor(s.uptime/1000));
+            hcpu.push(s.cpu_absolute);
+            if (hcpu.length>chartTime) hcpu.shift();
+            ccpu.draw(hcpu);
+            hram.push(s.memory_bytes);
+            if (hram.length>chartTime) hram.shift();
+            cram.draw(hcpu);
           } else if (ev.event == 'status') {
             document.getElementById('state').classList = [];
             document.getElementById('state').classList.add('status-'+ev.args[0]);
@@ -277,17 +304,6 @@
           document.getElementById('console-cmd').value = '';
           PT(`servers/${query.get('id')}/command`, ()=>{}, 'POST', JSON.stringify({command: val}));
         }
-/*
-ctx.clearRect(0,0,999,999)
-ctx.beginPath();
-ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--blue-1").trim();
-ctx.moveTo(points[0].x, points[0].y);
-for (let i = 1; i < points.length; i++) {
-  ctx.lineTo(points[i].x, points[i].y);
-}
-ctx.lineWidth = 2;
-ctx.stroke();
-*/
       </script>
     </main>
   </body>

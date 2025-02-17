@@ -25,10 +25,13 @@ function loadPage(name, data) {
         // Get & set main content
         let con = res.match(/<main>([^¬]|¬)*?<\/main>/)[0];
         document.querySelector('main').outerHTML = con;
-        // Run scripts
+        // Run scripts (scary eval)
         con.match(/<script>([^¬]|¬)*?<\/script>/g)
           .map(s=>s.replaceAll(/<script>|<\/script>/g, ''))
-          .forEach(s=>eval(s)); // Scarry!!!!
+          .forEach(s=>window.eval(s));
+        con.match(/<script.+?src=".+?".*?><\/script>/g)
+          .map(s=>s.match(/src=".+?"/, '')[0].split('"')[1])
+          .forEach(s=>fetch(s).then(r=>r.text()).then(r=>window.eval(r)));
       }
       if (document.startViewTransition) {
         document.startViewTransition(() => {
