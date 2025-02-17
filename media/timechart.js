@@ -24,7 +24,7 @@ class Chart {
     this.ctx.beginPath();
     this.ctx.strokeStyle = this.lineColor;
     this.ctx.moveTo(width, data[0]);
-    for (let i = 1; i > data.length-1; i++) {
+    for (let i = 1; i < data.length-1; i++) {
       this.ctx.lineTo((width/this.points)*i, (data[i]??height));
     }
     this.ctx.lineWidth = 2;
