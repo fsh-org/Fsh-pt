@@ -22,7 +22,7 @@
   <body>
     <nav></nav>
     <main>
-      <script src="/media/timechart.js" type="module"></script>
+      <script src="/media/timechart.js"></script>
       <style>
         #state {
           border-left: 8px var(--status) solid;
@@ -244,11 +244,11 @@
             document.getElementById('rx').innerText = formatBytes(s.network.rx_bytes);
             document.getElementById('tx').innerText = formatBytes(s.network.tx_bytes);
             document.getElementById('up').innerText = time_gud(Math.floor(s.uptime/1000));
-            hcpu.push(s.cpu_absolute);
-            if (hcpu.length>chartTime) hcpu.shift();
+            hcpu.unshift(s.cpu_absolute);
+            if (hcpu.length>chartTime) hcpu.pop();
             ccpu.draw(hcpu);
-            hram.push(s.memory_bytes);
-            if (hram.length>chartTime) hram.shift();
+            hram.unshift(s.memory_bytes);
+            if (hram.length>chartTime) hram.pop();
             cram.draw(hcpu);
           } else if (ev.event == 'status') {
             document.getElementById('state').classList = [];
