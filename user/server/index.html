@@ -182,22 +182,20 @@
       </div>
       <script>
         // Charts
-        if (!chartTime) {
-          const chartTime = 20;
-          let ccpu = new Chart('chart-cpu');
-          let cram = new Chart('chart-ram');
-          let cner = new Chart('chart-net');
-          let cnet = new Chart('chart-net');
-          let hcpu = [];
-          let hram = [];
-          let hner = [];
-          let hnet = [];
-        }
+        window.chartTime = 20;
+        window.ccpu = new Chart('chart-cpu');
+        window.cram = new Chart('chart-ram');
+        window.cner = new Chart('chart-net');
+        window.cnet = new Chart('chart-net');
+        window.hcpu = [];
+        window.hram = [];
+        window.hner = [];
+        window.hnet = [];
 
         // Console
-        let pt_console = new EventSource(`https://api.fsh.plus/pt-console?id=${query.get('id')}&host=${localStorage.getItem('domain')}&key=${localStorage.getItem('key')}`);
+        window.pt_console = new EventSource(`https://api.fsh.plus/pt-console?id=${query.get('id')}&host=${localStorage.getItem('domain')}&key=${localStorage.getItem('key')}`);
 
-        const ansiCodes = {
+        window.ansiCodes = {
           '0': 'color: initial;',
           '1': 'font-weight: bold;',
           '30': 'color: var(--black-1);',
