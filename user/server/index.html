@@ -181,6 +181,15 @@
         </div>
       </div>
       <script>
+        window.closer = ()=>{
+          window.pt_console.onmessage = ()=>{};
+          window.pt_console.close();
+          window.ccpu = undefined;
+          window.cram = undefined;
+          window.cner = undefined;
+          window.cnet = undefined;
+        };
+
         // Charts
         window.chartTime = 20;
         window.ccpu = new Chart('chart-cpu');

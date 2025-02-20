@@ -12,6 +12,11 @@ window.addEventListener('DOMContentLoaded', ()=>{
 });
 
 function loadPage(name, data) {
+  // If a special closer function provided run it
+  if (window.closer) {
+    window.closer();
+    delete window.closer;
+  }
   // Load page
   fetch(`/user/${name}`)
     .then(res => res.text())
@@ -26,12 +31,18 @@ function loadPage(name, data) {
         let con = res.match(/<main>([^¬]|¬)*?<\/main>/)[0];
         document.querySelector('main').outerHTML = con;
         // Run scripts (scary eval)
-        con.match(/<script>([^¬]|¬)*?<\/script>/g)
-          .map(s=>s.replaceAll(/<script>|<\/script>/g, ''))
-          .forEach(s=>window.eval(s));
-        con.match(/<script.+?src=".+?".*?><\/script>/g)
-          .map(s=>s.match(/src=".+?"/, '')[0].split('"')[1])
-          .forEach(s=>fetch(s).then(r=>r.text()).then(r=>window.eval(r)));
+        let es = con.match(/<script.+?src=".+?".*?><\/script>/g);
+        if (es) {
+          es
+            .map(s=>s.match(/src=".+?"/, '')[0].split('"')[1])
+            .forEach(s=>fetch(s).then(r=>r.text()).then(r=>window.eval(r)));
+        }
+        let is = con.match(/<script>([^¬]|¬)*?<\/script>/g);
+        if (is) {
+          is
+            .map(s=>s.replaceAll(/<script>|<\/script>/g, ''))
+            .forEach(s=>window.eval(s));
+        }
       }
       if (document.startViewTransition) {
         document.startViewTransition(() => {
