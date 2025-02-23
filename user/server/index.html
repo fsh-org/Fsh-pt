@@ -287,15 +287,15 @@
         };
 
         // Pages
-        document.getElementById('Bfiles').href = '/user/server/file?id='+query.get('id')+'&file=&f=false';
-        //document.getElementById('Bdat').href = '/user/server/databases?id='+query.get('id');
-        //document.getElementById('Bsch').href = '/user/server/schedules?id='+query.get('id');
-        //document.getElementById('Busr').href = '/user/server/users?id='+query.get('id');
-        //document.getElementById('Bbku').href = '/user/server/backups?id='+query.get('id');
-        document.getElementById('Bnet').href = '/user/server/network?id='+query.get('id');
-        //document.getElementById('Bsta').href = '/user/server/startup?id='+query.get('id');
-        //document.getElementById('Bset').href = '/user/server/settings?id='+query.get('id');
-        document.getElementById('Bact').href = '/user/server/activity?id='+query.get('id');
+        document.getElementById('Bfiles').href = `/user/server/file?id=${query.get('id')}&file=&f=false`;
+        //document.getElementById('Bdat').href = `/user/server/database?id=${query.get('id')}`;
+        //document.getElementById('Bsch').href = `/user/server/schedule?id=${query.get('id')}`;
+        //document.getElementById('Busr').href = `/user/server/user?id=${query.get('id')}`;
+        //document.getElementById('Bbku').href = `/user/server/backup?id=${query.get('id')}`;
+        document.getElementById('Bnet').href = `/user/server/network?id=${query.get('id')}`;
+        //document.getElementById('Bsta').href = `/user/server/startup?id=${query.get('id')}`;
+        //document.getElementById('Bset').href = `/user/server/settings?id=${query.get('id')}`;
+        document.getElementById('Bact').href = `/user/server/activity?id=${query.get('id')}`;
         PT(`servers/${query.get('id')}`, function(s){
           s = s.attributes;
           if (s.is_suspended) {

@@ -55,12 +55,12 @@
           document.getElementById('fe').showModal();
         }
         function files() {
-          PT('servers/'+params.get('id')+'/files/list?directory='+params.get('file'), function(f){
+          PT(`servers/${params.get('id')}/files/list?directory=${params.get('file')}`, function(f){
             f = f.data;
             document.getElementById('cont').innerHTML = f.sort().map(o => {
               o = o.attributes;
               return `<p class="file">
-  <a href="/user/server/file?id=${params.get('id')}&file=${params.get('file')}/${o.name}&f=${o.is_file}">
+  <a href="/user/server/file?id=${params.get('id')}&file=${params.get('file')}/${o.name}&f=${o.is_file}&mime=${o.mimetype}">
     ${o.is_file ? file_type(o.mimetype, o.name) : '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 39C0 27.9543 8.95431 19 20 19H98.4851C103.925 19 109.131 21.2163 112.902 25.1378L126.098 38.8622C129.869 42.7837 135.075 45 140.515 45H236C247.046 45 256 53.9543 256 65V217C256 228.046 247.046 237 236 237H20C8.95431 237 0 228.046 0 217V39Z"></path></svg>'} ${o.name}${o.is_file ? `&nbsp;&nbsp;&nbsp;${formatBytes(o.size)}` : ''}<span style="flex:1"></span><code>${o.mode}</code>
   </a>
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" style="cursor:pointer;margin-right:5px;padding:2px;" onclick="fe('${o.name}')"><path fill-rule="evenodd" clip-rule="evenodd" d="M128 158C111.431 158 98 144.569 98 128C98 111.431 111.431 98 128 98C144.569 98 158 111.431 158 128C158 144.569 144.569 158 128 158ZM128 60C111.432 60 98.0001 46.5685 98.0001 30C98.0001 13.4315 111.432 3.66562e-07 128 -3.57672e-07C144.569 -1.08191e-06 158 13.4315 158 30C158 46.5685 144.569 60 128 60ZM98 226C98 242.569 111.431 256 128 256C144.569 256 158 242.569 158 226C158 209.431 144.569 196 128 196C111.431 196 98 209.431 98 226Z"/></svg>
@@ -70,13 +70,29 @@
         }
         if (params.get('f') == 'false') {
           document.getElementById('KB').style.display = "";
-          files()
+          files();
         } else {
-          document.getElementById('SB').style.display = "";
-          PT('servers/'+params.get('id')+'/files/contents?file='+params.get('file'), function(fd){
+          PT(`servers/${params.get('id')}/files/contents?file=${params.get('file')}`, function(fd, alt){
+            if (params.get('mime')) {
+              let typ = params.get('mime').split('/')[0];
+              switch(typ) {
+                case 'image':
+                  document.getElementById('cont').innerHTML = `<img src="${alt}">`;
+                  return;
+                case 'audio':
+                  document.getElementById('cont').innerHTML = `<audio src="${alt}"></audio>`;
+                  return;
+                case 'video':
+                  document.getElementById('cont').innerHTML = `<video src="${alt}"></video>`;
+                  return;
+              }
+            }
+            document.getElementById('SB').style.display = "";
             let lang = params.get('file').split('.').slice(-1)[0];
             let ch = {
               js: 'javascript',
+              cjs: 'javascript',
+              mjs: 'javascript',
               ts: 'typescript',
               tsx: 'typescript',
               py: 'python'
@@ -85,7 +101,7 @@
               lang = ch[lang]
             }
             require.config({ paths: { vs: 'https://unpkg.com/monaco-editor/min/vs' } });
-            require(['vs/editor/editor.main'], function () {
+            require(['vs/editor/editor.main'], function() {
               monaco.editor.create(document.getElementById('cont'), {
                 value: fd,
                 language: lang,
@@ -101,7 +117,7 @@
         }
         function Frename() {
           document.getElementById('fe').close();
-          PT('servers/'+params.get('id')+'/files/rename', function(){files()}, 'PUT', `{
+          PT(`servers/${params.get('id')}/files/rename`, function(){files()}, 'PUT', `{
   "root": "/${params.get('file')}",
   "files": [
     {

@@ -37,7 +37,7 @@ function PT(path, callback, method = 'GET', body = '') {
           return;
         }
       }
-      callback(con);
+      callback(con, res.alt);
     })
 }
 
