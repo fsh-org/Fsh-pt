@@ -113,7 +113,7 @@
               });
               window.monaco.editor.getEditors()[0].getModel().updateOptions({ tabSize: 2 })
             })
-          })
+          }, 'GET', '', (params.get('mime')??''))
         }
         function Frename() {
           document.getElementById('fe').close();

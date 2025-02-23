@@ -6,7 +6,7 @@ if (location.pathname != '/') {
 }
 
 // Functions
-function PT(path, callback, method = 'GET', body = '') {
+function PT(path, callback, method = 'GET', body = '', mime = '') {
   let opts = {
     method: method,
     headers: {
@@ -16,6 +16,7 @@ function PT(path, callback, method = 'GET', body = '') {
     }
   };
   if (body) opts.body = body;
+  if (mime) opts.mime = mime;
   fetch('https://api.fsh.plus/request?url='+encodeURIComponent(`https://${localStorage.getItem('domain')}/api/${{client:'client',app:'application'}[localStorage.getItem('type')]}/${path}`), {
     method: 'POST',
     headers: {
