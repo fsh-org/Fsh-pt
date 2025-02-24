@@ -57,7 +57,17 @@
         function files() {
           PT(`servers/${params.get('id')}/files/list?directory=${params.get('file')}`, function(f){
             f = f.data;
-            document.getElementById('cont').innerHTML = f.sort().map(o => {
+            document.getElementById('cont').innerHTML = f.sort((a, b) => {
+  a = a.attributes;
+  b = b.attributes;
+  if (!a.is_file && b.is_file) return -1;
+  if (!b.is_file && a.is_file) return 1;
+  let A = a.name.toLowerCase();
+  let B = b.name.toLowerCase();
+  if (A < B) return -1;
+  if (A > B) return 1;
+  return 0;
+}).map(o => {
               o = o.attributes;
               return `<p class="file">
   <a href="/user/server/file?id=${params.get('id')}&file=${params.get('file')}/${o.name}&f=${o.is_file}&mime=${o.mimetype}">
