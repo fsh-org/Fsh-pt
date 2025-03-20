@@ -61,7 +61,7 @@
         }
         #console-output {
           display: flex;
-          flex-direction: column-reverse;
+          flex-direction: column;
           flex: 1;
           overflow-y: auto;
         }
@@ -276,20 +276,20 @@
             document.getElementById('state').classList = [];
             document.getElementById('state').classList.add('status-'+ev.args[0]);
           } else if (ev.event == 'console output') {
-            document.getElementById('console-output').insertAdjacentHTML('afterbegin', ev.args.map(e=>`<p>${ansiParse(e)}</p>`).join());
+            document.getElementById('console-output').insertAdjacentHTML('beforeend', ev.args.map(e=>`<p>${ansiParse(e)}</p>`).join());
           } else if (ev.event == 'install output') {
-            document.getElementById('console-output').insertAdjacentHTML('afterbegin', ev.args.map(e=>`<p style="color: var(--blue-1)">[Pterodactyl Daemon]: ${ansiParse(e)}</p>`).join());
+            document.getElementById('console-output').insertAdjacentHTML('beforeend', ev.args.map(e=>`<p style="color: var(--blue-1)">[Pterodactyl Daemon]: ${ansiParse(e)}</p>`).join());
           } else if (ev.event == 'install completed') {
             document.getElementById('console-output').innerText = '';
           } else {
-            document.getElementById('console-output').insertAdjacentHTML('afterbegin', `<p>${event.data}</p>`);
+            document.getElementById('console-output').insertAdjacentHTML('beforeend', `<p>${event.data}</p>`);
           }
         };
 
         // Pages
         document.getElementById('Bfiles').href = `/user/server/file?id=${query.get('id')}&file=&f=false`;
         //document.getElementById('Bdat').href = `/user/server/database?id=${query.get('id')}`;
-        //document.getElementById('Bsch').href = `/user/server/schedule?id=${query.get('id')}`;
+        document.getElementById('Bsch').href = `/user/server/schedule?id=${query.get('id')}`;
         //document.getElementById('Busr').href = `/user/server/user?id=${query.get('id')}`;
         //document.getElementById('Bbku').href = `/user/server/backup?id=${query.get('id')}`;
         document.getElementById('Bnet').href = `/user/server/network?id=${query.get('id')}`;

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Schedule - Fsh Pterodactyl Panel</title>
+    <!-- Boiler plate------ -->
+    <link rel="icon" href="https://fsh.plus/fsh.png" type="image/png">
+    <meta name="description" content="A pterodactyl panel replacement. View the schedules of a server (login required).">
+    <!-- ------- -->
+    <link rel="stylesheet" href="https://fsh.plus/media/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="https://fsh.plus/fsh.png"/>
+    <meta name="theme-color" content="#a89c9b">
+    <!-- ------------------ -->
+    <link rel="stylesheet" href="/media/style.css">
+    <link rel="stylesheet" href="/media/user.css">
+    <script src="/media/script.js"></script>
+    <script src="/media/user.js"></script>
+  </head>
+  <body>
+    <nav></nav>
+    <main>
+      <style>
+        .delete {
+          color: var(--red-1);
+          border-color: var(--red-1);
+        }
+        .delete:hover {
+          background-color: var(--red-1) !important;
+        }
+
+        #create .cron {
+          display: flex;
+          gap: 5px;
+        }
+        #create .cron input {
+          width: 100px;
+          margin: 0px;
+        }
+        th, td {
+          text-align: center;
+          padding: 5px;
+          border: 2px var(--bg-3) solid;
+          border-radius: 0.25rem;
+        }
+
+        #list {
+          display: flex;
+          gap: 15px;
+          flex-direction: column;
+        }
+        #list > div {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          margin: 0px 10px;
+          padding: 10px;
+          border-radius: 0.5rem;
+          background-color: var(--bg-2);
+        }
+        #list div.down {
+          display: flex;
+          flex-direction: column;
+        }
+        #list div.cron {
+          display: flex;
+          gap: 10px;
+        }
+        #list div.cron div {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .status {
+          padding: 5px;
+          margin: 0px 10px;
+          border-radius: 0.5rem;
+          background-color: var(--color);
+        }
+        .small {
+          color: var(--text-2);
+          font-size: 75%;
+        }
+      </style>
+      <dialog id="viewer">
+        <button onclick="this.parentElement.close()" class="modal-close">x</button>
+        <div style="display:flex;gap:5px;align-items:center;padding:5px;border:4px var(--bg-2) solid;border-radius:0.5rem;">
+          <div>
+            <div style="display:flex;align-items:center;">
+              <p id="view-name"></p>
+              <span id="view-status" class="status"></span>
+            </div>
+            <span id="view-time" class="small"></span>
+          </div>
+          <span style="flex:1"></span>
+          <button>Edit</button>
+          <button id="view-delete" class="delete">Delete</button>
+        </div>
+      </dialog>
+      <dialog id="create" style="padding-right:25px">
+        <button onclick="this.parentElement.close()" class="modal-close">x</button>
+        <b style="font-size:125%">Create a schedule</b>
+        <br>
+        <label>Enabled:<input id="create-enabled" type="checkbox"></label>
+        <br>
+        <label>Only while server on:<input id="create-whenon" type="checkbox"></label>
+        <br>
+        <label style="display:flex;gap:5px;align-items:center;">Name:<input id="create-name" style="flex:1;margin:0px;"></label>
+        <div class="cron">
+          <label>Minute:<br><input id="create-cron-min"></label>
+          <label>Hour:<br><input id="create-cron-h"></label>
+          <label>Day (Month):<br><input id="create-cron-daym"></label>
+          <label>Month:<br><input id="create-cron-month"></label>
+          <label>Day (Week):<br><input id="create-cron-dayw"></label>
+        </div>
+        <div style="display:flex;align-items:flex-start;margin-top:5px;">
+          <details style="flex:1">
+            <summary>Guide</summary>
+            <table>
+              <tr>
+                <th colspan="2">Examples</th>
+                <th colspan="2">Syntax</th>
+              </tr>
+              <tr>
+                <td>*/5 * * * *</td>
+                <td>every 5 minutes</td>
+                <td>*</td>
+                <td>any value</td>
+              </tr>
+              <tr>
+                <td>0 */1 * * *</td>
+                <td>every hour</td>
+                <td>,</td>
+                <td>value list separator</td>
+              </tr>
+              <tr>
+                <td>0 8-12 * * *</td>
+                <td>hour range</td>
+                <td>-</td>
+                <td>range values</td>
+              </tr>
+              <tr>
+                <td>0 0 * * *</td>
+                <td>once a day</td>
+                <td>/</td>
+                <td>step values</td>
+              </tr>
+              <tr>
+                <td>0 0 * * MON</td>
+                <td>every Monday</td>
+              </tr>
+            </table>
+          </details>
+          <button id="create-create">Create schedule</button>
+        </div>
+      </dialog>
+      <div style="display:flex;justify-content:flex-end;margin:5px 10px;">
+        <button onclick="newschedule()">Create schedule</button>
+      </div>
+      <div id="list"></div>
+      <script>
+        function time(date) {
+          return date?(new Date(date).toLocaleString(navigator, {dateStyle:'medium',timeStyle:'short'})):'Never';
+        }
+        function list() {
+          PT(`servers/${query.get('id')}/schedules`, function(d){
+            document.getElementById('list').innerHTML = d.data.map(s=>{
+              s = s.attributes;
+              return `<div onclick="show(${s.id}, '${s.name}')">
+  <div class="down">
+    <span>${s.name}</span>
+    <span class="small">Last run at: ${time(s.last_run_at)}</span>
+  </div>
+  <div style="flex:1"></div>
+  <div class="cron">
+    <div>
+      <span>${s.cron.minute}</span>
+      <span class="small">Minute</span>
+    </div>
+    <div>
+      <span>${s.cron.hour}</span>
+      <span class="small">Hour</span>
+    </div>
+    <div>
+      <span>${s.cron.day_of_month}</span>
+      <span class="small">Day (Month)</span>
+    </div>
+    <div>
+      <span>${s.cron.month}</span>
+      <span class="small">Month</span>
+    </div>
+    <div>
+      <span>${s.cron.day_of_week}</span>
+      <span class="small">Day (Week)</span>
+    </div>
+  </div>
+  <span class="status" style="--color:var(--${s.is_active?(s.is_processing?'blue-1':'green-2'):'bg-3'})">${s.is_active?(s.is_processing?'Procesing':'Active'):'Inactive'}</span>
+</div>`;
+            }).join('');
+          })
+        }
+        list();
+        function newschedule() {
+          document.getElementById('create').showModal();
+
+          document.getElementById('create-enabled').checked = true;
+          document.getElementById('create-whenon').checked = false;
+          document.getElementById('create-name').value = '';
+          document.getElementById('create-cron-min').value = '*/5';
+          document.getElementById('create-cron-h').value = '*';
+          document.getElementById('create-cron-daym').value = '*';
+          document.getElementById('create-cron-month').value = '*';
+          document.getElementById('create-cron-dayw').value = '*';
+
+          document.getElementById('create-create').onclick = function(){
+            PT(`servers/${query.get('id')}/schedules`, function(){list();document.getElementById('create').close();}, 'POST', JSON.stringify({
+              is_active: document.getElementById('create-enabled').checked,
+              only_when_online: document.getElementById('create-whenon').checked,
+              name: document.getElementById('create-name').value,
+              minute: document.getElementById('create-cron-min').value,
+              hour: document.getElementById('create-cron-h').value,
+              day_of_month: document.getElementById('create-cron-daym').value,
+              month: document.getElementById('create-cron-month').value,
+              day_of_week: document.getElementById('create-cron-dayw').value,
+            }))
+          }
+        }
+        function show(id, name) {
+          document.getElementById('viewer').showModal();
+          document.getElementById('view-name').innerText = name;
+          document.getElementById('view-status').innerText = 'Loading';
+          document.getElementById('view-time').innerText = `Last run at: Loading | Next run at: Loading`;
+          document.getElementById('view-delete').onclick = function(){
+            PT(`servers/${query.get('id')}/schedules/${id}`, function(d){list();document.getElementById('viewer').close();}, 'DELETE');
+          }
+
+          PT(`servers/${query.get('id')}/schedules/${id}`, function(d){
+            d = d.attributes;
+            document.getElementById('view-status').style.setProperty('--color', `var(--${d.is_active?(d.is_processing?'blue-1':'green-2'):'bg-3'})`);
+            document.getElementById('view-status').innerText = d.is_active?(d.is_processing?'Procesing':'Active'):'Inactive';
+            document.getElementById('view-time').innerText = `Last run at: ${time(d.last_run_at)} | Next run at: ${time(d.next_run_at)}`;
+          });
+        }
+      </script>
+    </main>
+  </body>
+</html>

@@ -28,6 +28,16 @@ main {
   overflow-y: auto;
 }
 
+.modal-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+}
+
 /* Pages */
 .pages {
   display: flex;

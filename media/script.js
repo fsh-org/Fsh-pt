@@ -26,6 +26,10 @@ function PT(path, callback, method = 'GET', body = '', mime = '') {
   })
     .then(res=>res.json())
     .then(res=>{
+      if (res.err) {
+        alert(res.msg);
+        return;
+      }
       if (res.status === 204) {
         callback();
         return;
@@ -87,14 +91,13 @@ function file_type(mime, name) {
 }
 
 function ActivityText(event, data, extra, strings) {
-  if (['server:backup.start'].includes(event)) extra = false;
   let sep = event.split(':');
   let sel = strings[sep[0]];
   sep = sep[1].split('.');
   sel = sel[sep[0]];
   if (extra && (!event.startsWith('server:')||event==='server:subuser.create')) {
     // something should be here
-  } else if (extra && event.startsWith('server:')) {
+  } else if (extra && event.startsWith('server:') && data.files) {
     sep[1] += (data.files.length > 1 ? '_other' : '_one');
   }
   if (sep[1]) sel = sel[sep[1]]

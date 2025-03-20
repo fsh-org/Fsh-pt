@@ -6,21 +6,21 @@ This works for both client and application api keys, even tho it may not support
 - [ ] User
   - [ ] Servers
     - [x] Search
-    - [x] View (Redesing pending)
+    - [x] View
     - [x] Files (Redesing pending)
     - [ ] Databases
-    - [ ] Schedules
+    - [ ] Schedules (ongoing)
     - [ ] Users
     - [ ] Backups
     - [x] Network
     - [ ] Startup
     - [ ] Settings
-    - [x] Activity (Needs pagination)
+    - [x] Activity (Needs pagination, extra data view)
   - [ ] Account
     - [ ] View / Edit
     - [ ] Api keys
     - [ ] SSH keys
-    - [x] Activity (Needs pagination)
+    - [x] Activity (Needs pagination, extra data view)
 - [ ] Application
   - [ ] Users
   - [ ] Nodes
