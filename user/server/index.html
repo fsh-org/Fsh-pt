@@ -67,6 +67,8 @@
         }
         #console-output > * {
           margin: 0px;
+          white-space: break-spaces;
+          word-break: break-word;
         }
         .console-command {
           display: flex;
@@ -128,7 +130,7 @@
       <div>
         <a id="Bfiles"><button>Files</button></a>
         <a id="Bdat"><button disabled>Databases</button></a>
-        <a id="Bsch"><button disabled>Schedules</button></a>
+        <a id="Bsch"><button>Schedules</button></a>
         <a id="Busr"><button disabled>Users</button></a>
         <a id="Bbku"><button disabled>Backups</button></a>
         <a id="Bnet"><button>Network</button></a>
@@ -144,7 +146,7 @@
             <button onkeyup="sendCommand()"><svg width="20" height="20" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M207.598 122.081C212.164 124.251 212.164 130.749 207.598 132.919L49.0158 208.289C44.8464 210.271 40.448 206.026 42.2802 201.789L69.0058 139.982C69.2652 139.382 69.8013 138.947 70.4418 138.816L116.308 129.46C118.441 129.024 118.441 125.976 116.308 125.54L70.4417 116.183C69.8013 116.053 69.2652 115.618 69.0058 115.018L42.2802 53.2112C40.448 48.9739 44.8464 44.7292 49.0158 46.7108L207.598 122.081Z"></path></svg></button>
           </span>
         </div>
-        <div>
+        <div style="min-width:15vw">
           <div class="big">
             <button onclick="power('start')"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 256 256"><path d="M29 26.263C29 14.6537 41.6216 7.44498 51.6209 13.3432L224.097 115.08C233.936 120.884 233.936 135.116 224.097 140.92L51.6209 242.657C41.6216 248.555 29 241.346 29 229.737V26.263Z"></path></svg></button>
             <button onclick="power('restart')"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 256 256"><path d="M234.004 58.3242L252.912 50.2979C254.471 49.6362 256.096 51.0903 255.61 52.7126L237.912 111.82C237.553 113.02 236.191 113.598 235.078 113.023L180.266 84.694C178.762 83.9165 178.844 81.7379 180.403 81.0763L200.813 72.4128C185.798 54.1906 163.478 42.0881 138.041 40.755C89.9293 38.2336 48.8832 75.1916 46.3618 123.303C43.8404 171.415 80.7984 212.461 128.91 214.982C156.471 216.426 181.714 204.915 198.723 185.772C205.1 178.596 215.592 175.582 223.942 180.319C232.417 185.126 235.434 196.021 229.387 203.66C205.637 233.662 168.199 252.089 127.078 249.934C59.6632 246.401 7.87671 188.886 11.4098 121.471C14.9428 54.0564 72.4576 2.26992 139.872 5.80298C179.19 7.86352 213.192 28.2855 234.004 58.3242Z"></path></svg></button>
