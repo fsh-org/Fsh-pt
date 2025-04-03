@@ -13,6 +13,7 @@
     <meta property="og:image" content="https://fsh.plus/fsh.png"/>
     <meta name="theme-color" content="#a89c9b">
     <!-- ------------------ -->
+    <script src="https://account.fsh.plus/script.js"></script>
     <link rel="stylesheet" href="/media/style.css">
     <link rel="stylesheet" href="/media/user.css">
     <script src="/media/script.js"></script>
@@ -291,7 +292,7 @@
         // Pages
         document.getElementById('Bfiles').href = `/user/server/file?id=${query.get('id')}&file=&f=false`;
         //document.getElementById('Bdat').href = `/user/server/database?id=${query.get('id')}`;
-        document.getElementById('Bsch').href = `/user/server/schedule?id=${query.get('id')}`;
+        softLink(document.getElementById('Bsch'), `/user/server/schedule?id=${query.get('id')}`, 'server/schedule', {id: query.get('id') });
         //document.getElementById('Busr').href = `/user/server/user?id=${query.get('id')}`;
         //document.getElementById('Bbku').href = `/user/server/backup?id=${query.get('id')}`;
         document.getElementById('Bnet').href = `/user/server/network?id=${query.get('id')}`;

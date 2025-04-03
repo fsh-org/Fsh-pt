@@ -13,6 +13,7 @@
     <meta property="og:image" content="https://fsh.plus/fsh.png"/>
     <meta name="theme-color" content="#a89c9b">
     <!-- ------------------ -->
+    <script src="https://account.fsh.plus/script.js"></script>
     <link rel="stylesheet" href="/media/style.css">
     <link rel="stylesheet" href="/media/user.css">
     <script src="/media/script.js"></script>
@@ -83,7 +84,7 @@
           font-size: 75%;
         }
       </style>
-      <dialog id="viewer">
+      <dialog id="viewer" style="padding-right:25px">
         <button onclick="this.parentElement.close()" class="modal-close">x</button>
         <div style="display:flex;gap:5px;align-items:center;padding:5px;border:4px var(--bg-2) solid;border-radius:0.5rem;">
           <div>
@@ -98,7 +99,7 @@
           <button id="view-delete" class="delete">Delete</button>
         </div>
       </dialog>
-      <dialog id="create" style="padding-right:25px">
+      <dialog id="create">
         <button onclick="this.parentElement.close()" class="modal-close">x</button>
         <b style="font-size:125%">Create a schedule</b>
         <br>

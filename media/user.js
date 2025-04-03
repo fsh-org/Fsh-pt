@@ -1,20 +1,29 @@
 let query = new URLSearchParams(location.search);
 
 window.addEventListener('DOMContentLoaded', ()=>{
-  document.querySelector('nav').innerHTML = `<button onclick="loadPage('servers')">Servers</button>
-<button onclick="loadPage('search')">Search</button>
+  document.querySelector('nav').innerHTML = `<a data-page="servers"><button>Servers</button></a>
+<a data-page="search"><button>Search</button></a>
 <details>
-  <summary><button onclick="loadPage('account')">Account</button></summary>
-  <button onclick="loadPage('activity')">Activity</button>
+  <summary><a data-page="account"><button>Account</button></a></summary>
+  <a data-page="activity"><button>Activity</button></a>
 </details>
 <hr>
 <button onclick="localStorage.removeItem('key');location.pathname='/'">Log out</button>`;
+  Array.from(document.querySelectorAll('nav a[data-page]'))
+    .forEach(link=>{
+      let page = link.getAttribute('data-page');
+      softLink(link, `/user/${page}`, page, {});
+    });
 });
 
 function loadPage(name, data) {
   // If a special closer function provided run it
   if (window.closer) {
-    window.closer();
+    try {
+      window.closer();
+    } catch(err) {
+      // Ignore error, allowing changing page more important than correctly closing?
+    }
     delete window.closer;
   }
   // Load page
@@ -28,21 +37,24 @@ function loadPage(name, data) {
       document.title = res.match(/<title>.*?<\/title>/)[0].slice(7, -8);
       function change() {
         // Get & set main content
-        let con = res.match(/<main>([^¬]|¬)*?<\/main>/)[0];
-        document.querySelector('main').outerHTML = con;
+        let content = res.match(/<main>([^¬]|¬)*?<\/main>/)[0];
+        document.querySelector('main').outerHTML = content;
         // Run scripts (scary eval)
-        let es = con.match(/<script.+?src=".+?".*?><\/script>/g);
-        if (es) {
-          es
-            .map(s=>s.match(/src=".+?"/, '')[0].split('"')[1])
-            .forEach(s=>fetch(s).then(r=>r.text()).then(r=>window.eval(r)));
-        }
-        let is = con.match(/<script>([^¬]|¬)*?<\/script>/g);
-        if (is) {
-          is
-            .map(s=>s.replaceAll(/<script>|<\/script>/g, ''))
-            .forEach(s=>window.eval(s));
-        }
+        let scripts = content.match(/<script.*?>([^¬]|¬)*?<\/script>/g);
+        scripts.forEach(script => {
+          if (script.includes(' src="')) {
+            let sl = script.match(/src=".+?"/g);
+            sl
+              .map(s=>s.split('"')[1])
+              .forEach(async s=>{
+                s = await fetch(s);
+                s = await s.text();
+                window.eval(s);
+              })
+          } else {
+            window.eval(script.replaceAll(/<script>|<\/script>/g, ''));
+          }
+        });
       }
       if (document.startViewTransition) {
         document.startViewTransition(() => {
@@ -55,4 +67,13 @@ function loadPage(name, data) {
     .catch(err => {
       document.querySelector('main').innerHTML = `<p>There was an error getting this page</p><pre><code>${err}</code></pre>`;
     })
+}
+
+// Make an <a> do soft navigation with normal link behaviours
+function softLink(a, url, ...params) {
+  a.href = url;
+  a.onclick = function(event){
+    event.preventDefault();
+    loadPage(...params);
+  };
 }
