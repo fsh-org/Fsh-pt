@@ -1,4 +1,5 @@
 let query = new URLSearchParams(location.search);
+document.startViewTransition ??= (r)=>{r()};
 
 window.addEventListener('DOMContentLoaded', ()=>{
   document.querySelector('nav').innerHTML = `<a data-page="servers"><button>Servers</button></a>
@@ -28,8 +29,8 @@ function loadPage(name, data) {
   }
   // Load page
   fetch(`/user/${name}`)
-    .then(res => res.text())
-    .then(res => {
+    .then(res=>res.text())
+    .then(res=>{
       // Push state
       history.pushState({}, '', `${location.origin}/user/${name}?${new URLSearchParams(data).toString()}`);
       query = new URLSearchParams(location.search);
@@ -41,30 +42,32 @@ function loadPage(name, data) {
         document.querySelector('main').outerHTML = content;
         // Run scripts (scary eval)
         let scripts = content.match(/<script.*?>([^¬]|¬)*?<\/script>/g);
-        scripts.forEach(script => {
-          if (script.includes(' src="')) {
-            let sl = script.match(/src=".+?"/g);
+        scripts.forEach(script=>{
+          if (script.includes('<script src="')) {
+            let sl = script.match(/<script src=".+?"/g);
             sl
               .map(s=>s.split('"')[1])
-              .forEach(async s=>{
+              .forEach(async(s)=>{
                 s = await fetch(s);
                 s = await s.text();
-                window.eval(s);
+                try {
+                  window.eval(s);
+                } catch(err) {
+                  // Ignore :3
+                }
               })
           } else {
-            window.eval(script.replaceAll(/<script>|<\/script>/g, ''));
+            try {
+              window.eval(script.replaceAll(/<script>|<\/script>/g, ''));
+            } catch(err) {
+              // Ignore :3
+            }
           }
         });
       }
-      if (document.startViewTransition) {
-        document.startViewTransition(() => {
-          change();
-        });
-      } else {
-        change();
-      }
+      document.startViewTransition(change);
     })
-    .catch(err => {
+    .catch(err=>{
       document.querySelector('main').innerHTML = `<p>There was an error getting this page</p><pre><code>${err}</code></pre>`;
     })
 }

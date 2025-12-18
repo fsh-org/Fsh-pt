@@ -2,29 +2,39 @@
 <html lang="en">
   <head>
     <title>Fsh PT</title>
-    <!-- Boiler plate------ -->
-    <link rel="icon" href="https://fsh.plus/fsh.png" type="image/png">
-    <meta name="description" content="A user and application api ui">
+    <meta property="og:title" content="Fsh PT">
+    <meta name="twitter:title" content="Fsh PT">
+    <meta name="description" content="Fsh PT, an alternative user and application api ui.">
+    <meta property="og:description" content="Fsh PT, an alternative user and application api ui.">
+    <meta name="twitter:description" content="Fsh PT, an alternative user and application api ui.">
+    <link rel="canonical" href="https://pt.fsh.plus">
+    <meta property="og:url" content="https://pt.fsh.plus">
+    <!-- ------- -->
+    <meta charset="UTF-8">
+    <meta name="robots" content="index, follow">
+    <meta property="og:locale" content="en">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://fsh.plus/favicon.ico" type="image/vnd.microsoft.icon">
+    <meta property="og:image" content="https://fsh.plus/favicon.ico">
+    <meta property="og:image:alt" content="Fsh logo">
+    <meta name="twitter:image" content="https://fsh.plus/favicon.ico">
+    <meta name="theme-color" content="#a89c9b">
     <!-- ------- -->
     <link rel="stylesheet" href="https://fsh.plus/media/style.css">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:image" content="https://fsh.plus/fsh.png"/>
-    <meta name="theme-color" content="#a89c9b">
-    <!-- ------------------ -->
     <script src="https://account.fsh.plus/script.js"></script>
+    <!-- ------- -->
     <link rel="stylesheet" href="/media/style.css">
     <script src="/media/script.js"></script>
     <style>
       body {
-        width: 100vw;
         width: 100dvw;
-        height: 100vh;
         height: 100dvh;
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
       }
       body > div {
         padding: 15px;
@@ -68,7 +78,7 @@
     </div>
     <script>
       if (localStorage.getItem('key')) {
-        if (localStorage.getItem('type') == 'app') {
+        if (localStorage.getItem('type') === 'application') {
           location.pathname = '/app';
         } else {
           location.pathname = '/user/servers';
@@ -88,19 +98,19 @@
         if (type === 'client') {
           PT('', function(data){
             if (data.err) {
-              alert('Could not log in')
-            } else {
-              location.pathname = '/user/servers';
+              alert('Could not log in');
+              return;
             }
-          })
+            location.pathname = '/user/servers';
+          });
         } else {
           PT('users', function(data){
             if (data.err) {
-              alert('Could not log in')
-            } else {
-              location.pathname = '/app';
+              alert('Could not log in');
+              return;
             }
-          })
+            location.pathname = '/app';
+          });
         }
       }
     </script>
