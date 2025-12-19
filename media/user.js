@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
 <a data-page="search"><button>${icons.search} Search</button></a>
 <a data-page="account"><button>${icons.user} Account</button></a>
 <div data-parent="account">
-  <a data-page="activity"><button>Activity</button></a>
+  <a data-page="account/activity"><button>Activity</button></a>
 </div>
 <hr>
 <button onclick="localStorage.removeItem('key');location.pathname='/'">Log out</button>`;

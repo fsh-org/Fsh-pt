@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Account - Fsh PT</title>
+    <meta property="og:title" content="Activity - Fsh PT">
+    <meta name="twitter:title" content="Activity - Fsh PT">
+    <meta name="description" content="Fsh PT, an alternative user and application api ui.">
+    <meta property="og:description" content="Fsh PT, an alternative user and application api ui.">
+    <meta name="twitter:description" content="Fsh PT, an alternative user and application api ui.">
+    <!-- ------- -->
+    <meta charset="UTF-8">
+    <meta name="robots" content="index, follow">
+    <meta property="og:locale" content="en">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://fsh.plus/favicon.ico" type="image/vnd.microsoft.icon">
+    <meta property="og:image" content="https://fsh.plus/favicon.ico">
+    <meta property="og:image:alt" content="Fsh logo">
+    <meta name="twitter:image" content="https://fsh.plus/favicon.ico">
+    <meta name="theme-color" content="#a89c9b">
+    <!-- ------- -->
+    <link rel="stylesheet" href="https://fsh.plus/media/style.css">
+    <script src="https://account.fsh.plus/script.js"></script>
+    <!-- ------- -->
+    <link rel="stylesheet" href="/media/user.css">
+    <script src="/media/script.js"></script>
+    <script src="/media/user.js"></script>
+  </head>
+  <body>
+    <nav></nav>
+    <main>
+      <div>
+        <span id="name"></span>
+        <span id="small" class="subtext"></span>
+      </div>
+      <div>
+        <a id="BActivity"><button>Activity</button></a>
+      </div>
+      <script>
+        softLink(document.getElementById('BActivity'), './activity', 'account/activity', {});
+        PT('account', (a)=>{
+          a = a.attributes;
+          document.getElementById('name').innerText = `${a.first_name} ${a.last_name} (${a.username})`;
+          document.getElementById('small').innerText = `${a.admin?'Admin ':''}ID: ${a.id} ${a.email}`;
+        });
+      </script>
+    </main>
+  </body>
+</html>
