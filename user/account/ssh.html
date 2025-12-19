@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Account - Fsh PT</title>
-    <meta property="og:title" content="Activity - Fsh PT">
-    <meta name="twitter:title" content="Activity - Fsh PT">
+    <title>SSH - Fsh PT</title>
+    <meta property="og:title" content="SSH - Fsh PT">
+    <meta name="twitter:title" content="SSH - Fsh PT">
     <meta name="description" content="Fsh PT, an alternative user and application api ui.">
     <meta property="og:description" content="Fsh PT, an alternative user and application api ui.">
     <meta name="twitter:description" content="Fsh PT, an alternative user and application api ui.">
@@ -26,43 +26,28 @@
     <link rel="stylesheet" href="/media/user.css">
     <script src="/media/script.js"></script>
     <script src="/media/user.js"></script>
-    <style>
-      .subtext {
-        font-size: 75%;
-        color: var(--text-2);
-      }
-      .card {
-        display: flex;
-        flex-direction: column;
-        width: fit-content;
-        padding: 10px;
-        margin: 10px;
-        border-radius: 0.5rem;
-        background-color: var(--bg-2);
-      }
-    </style>
   </head>
   <body>
     <nav></nav>
     <main>
-      <div class="card">
-        <span id="name"></span>
-        <span id="small" class="subtext"></span>
-      </div>
-      <div>
-        <a id="BApi"><button>API</button></a>
-        <a id="BSsh"><button>SSH</button></a>
-        <a id="BActivity"><button>Activity</button></a>
-      </div>
+      <div id="keys"></div>
       <script>
-        softLink(document.getElementById('BApi'), './api', 'account/api', {});
-        softLink(document.getElementById('BSsh'), './ssh', 'account/ssh', {});
-        softLink(document.getElementById('BActivity'), './activity', 'account/activity', {});
-        PT('account', (a)=>{
-          a = a.attributes;
-          document.getElementById('name').innerText = `${a.first_name} ${a.last_name} (${a.username})`;
-          document.getElementById('small').innerText = `${a.admin?'Admin ':''}ID: ${a.id} ${a.email}`;
-        });
+        PT('account/ssh-keys', (l)=>{
+          document.getElementById('keys').innerHTML = l.data.map(k=>{
+            p = p.attributes;
+            return `<div>
+  <span>
+    <label>${k.description}</label>
+  </span>
+  <span>
+    <label>${k.identifier}</label>
+  </span>
+  <span>
+    <label>Last use ${time_gud(Math.floor((Date.now()-new Date(k.last_used_at).getTime())/1000))}ago</label>
+  </span>
+</div>`;
+          }).join('')
+        })
       </script>
     </main>
   </body>

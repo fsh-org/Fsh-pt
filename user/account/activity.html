@@ -47,7 +47,7 @@
                 };
                 return `<div>
   <span>
-    <img src="${p.relationships.actor.attributes.image}">
+    <img src="${p.relationships.actor.attributes.image}" width="48" height="48">
     <span>
       <label>${p.relationships.actor.attributes.username}</label>
       ${p.is_api ? '<label class="badge">API</label>' : ''}
