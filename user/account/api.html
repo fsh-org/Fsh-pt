@@ -34,7 +34,7 @@
       <script>
         PT('account/api-keys', (l)=>{
           document.getElementById('keys').innerHTML = l.data.map(k=>{
-            p = p.attributes;
+            k = k.attributes;
             return `<div>
   <span>
     <label>${k.description}</label>
