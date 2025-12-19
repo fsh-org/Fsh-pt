@@ -35,7 +35,7 @@
         fetch('/media/activity.json')
           .then(act=>act.json())
           .then(act=>{
-            PT(`account/activity?sort=-timestamp&include[]=actor&page=${(query.get('page')??'1')}`, function(l){
+            PT(`account/activity?sort=-timestamp&include[]=actor&page=${(query.get('page')??'1')}`, (l)=>{
               document.getElementById('logs').innerHTML = l.data.map(p => {
                 p = p.attributes;
                 if (p.relationships.actor.attributes === null) {

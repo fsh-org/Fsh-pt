@@ -98,6 +98,6 @@ function ActivityText(event, data, extra, strings) {
  if (extra && data.files) {
     sep[1] += (data.files.length > 1 ? '_other' : '_one');
   }
-  if (sep[1]) sel = sel[sep[1]]
-  return sel.replaceAll(/\{\{.+?\}\}/g, function(match){return data[match.replaceAll('{{','').replaceAll('}}','')]});
+  if (sep[1]) sel = sel[sep[1]];
+  return sel.replaceAll(/\{\{.+?\}\}/g, match=>data[match.replaceAll('{{','').replaceAll('}}','')]);
 }

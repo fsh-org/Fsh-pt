@@ -57,7 +57,7 @@
         const params = new URLSearchParams(location.search);
         document.getElementById('Bback').href = '/user/server?id='+params.get('id');
         function getAlloc() {
-          PT(`servers/${params.get('id')}/network/allocations`, function(a){
+          PT(`servers/${params.get('id')}/network/allocations`, (a)=>{
             a = a.data;
             document.getElementById('alloc').innerHTML = a.map(p => {p=p.attributes;return `<div>
   <span>
@@ -79,13 +79,13 @@
         }
         getAlloc();
         function note(id, that) {
-          PT(`servers/${params.get('id')}/network/allocations/${id}`, function(){getAlloc()}, 'POST', JSON.stringify({notes: that.value}))
+          PT(`servers/${params.get('id')}/network/allocations/${id}`, ()=>{getAlloc()}, 'POST', JSON.stringify({notes: that.value}))
         }
         function primary(id) {
-          PT(`servers/${params.get('id')}/network/allocations/${id}/primary`, function(){getAlloc()}, 'POST')
+          PT(`servers/${params.get('id')}/network/allocations/${id}/primary`, ()=>{getAlloc()}, 'POST')
         }
         function explode(id) {
-          PT(`servers/${params.get('id')}/network/allocations/${id}`, function(){getAlloc()}, 'DELETE')
+          PT(`servers/${params.get('id')}/network/allocations/${id}`, ()=>{getAlloc()}, 'DELETE')
         }
       </script>
     </main>

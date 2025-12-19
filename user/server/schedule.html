@@ -174,7 +174,7 @@
           return date?(new Date(date).toLocaleString(navigator, {dateStyle:'medium',timeStyle:'short'})):'Never';
         }
         function list() {
-          PT(`servers/${query.get('id')}/schedules`, function(d){
+          PT(`servers/${query.get('id')}/schedules`, (d)=>{
             document.getElementById('list').innerHTML = d.data.map(s=>{
               s = s.attributes;
               return `<div onclick="show(${s.id}, '${s.name}')">
@@ -224,7 +224,7 @@
           document.getElementById('create-cron-dayw').value = '*';
 
           document.getElementById('create-create').onclick = function(){
-            PT(`servers/${query.get('id')}/schedules`, function(){list();document.getElementById('create').close();}, 'POST', JSON.stringify({
+            PT(`servers/${query.get('id')}/schedules`, ()=>{list();document.getElementById('create').close();}, 'POST', JSON.stringify({
               is_active: document.getElementById('create-enabled').checked,
               only_when_online: document.getElementById('create-whenon').checked,
               name: document.getElementById('create-name').value,
@@ -242,10 +242,10 @@
           document.getElementById('view-status').innerText = 'Loading';
           document.getElementById('view-time').innerText = `Last run at: Loading | Next run at: Loading`;
           document.getElementById('view-delete').onclick = function(){
-            PT(`servers/${query.get('id')}/schedules/${id}`, function(d){list();document.getElementById('viewer').close();}, 'DELETE');
+            PT(`servers/${query.get('id')}/schedules/${id}`, (d)=>{list();document.getElementById('viewer').close();}, 'DELETE');
           }
 
-          PT(`servers/${query.get('id')}/schedules/${id}`, function(d){
+          PT(`servers/${query.get('id')}/schedules/${id}`, (d)=>{
             d = d.attributes;
             document.getElementById('view-status').style.setProperty('--color', `var(--${d.is_active?(d.is_processing?'blue-1':'green-2'):'bg-3'})`);
             document.getElementById('view-status').innerText = d.is_active?(d.is_processing?'Procesing':'Active'):'Inactive';

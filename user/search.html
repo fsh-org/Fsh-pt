@@ -41,7 +41,7 @@
       <p id="warn" style="color:var(--red-1)"></p>
       <div id="results"></div>
       <script>
-        PT('account', function(user){
+        PT('account', (user)=>{
           if (user.attributes.admin) {
             document.getElementById('admin-other').style.display = 'flex';
           }
@@ -53,7 +53,7 @@
           let input = document.getElementById('input').value.trim();
           // TODO: Check v if actually necessary. why does the default panel do this.
           //document.getElementById('warn').innerText = (input.length<3)?'You need atleast 3 characters to search.':'';
-          PT(`?${document.getElementById('admin').checked?'type=admin-all&':''}filter[*]=${encodeURIComponent(input)}`, function(res){
+          PT(`?${document.getElementById('admin').checked?'type=admin-all&':''}filter[*]=${encodeURIComponent(input)}`, (res)=>{
             res.data.forEach(s => {
               s = s.attributes;
               document.getElementById('results').insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}'})"`}>
@@ -76,7 +76,7 @@
 </div>`);
               if (!(s.is_installing || s.is_suspended)) {
                 let script = document.createElement('script');
-                script.textContent = `PT('servers/${s.identifier}/resources', function(d){
+                script.textContent = `PT('servers/${s.identifier}/resources', (d)=>{
   d = d.attributes;
   let server = document.getElementById('${s.identifier}');
   server.classList.add('status-'+d.current_state);

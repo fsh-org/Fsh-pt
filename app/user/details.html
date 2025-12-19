@@ -27,7 +27,7 @@
     <div id="users"></div>
     <script>
       const urlParams = new URLSearchParams(window.location.search);
-      PT('users/'+urlParams.get('id'), function(data){
+      PT('users/'+urlParams.get('id'), (data)=>{
         data = data.attributes;
         document.getElementById('users').innerHTML = `<h1>${data.username}${data.root_admin ? ' <i class="fa-solid fa-user-shield"></i>' : ''}</h1>
 <p>Id: ${data.id} | External: ${data.external_id || 'None'} | UUID: ${data.uuid}</p>

@@ -34,9 +34,9 @@
       <div id="logs"></div>
       <script>
         document.getElementById('Bback').href = '/user/server?id='+query.get('id');
-        PT(`servers/${query.get('id')}`, function(s){
+        PT(`servers/${query.get('id')}`, (s)=>{
           s = s.attributes;
-          PT(`servers/${s.uuid}/activity?sort=-timestamp&include[]=actor&page=${(query.get('page')??'1')}`, function(l){
+          PT(`servers/${s.uuid}/activity?sort=-timestamp&include[]=actor&page=${(query.get('page')??'1')}`, (l)=>{
             fetch('/media/activity.json')
               .then(act=>act.json())
               .then(act=>{

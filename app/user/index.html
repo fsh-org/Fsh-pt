@@ -26,7 +26,7 @@
     <a href="/app"><button>Back</button></a>
     <div id="users"></div>
     <script>
-      PT('users', function(data){
+      PT('users', (data)=>{
         document.getElementById('users').innerHTML = data.data.map(e=>{e=e.attributes;return`<a href="details?id=${e.id}"><div class="user"><label>${e.id} | ${e.username}${e.root_admin ? ' <i class="fa-solid fa-user-shield"></i> ' : ''} | ${e.first_name} ${e.last_name}</label><label>${e.email}<label></div></a>`}).join('')
       })
     </script>

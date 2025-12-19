@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
   document.querySelector('nav').innerHTML = `<a data-page="servers"><button>${icons.server} Servers</button></a>
 <a data-page="search"><button>${icons.search} Search</button></a>
 <a data-page="account"><button>${icons.user} Account</button></a>
-<div data-parent="account" style="display:none">
+<div data-parent="account">
   <a data-page="activity"><button>Activity</button></a>
 </div>
 <hr>

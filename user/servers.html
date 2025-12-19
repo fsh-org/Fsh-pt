@@ -41,7 +41,7 @@
         <button disabled>Next</button>
       </div>
       <script>
-        PT('account', function(user){
+        PT('account', (user)=>{
           if (user.attributes.admin) {
             document.getElementById('admin-other').style.display = 'flex';
           }
@@ -52,7 +52,7 @@
         let sq = new URLSearchParams('');
         sq.set('page', query.get('page') ?? '1');
         if (query.get('admin') === 'true') sq.set('type', 'admin');
-        PT('?'+sq.toString(), function(data){
+        PT('?'+sq.toString(), (data)=>{
           document.querySelector('.pages p').innerText = `${data.meta.pagination.current_page}/${data.meta.pagination.total_pages}`;
           if (data.meta.pagination.current_page > 1) {
             document.querySelectorAll('.pages button')[0].removeAttribute('disabled');
@@ -62,7 +62,7 @@
             document.querySelectorAll('.pages button')[1].removeAttribute('disabled');
             document.querySelectorAll('.pages button')[1].onclick = function(){page(1)};
           }
-          data.data.forEach(s => {
+          data.data.forEach(s=>{
             s = s.attributes;
             document.getElementById('list').insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}'})"`}>
   <div>
@@ -76,25 +76,28 @@
     <label>${s.relationships.allocations.data[0].attributes.ip_alias ? s.relationships.allocations.data[0].attributes.ip_alias : s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>
     ${s.relationships.allocations.data[0].attributes.ip_alias ? `<br><label class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>` : ''}
   </div>
-  <div>
-    <label${(s.is_installing || s.is_suspended) ? '' : ' style="transition:250ms;opacity:0;"'}>${s.is_installing ? 'Installing...' : ''}${s.is_suspended ? 'Suspended' : ''}</label>
-    <br>
-    <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk*1024)}</label>
+  <div class="stat"${(s.is_installing||s.is_suspended)?'':' style="transition:var(--time-2);opacity:0;"'}>
+    ${(s.is_installing||s.is_suspended)?
+      `<label>${s.is_installing?'Installing...':''} ${s.is_suspended?'Suspended':''}</label>`:
+      `<label>CPU: <span>0</span>/${s.limits.cpu===0?'∞':s.limits.cpu}%</label><br>
+<label>RAM: <span>0</span>/${s.limits.memory===0?'∞':formatBytes(s.limits.memory)}</label><br>
+<label>Disk: <span>0</span>/${s.limits.disk===0?'∞':formatBytes(s.limits.disk*1024)}</label>`}
   </div>
 </div>`);
-            if (!(s.is_installing || s.is_suspended)) {
-              let script = document.createElement('script');
-              script.textContent = `PT('servers/${s.identifier}/resources', function(d){
-  d = d.attributes;
-  let server = document.getElementById('${s.identifier}');
-  server.classList.add('status-'+d.current_state);
-  server.children[2].children[0].innerHTML = \`CPU: $\{(Math.floor(d.resources.cpu_absolute*100)/100)}% RAM: $\{formatBytes(d.resources.memory_bytes)} Disk: $\{formatBytes(d.resources.disk_bytes)}\`;
-  server.children[2].children[0].style.opacity = 1;
-})`;
-              document.getElementById(s.identifier).appendChild(script);
+            if (!s.is_installing&&!s.is_suspended) {
+              PT(`servers/${s.identifier}/resources`, (d)=>{
+                d = d.attributes;
+                let server = document.getElementById(s.identifier);
+                server.classList.add('status-'+d.current_state);
+                let dat = server.querySelectorAll('.stat span');
+                dat[0].innerText = (Math.floor(d.resources.cpu_absolute*100)/100);
+                dat[1].innerText = formatBytes(d.resources.memory_bytes);
+                dat[2].innerText = formatBytes(d.resources.disk_bytes);
+                server.querySelector('.stat').style.opacity = 1;
+              });
             }
-          })
-        })
+          });
+        });
         function admin(that) {
           loadPage('servers', {
             page: 1,

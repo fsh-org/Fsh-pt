@@ -96,7 +96,7 @@
         localStorage.setItem('type', type);
         localStorage.setItem('key', key);
         if (type === 'client') {
-          PT('', function(data){
+          PT('', (data)=>{
             if (data.err) {
               alert('Could not log in');
               return;
@@ -104,7 +104,7 @@
             location.pathname = '/user/servers';
           });
         } else {
-          PT('users', function(data){
+          PT('users', (data)=>{
             if (data.err) {
               alert('Could not log in');
               return;
