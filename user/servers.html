@@ -66,22 +66,22 @@
             s = s.attributes;
             document.getElementById('list').insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}'})"`}>
   <div>
-    <label class="server-title">${s.name}</label>
+    <span class="server-title">${s.name}</span>
     <br>
-    <label class="subtext">${s.description??''}</label>
+    <span class="subtext">${s.description??''}</span>
   </div>
   <div>
-    <label>${s.node}</label>
+    <span>${s.node}</span>
     <br>
-    <label>${s.relationships.allocations.data[0].attributes.ip_alias ? s.relationships.allocations.data[0].attributes.ip_alias : s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>
-    ${s.relationships.allocations.data[0].attributes.ip_alias ? `<br><label class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>` : ''}
+    <span>${s.relationships.allocations.data[0].attributes.ip_alias ? s.relationships.allocations.data[0].attributes.ip_alias : s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</span>
+    ${s.relationships.allocations.data[0].attributes.ip_alias ? `<br><span class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</span>` : ''}
   </div>
   <div class="stat"${(s.is_installing||s.is_suspended)?'':' style="transition:var(--time-2);opacity:0;"'}>
     ${(s.is_installing||s.is_suspended)?
-      `<label>${s.is_installing?'Installing...':''} ${s.is_suspended?'Suspended':''}</label>`:
-      `<label>CPU: <span>0</span>/${s.limits.cpu===0?'∞':s.limits.cpu}%</label><br>
-<label>RAM: <span>0</span>/${s.limits.memory===0?'∞':formatBytes(s.limits.memory)}</label><br>
-<label>Disk: <span>0</span>/${s.limits.disk===0?'∞':formatBytes(s.limits.disk*1024)}</label>`}
+      `<span>${s.is_installing?'Installing...':''} ${s.is_suspended?'Suspended':''}</span>`:
+      `<span>CPU: <span>0</span>/${s.limits.cpu===0?'∞':s.limits.cpu}%</span><br>
+<span>RAM: <span>0</span>/${s.limits.memory===0?'∞':formatBytes(s.limits.memory)}</span><br>
+<span>Disk: <span>0</span>/${s.limits.disk===0?'∞':formatBytes(s.limits.disk*1024)}</span>`}
   </div>
 </div>`);
             if (!s.is_installing&&!s.is_suspended) {

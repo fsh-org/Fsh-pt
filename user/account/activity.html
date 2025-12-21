@@ -49,18 +49,18 @@
   <span>
     <img src="${p.relationships.actor.attributes.image}" width="48" height="48">
     <span>
-      <label>${p.relationships.actor.attributes.username}</label>
-      ${p.is_api ? '<label class="badge">API</label>' : ''}
+      <span>${p.relationships.actor.attributes.username}</span>
+      ${p.is_api ? '<span class="badge">API</span>' : ''}
       <br>
-      <label style="font-size:75%">${p.ip}</label>
+      <span style="font-size:75%">${p.ip}</span>
     </span>
   </span>
   <span>
-    <label>${p.event}</label>
-    <label>${ActivityText(p.event, p.properties, p.has_additional_metadata, act)}</label>
+    <span>${p.event}</span>
+    <span>${ActivityText(p.event, p.properties, p.has_additional_metadata, act)}</span>
   </span>
   <span>
-    <label>${time_gud(Math.floor((Date.now()-new Date(p.timestamp).getTime())/1000))} ago</label>
+    <span>${time_gud(Math.floor((Date.now()-new Date(p.timestamp).getTime())/1000))} ago</span>
   </span>
 </div>`;
               }).join('')

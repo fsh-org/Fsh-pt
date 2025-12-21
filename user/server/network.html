@@ -61,18 +61,18 @@
             a = a.data;
             document.getElementById('alloc').innerHTML = a.map(p => {p=p.attributes;return `<div>
   <span>
-    <label>IP</label>
-    <label>${p.ip_alias || p.ip}</label>
+    <span>IP</span>
+    <span>${p.ip_alias || p.ip}</span>
   </span>
   <span>
-    <label>Port</label>
-    <label>${p.port}</label>
+    <span>Port</span>
+    <span>${p.port}</span>
   </span>
   <span>
     <textarea placeholder="Notes" onchange="note('${p.id}', this)">${p.notes || ''}</textarea>
   </span>
   <span style="gap:10px;flex-direction:row;justify-content:flex-end;">
-    ${p.is_default ? '<label>Primary</label>' : '<button onclick="explode(`'+p.id+'`)">Delete</button><button onclick="primary(`'+p.id+'`)">Make Primary</button>'}
+    ${p.is_default ? '<span>Primary</span>' : '<button onclick="explode(`'+p.id+'`)">Delete</button><button onclick="primary(`'+p.id+'`)">Make Primary</button>'}
   </span>
 </div>`}).join('')
           })

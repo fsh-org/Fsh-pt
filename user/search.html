@@ -58,20 +58,20 @@
               s = s.attributes;
               document.getElementById('results').insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}'})"`}>
   <div>
-    <label class="server-title">${s.name}</label>
+    <span class="server-title">${s.name}</span>
     <br>
-    <label class="subtext">${s.description??''}</label>
+    <span class="subtext">${s.description??''}</span>
   </div>
   <div>
-    <label>${s.node}</label>
+    <span>${s.node}</span>
     <br>
-    <label>${s.relationships.allocations.data[0].attributes.ip_alias ? s.relationships.allocations.data[0].attributes.ip_alias : s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>
-    ${s.relationships.allocations.data[0].attributes.ip_alias ? `<br><label class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</label>` : ''}
+    <span>${s.relationships.allocations.data[0].attributes.ip_alias ? s.relationships.allocations.data[0].attributes.ip_alias : s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</span>
+    ${s.relationships.allocations.data[0].attributes.ip_alias ? `<br><span class="subtext">${s.relationships.allocations.data[0].attributes.ip}:${s.relationships.allocations.data[0].attributes.port}</span>` : ''}
   </div>
   <div>
-    <label${(s.is_installing || s.is_suspended) ? '' : ' style="transition:250ms;opacity:0;"'}>${s.is_installing ? 'Installing...' : ''}${s.is_suspended ? 'Suspended' : ''}</label>
+    <span${(s.is_installing || s.is_suspended) ? '' : ' style="transition:250ms;opacity:0;"'}>${s.is_installing ? 'Installing...' : ''}${s.is_suspended ? 'Suspended' : ''}</span>
     <br>
-    <label class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk*1024)}</label>
+    <span class="subtext"><b>Limits</b> CPU: ${s.limits.cpu == 0 ? '∞' : s.limits.cpu}% RAM: ${s.limits.memory == 0 ? '∞' : formatBytes(s.limits.memory)} Disk: ${s.limits.disk == 0 ? '∞' : formatBytes(s.limits.disk*1024)}</span>
   </div>
 </div>`);
               if (!(s.is_installing || s.is_suspended)) {

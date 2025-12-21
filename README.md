@@ -16,8 +16,9 @@ This works for both client and application api keys, even tho it may not support
     - [ ] Startup
     - [ ] Settings
     - [x] Activity (Needs pagination, extra data view)
-  - [ ] Account
-    - [x] View / Edit (Needs edit)
+  - [x] Account
+    - [x] View
+    - [x] Edit (future 2fa)
     - [x] Api keys
     - [x] SSH keys (Needs testing)
     - [x] Activity (Needs pagination, extra data view)
