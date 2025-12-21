@@ -8,10 +8,12 @@ const icons = {
 };
 
 window.addEventListener('DOMContentLoaded', ()=>{
-  document.querySelector('nav').innerHTML = `<a data-page="servers"><button>${icons.server} Servers</button></a>
-<a data-page="search"><button>${icons.search} Search</button></a>
-<a data-page="account"><button>${icons.user} Account</button></a>
+  document.querySelector('nav').innerHTML = `<a data-page="servers"><button aria-label="Servers">${icons.server} Servers</button></a>
+<a data-page="search"><button aria-label="Search">${icons.search} Search</button></a>
+<a data-page="account"><button aria-label="Account">${icons.user} Account</button></a>
 <div data-parent="account">
+  <a data-page="account/api"><button>API</button></a>
+  <a data-page="account/ssh"><button>SSH</button></a>
   <a data-page="account/activity"><button>Activity</button></a>
 </div>
 <hr>
@@ -35,7 +37,7 @@ function loadPage(name, data) {
   }
   // Update nav
   document.querySelectorAll('nav div').forEach(d=>d.style.maxHeight='');
-  if (document.querySelector(`nav div[data-parent="${name}"]`)) document.querySelector(`nav div[data-parent="${name}"]`).style.maxHeight = '10dvh';
+  if (document.querySelector(`nav div[data-parent="${name.split('/')[0]}"]`)) document.querySelector(`nav div[data-parent="${name.split('/')[0]}"]`).style.maxHeight = '10dvh';
   // Load page
   fetch(`/user/${name}`)
     .then(res=>res.text())

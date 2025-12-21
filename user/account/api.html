@@ -30,24 +30,54 @@
   <body>
     <nav></nav>
     <main>
+      <dialog id="k-new">
+        <h2>New key</h2>
+        <span>Make sure to save it, it won't be showed again.</span>
+        <code></code>
+        <button onclick="this.parentElement.close()">Close</button>
+      </dialog>
+      <form class="adder" onsubmit="event.preventDefault();create()">
+        <span>
+          <label for="k-desc">Description:</label>
+          <input id="k-desc" minlength="4" maxlength="500" required>
+        </span>
+        <span>
+          <label for="k-ips">Allowed IPs:</label>
+          <textarea id="k-ips"></textarea>
+          <span class="subtext">One IP per line</span>
+        </span>
+        <button>Add</button>
+      </form>
       <div id="keys"></div>
       <script>
-        PT('account/api-keys', (l)=>{
-          document.getElementById('keys').innerHTML = l.data.map(k=>{
-            k = k.attributes;
-            return `<div>
-  <span>
-    <label>${k.description}</label>
-  </span>
-  <span>
-    <label>${k.identifier}</label>
-  </span>
-  <span>
-    <label>Last use ${time_gud(Math.floor((Date.now()-new Date(k.last_used_at).getTime())/1000))}ago</label>
-  </span>
-</div>`;
-          }).join('')
-        })
+        function show() {
+          PT('account/api-keys', (l)=>{
+            document.getElementById('keys').innerHTML = l.data.map(k=>{
+              k = k.attributes;
+              return `<div>
+    <span>${k.description}</span>
+    <span>${k.identifier}</span>
+    <span>${k.last_used_at?'Last use '+time_gud(Math.floor((Date.now()-new Date(k.last_used_at).getTime())/1000))+' ago':'Never used'}</span>
+    <button aria-label="Delete" onclick="window.delete('${k.identifier}')"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256"><path d="M42.6776 7.32227C32.9145 -2.44063 17.0852 -2.44077 7.32214 7.32227C-2.44082 17.0853 -2.44069 32.9146 7.32214 42.6777L92.2616 127.617L7.32214 212.557C-2.44091 222.32 -2.44083 238.149 7.32214 247.912C17.0852 257.675 32.9145 257.675 42.6776 247.912L127.617 162.973L212.557 247.912C222.32 257.675 238.149 257.675 247.912 247.912C257.675 238.149 257.675 222.32 247.912 212.557L162.973 127.617L247.912 42.6777C257.675 32.9146 257.675 17.0853 247.912 7.32227C238.149 -2.44079 222.32 -2.44068 212.557 7.32227L127.617 92.2617L42.6776 7.32227Z"/></svg></button>
+  </div>`;
+            }).join('');
+          });
+        }
+        show();
+        window.create = ()=>{
+          let data = {
+            description: document.getElementById('k-desc').value,
+            allowed_ips: document.getElementById('k-ips').value.split('\n').map(ip=>ip.trim()).filter(ip=>ip.length)
+          };
+          PT('account/api-keys', (data)=>{
+            show();
+            document.getElementById('k-new').showModal();
+            document.querySelector('#k-new code').innerText = data.attributes.identifier+data.meta.secret_token;
+          }, 'POST', JSON.stringify(data));
+        };
+        window.delete = (id)=>{
+          PT('account/api-keys/'+id, show, 'DELETE');
+        };
       </script>
     </main>
   </body>

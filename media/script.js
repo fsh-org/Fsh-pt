@@ -56,14 +56,10 @@ function formatBytes(bytes, decimals = 2) {
 }
 
 function time_gud(time) {
-  function __PRI__edr(er,tr) {
-    if (er == 0) {
-      return '';
-    } else {
-      return er+tr+' '
-    }
-  }
-  return `${__PRI__edr(Math.floor(time / 31536000),'Y')}${__PRI__edr(Math.floor(time % 31536000 / 604800),'W')}${__PRI__edr(Math.floor(time / 86400) % 7,'d')}${__PRI__edr(Math.floor(time / 3600) % 24,'h')}${__PRI__edr(Math.floor(time / 60) % 60,'m')}${__PRI__edr(time % 60,'s')}`
+  if (time<0) time = 0;
+  if (time===0) return '0s';
+  let edr = (er,tr)=>(er===0)?'':er+tr+' ';
+  return `${edr(Math.floor(time / 31536000),'y')}${edr(Math.floor(time % 31536000 / 604800),'w')}${edr(Math.floor(time / 86400) % 7,'d')}${edr(Math.floor(time / 3600) % 24,'h')}${edr(Math.floor(time / 60) % 60,'m')}${edr(time % 60,'s')}`.trim();
 }
 
 function file_type(mime, name) {

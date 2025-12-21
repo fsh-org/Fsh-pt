@@ -18,8 +18,8 @@ This works for both client and application api keys, even tho it may not support
     - [x] Activity (Needs pagination, extra data view)
   - [ ] Account
     - [x] View / Edit (Needs edit)
-    - [ ] Api keys
-    - [ ] SSH keys
+    - [x] Api keys
+    - [x] SSH keys (Needs testing)
     - [x] Activity (Needs pagination, extra data view)
 - [ ] Application
   - [ ] Users

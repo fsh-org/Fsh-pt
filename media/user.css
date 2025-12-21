@@ -59,6 +59,11 @@ main {
   border: none;
 }
 
+.subtext {
+  font-size: 75%;
+  color: var(--text-2);
+}
+
 /* Pages */
 .pages {
   display: flex;
@@ -117,6 +122,17 @@ a:has(.server) {
   word-break: break-word;
 }
 
+/* User */
+.card {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 0.5rem;
+  background-color: var(--bg-2);
+}
+
 /* Activity */
 #logs {
   display: flex;
@@ -157,4 +173,63 @@ a:has(.server) {
   margin-left: 5px;
   border-radius: 0.5rem;
   background-color: var(--bg-3);
+}
+
+/* Keys */
+#k-new[open] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#keys {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  height: 90dvh;
+  margin: 0px 10px;
+  overflow: auto;
+}
+#keys div {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  justify-content: space-between;
+  border-radius: 0.5rem;
+  background-color: var(--bg-2);
+}
+#keys button {
+  border: none;
+  margin: 0px;
+  padding: 1px;
+}
+#keys button svg {
+  display: block;
+}
+
+.adder {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  width: fit-content;
+  height: calc(10dvh - 10px);
+  padding: 10px;
+  margin: 5px 10px;
+  border-radius: 0.5rem;
+  background-color: var(--bg-2);
+  box-sizing: border-box;
+}
+.adder > * {
+  display: flex;
+  flex-direction: column;
+}
+.adder input {
+  margin: 0px !important;
+}
+.adder input:invalid, .adder textarea:invalid {
+  border-color: var(--red-1);
+}
+.adder textarea {
+  flex: 1;
+  margin: 0px;
+  resize: none;
 }
