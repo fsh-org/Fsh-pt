@@ -31,7 +31,7 @@
     <nav></nav>
     <main>
       <div style="display:flex;align-items:center;justify-content:space-between;">
-        <input id="search" onchange="query.set('q',this.value);show()" placeholder="Search here">
+        <input id="search" onchange="query.set('q',this.value);query.set('page','1');show()" placeholder="Search here">
         <label id="admin-other" style="display:none">Other servers <input type="checkbox" onchange="query.set('admin',this.checked.toString());query.set('page','1');show()" id="admin"></label>
       </div>
       <div id="list"></div>
@@ -50,7 +50,7 @@
           history.pushState({}, '', `${location.origin}/user/servers?${query.toString()}`);
           let sq = new URLSearchParams('');
           sq.set('page', query.get('page')??'1');
-          if (query.get('admin')==='true') sq.set('type', 'admin-all');
+          if (query.get('admin')==='true') sq.set('type', 'admin');
           if (query.get('q')?.length) sq.set('filter[*]', query.get('q'));
           PT('?'+sq.toString(), (data)=>{
             document.querySelector('.pages p').innerText = `${data.meta.pagination.current_page}/${data.meta.pagination.total_pages}`;
@@ -58,7 +58,7 @@
             if (data.meta.pagination.current_page > 1) {
               prev.removeAttribute('disabled');
               prev.onclick = ()=>{
-                query.set('page', String(Number(nq.get('page')??'1')-1));
+                query.set('page', String(Number(query.get('page')??'1')-1));
                 show();
               };
             } else {
@@ -69,7 +69,7 @@
             if (data.meta.pagination.total_pages > data.meta.pagination.current_page) {
               next.removeAttribute('disabled');
               next.onclick = ()=>{
-                query.set('page', String(Number(nq.get('page')??'1')+1));
+                query.set('page', String(Number(query.get('page')??'1')+1));
                 show();
               };
             } else {
@@ -96,8 +96,8 @@
     ${(s.is_installing||s.is_suspended)?
       `<span>${s.is_installing?'Installing...':''} ${s.is_suspended?'Suspended':''}</span>`:
       `<span>CPU: <span class="val">0</span>/${s.limits.cpu===0?'∞':s.limits.cpu}%</span><br>
-<span>RAM: <span class="val">0</span>/${s.limits.memory===0?'∞':formatBytes(s.limits.memory)}</span><br>
-<span>Disk: <span class="val">0</span>/${s.limits.disk===0?'∞':formatBytes(s.limits.disk*1024)}</span>`}
+<span>RAM: <span class="val">0</span>/${s.limits.memory===0?'∞':formatBytes(s.limits.memory*1024*1024)}</span><br>
+<span>Disk: <span class="val">0</span>/${s.limits.disk===0?'∞':formatBytes(s.limits.disk*1024*1024)}</span>`}
   </div>
 </div>`);
               if (!s.is_installing&&!s.is_suspended) {
