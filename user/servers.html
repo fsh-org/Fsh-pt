@@ -32,7 +32,7 @@
     <main>
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <input id="search" onchange="query.set('q',this.value);show()" placeholder="Search here">
-        <label id="admin-other" style="display:none">Other servers <input type="checkbox" onchange="query.set('admin',this.value.toString());query.set('page','1');show()" id="admin"></label>
+        <label id="admin-other" style="display:none">Other servers <input type="checkbox" onchange="query.set('admin',this.checked.toString());query.set('page','1');show()" id="admin"></label>
       </div>
       <div id="list"></div>
       <div class="pages">
@@ -41,9 +41,10 @@
         <button id="pag-next" disabled>Next</button>
       </div>
       <script>
+        if (query.has('admin')) document.getElementById('admin').checked = (query.get('admin')==='true');
+        if (query.get('q')?.length) document.getElementById('search').value = query.get('q');
         PT('account', (user)=>{
           if (user.attributes.admin) document.getElementById('admin-other').style.display = '';
-          if (query.has('admin')) document.getElementById('admin').checked = (query.get('admin')==='true');
         });
         function show() {
           history.pushState({}, '', `${location.origin}/user/servers?${query.toString()}`);
@@ -75,9 +76,11 @@
               next.setAttribute('disabled', true);
               next.onclick = ()=>{};
             }
+            let list = document.getElementById('list');
+            list.innerText = '';
             data.data.forEach(s=>{
               s = s.attributes;
-              document.getElementById('list').insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}'})"`}>
+              list.insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}'})"`}>
   <div>
     <span class="server-title">${s.name}</span>
     <br>
