@@ -30,41 +30,54 @@
   <body>
     <nav></nav>
     <main>
-      <div id="admin-other" style="display:none;margin:0px 5px 0px auto;width:fit-content;">
-        <label for="admin">Other servers</label>
-        <input type="checkbox" onchange="admin(this)" id="admin">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <input id="search" onchange="query.set('q',this.value);show()" placeholder="Search here">
+        <label id="admin-other" style="display:none">Other servers <input type="checkbox" onchange="query.set('admin',this.value.toString());query.set('page','1');show()" id="admin"></label>
       </div>
       <div id="list"></div>
       <div class="pages">
-        <button disabled>Previous</button>
+        <button id="pag-prev" disabled>Previous</button>
         <p>1/1</p>
-        <button disabled>Next</button>
+        <button id="pag-next" disabled>Next</button>
       </div>
       <script>
         PT('account', (user)=>{
-          if (user.attributes.admin) {
-            document.getElementById('admin-other').style.display = 'flex';
-          }
-          if (query.has("admin")) {
-            document.getElementById('admin').checked = (query.get("admin")==='true');
-          }
-        })
-        let sq = new URLSearchParams('');
-        sq.set('page', query.get('page') ?? '1');
-        if (query.get('admin') === 'true') sq.set('type', 'admin');
-        PT('?'+sq.toString(), (data)=>{
-          document.querySelector('.pages p').innerText = `${data.meta.pagination.current_page}/${data.meta.pagination.total_pages}`;
-          if (data.meta.pagination.current_page > 1) {
-            document.querySelectorAll('.pages button')[0].removeAttribute('disabled');
-            document.querySelectorAll('.pages button')[0].onclick = function(){page(-1)};
-          }
-          if (data.meta.pagination.total_pages > data.meta.pagination.current_page) {
-            document.querySelectorAll('.pages button')[1].removeAttribute('disabled');
-            document.querySelectorAll('.pages button')[1].onclick = function(){page(1)};
-          }
-          data.data.forEach(s=>{
-            s = s.attributes;
-            document.getElementById('list').insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}'})"`}>
+          if (user.attributes.admin) document.getElementById('admin-other').style.display = '';
+          if (query.has('admin')) document.getElementById('admin').checked = (query.get('admin')==='true');
+        });
+        function show() {
+          history.pushState({}, '', `${location.origin}/user/servers?${query.toString()}`);
+          let sq = new URLSearchParams('');
+          sq.set('page', query.get('page')??'1');
+          if (query.get('admin')==='true') sq.set('type', 'admin-all');
+          if (query.get('q').length) sq.set('filter[*]', query.get('q'));
+          PT('?'+sq.toString(), (data)=>{
+            document.querySelector('.pages p').innerText = `${data.meta.pagination.current_page}/${data.meta.pagination.total_pages}`;
+            let prev = document.getElementById('pag-prev');
+            if (data.meta.pagination.current_page > 1) {
+              prev.removeAttribute('disabled');
+              prev.onclick = ()=>{
+                query.set('page', String(Number(nq.get('page')??'1')-1));
+                show();
+              };
+            } else {
+              prev.setAttribute('disabled', true);
+              prev.onclick = ()=>{};
+            }
+            let next = document.getElementById('pag-next');
+            if (data.meta.pagination.total_pages > data.meta.pagination.current_page) {
+              next.removeAttribute('disabled');
+              next.onclick = ()=>{
+                query.set('page', String(Number(nq.get('page')??'1')+1));
+                show();
+              };
+            } else {
+              next.setAttribute('disabled', true);
+              next.onclick = ()=>{};
+            }
+            data.data.forEach(s=>{
+              s = s.attributes;
+              document.getElementById('list').insertAdjacentHTML('beforeend', `<div id="${s.identifier}" class="server${s.is_installing ? ' status-installing' : (s.is_suspended ? ' status-suspended' : '')}"${s.is_suspended ? '' : ` onclick="loadPage('server', {id:'${s.identifier}'})"`}>
   <div>
     <span class="server-title">${s.name}</span>
     <br>
@@ -79,36 +92,24 @@
   <div class="stat"${(s.is_installing||s.is_suspended)?'':' style="transition:var(--time-2);opacity:0;"'}>
     ${(s.is_installing||s.is_suspended)?
       `<span>${s.is_installing?'Installing...':''} ${s.is_suspended?'Suspended':''}</span>`:
-      `<span>CPU: <span>0</span>/${s.limits.cpu===0?'∞':s.limits.cpu}%</span><br>
-<span>RAM: <span>0</span>/${s.limits.memory===0?'∞':formatBytes(s.limits.memory)}</span><br>
-<span>Disk: <span>0</span>/${s.limits.disk===0?'∞':formatBytes(s.limits.disk*1024)}</span>`}
+      `<span>CPU: <span class="val">0</span>/${s.limits.cpu===0?'∞':s.limits.cpu}%</span><br>
+<span>RAM: <span class="val">0</span>/${s.limits.memory===0?'∞':formatBytes(s.limits.memory)}</span><br>
+<span>Disk: <span class="val">0</span>/${s.limits.disk===0?'∞':formatBytes(s.limits.disk*1024)}</span>`}
   </div>
 </div>`);
-            if (!s.is_installing&&!s.is_suspended) {
-              PT(`servers/${s.identifier}/resources`, (d)=>{
-                d = d.attributes;
-                let server = document.getElementById(s.identifier);
-                server.classList.add('status-'+d.current_state);
-                let dat = server.querySelectorAll('.stat span');
-                dat[0].innerText = (Math.floor(d.resources.cpu_absolute*100)/100);
-                dat[1].innerText = formatBytes(d.resources.memory_bytes);
-                dat[2].innerText = formatBytes(d.resources.disk_bytes);
-                server.querySelector('.stat').style.opacity = 1;
-              });
-            }
-          });
-        });
-        function admin(that) {
-          loadPage('servers', {
-            page: 1,
-            admin: String(that.checked)
-          });
-        }
-        function page(sum) {
-          let nq = new URLSearchParams(location.search);
-          loadPage('servers', {
-            page: String(Number(nq.get('page')??'1')+sum),
-            admin: nq.get('admin')
+              if (!s.is_installing&&!s.is_suspended) {
+                PT(`servers/${s.identifier}/resources`, (d)=>{
+                  d = d.attributes;
+                  let server = document.getElementById(s.identifier);
+                  server.classList.add('status-'+d.current_state);
+                  let dat = server.querySelectorAll('.stat .val');
+                  dat[0].innerText = (Math.floor(d.resources.cpu_absolute*100)/100);
+                  dat[1].innerText = formatBytes(d.resources.memory_bytes);
+                  dat[2].innerText = formatBytes(d.resources.disk_bytes);
+                  server.querySelector('.stat').style.opacity = 1;
+                });
+              }
+            });
           });
         }
       </script>
