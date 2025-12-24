@@ -50,7 +50,7 @@
           let sq = new URLSearchParams('');
           sq.set('page', query.get('page')??'1');
           if (query.get('admin')==='true') sq.set('type', 'admin-all');
-          if (query.get('q').length) sq.set('filter[*]', query.get('q'));
+          if (query.get('q')?.length) sq.set('filter[*]', query.get('q'));
           PT('?'+sq.toString(), (data)=>{
             document.querySelector('.pages p').innerText = `${data.meta.pagination.current_page}/${data.meta.pagination.total_pages}`;
             let prev = document.getElementById('pag-prev');
