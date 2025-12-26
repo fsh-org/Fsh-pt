@@ -42,16 +42,16 @@
       <div style="display:flex">
         <form class="card" onsubmit="event.preventDefault();uemail()">
           <b>Update Email</b>
-          <label>Email <input id="ue-email" type="email" required></label>
-          <label>Password <input id="ue-pass" type="password" required></label>
+          <label>Email <input id="ue-email" type="email" autocomplete="email" required></label>
+          <label>Password <input id="ue-pass" type="password" autocomplete="current-password" required></label>
           <button>Update</button>
         </form>
         <form class="card" onsubmit="event.preventDefault();upass()">
           <b>Update Password</b>
-          <label>Current <input id="up-oldpass" type="password" required></label>
-          <label>New <input id="up-newpass" type="password" minlength="8" required></label>
+          <label>Current <input id="up-oldpass" type="password" autocomplete="current-password" required></label>
+          <label>New <input id="up-newpass" type="password" autocomplete="new-password" minlength="8" required></label>
           <span class="subtext">8 characters minimum and make it unique.</span>
-          <label>Repeat <input id="up-newrepp" type="password" minlength="8" required></label>
+          <label>Repeat <input id="up-newrepp" type="password" autocomplete="new-password" minlength="8" required></label>
           <button>Update</button>
         </form>
       </div>
